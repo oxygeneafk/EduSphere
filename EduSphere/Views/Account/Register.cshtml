@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Sign Up";
+}
+
+<style>
+    body {
+        background-color: #f3f4f6;
+        font-family: Arial, sans-serif;
+    }
+
+    .register-container {
+        width: 450px;
+        margin: 80px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .register-container input[type="text"],
+        .register-container input[type="email"],
+        .register-container input[type="password"],
+        .register-container textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        .register-container button {
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            padding: 14px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+            .register-container button:hover {
+                background-color: #0056b3;
+            }
+</style>
+
+<div class="register-container">
+    <h2>EduSphere Sign Up</h2>
+
+    <form method="post">
+        <input type="text" name="name" placeholder="name" required />
+
+        <input type="text" name="lastname" placeholder="lastname" required />
+
+        <input type="text" name="username" placeholder="username" required />
+
+        <input type="email" name="email" placeholder="e-mail" required />
+
+        <input type="text" name="phone" placeholder="phone number" required />
+
+        <textarea name="address" placeholder="adress" rows="3" required></textarea>
+
+        <input type="password" name="password" placeholder="password" required />
+
+        <button type="submit">Sign Up</button>
+
+        <p style="text-align:center; margin-top:20px;">
+            Do you have an account? <a href="/Account/Login">click to login</a>
+        </p>
+    </form>
+</div>
