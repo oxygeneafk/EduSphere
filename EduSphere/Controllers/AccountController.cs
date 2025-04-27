@@ -34,7 +34,7 @@ public class AccountController : Controller
         }
         else
         {
-            ViewBag.Error = "Kullanıcı adı veya şifre yanlış";
+            ViewBag.Error = "Username or password is incorrect";
             return View();
         }
     }
@@ -42,20 +42,18 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult Register(string name, string lastname, string username, string email, string phone, string address, string password)
     {
-        // Aynı e-posta veya telefon numarasını kontrol et
         if (_context.Users.Any(u => u.email == email))
         {
-            ViewBag.Error = "Bu e-posta adresi zaten kullanılıyor.";
+            ViewBag.Error = "This email address is already in use.";
             return View();
         }
 
         if (_context.Users.Any(u => u.phonenumber == phone))
         {
-            ViewBag.Error = "Bu telefon numarası zaten kullanılıyor.";
+            ViewBag.Error = "This phone number is already in use.";
             return View();
         }
 
-        // Yeni kullanıcı oluştur ve veritabanına kaydet
         var user = new User
         {
             name = name,
