@@ -42,7 +42,20 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult Register(string name, string lastname, string username, string email, string phone, string address, string password)
     {
-        
+        // Aynı e-posta veya telefon numarasını kontrol et
+        if (_context.Users.Any(u => u.email == email))
+        {
+            ViewBag.Error = "Bu e-posta adresi zaten kullanılıyor.";
+            return View();
+        }
+
+        if (_context.Users.Any(u => u.phonenumber == phone))
+        {
+            ViewBag.Error = "Bu telefon numarası zaten kullanılıyor.";
+            return View();
+        }
+
+        // Yeni kullanıcı oluştur ve veritabanına kaydet
         var user = new User
         {
             name = name,
