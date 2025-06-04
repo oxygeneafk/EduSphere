@@ -63,7 +63,7 @@ public class AccountController : Controller
             phonenumber = phone,
             adress = address,
             password = password
-        };//degişiklik hatip tararfıından sex sex sex sex hayır hayır hayır 
+        };//degişiklik hatip tararfıından sex sex sex sex hayır hayır hayır ardah
 
         _context.Users.Add(user);
         _context.SaveChanges();
