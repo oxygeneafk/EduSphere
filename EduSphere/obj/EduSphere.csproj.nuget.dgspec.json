@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ardae\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj": {}
+    "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ardae\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj": {
+    "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ardae\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj",
+        "projectUniqueName": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj",
         "projectName": "EduSphere",
-        "projectPath": "C:\\Users\\ardae\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj",
-        "packagesPath": "C:\\Users\\ardae\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ardae\\Source\\Repos\\EduSphere\\EduSphere\\obj\\",
+        "projectPath": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj",
+        "packagesPath": "C:\\Users\\aydin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ardae\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\aydin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
