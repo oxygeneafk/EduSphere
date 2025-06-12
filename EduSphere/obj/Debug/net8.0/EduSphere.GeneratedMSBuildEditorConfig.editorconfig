@@ -32,8 +32,16 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Account/Login2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbjIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Home/About.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Home/Home.cshtml]
@@ -42,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Home/View.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxWaWV3LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/ardae/Source/Repos/EduSphere/EduSphere/Views/Shared/Error.cshtml]

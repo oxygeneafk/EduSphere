@@ -1,0 +1,117 @@
+﻿@{
+    ViewBag.Title = "Login";
+}
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #0a0a0a;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .login-container {
+        background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+        padding: 50px 40px;
+        border-radius: 20px;
+        border: 2px solid #ff66cc;
+        box-shadow: 0 0 35px #ff33aa, 0 0 90px #ff66cc;
+        width: 420px;
+        max-width: 90%;
+        color: #fff;
+        position: relative;
+    }
+
+        .login-container h2 {
+            text-align: center;
+            font-size: 28px;
+            color: #ff66cc;
+            margin-bottom: 35px;
+            text-shadow: 0 0 10px #ff99dd;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 25px;
+            border: none;
+            border-bottom: 2px solid #ff66cc;
+            background: transparent;
+            color: #fff;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #ff33aa;
+            box-shadow: 0 2px 10px #ff33aa;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #ff33aa, #ff66cc);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 0 10px #ff33aa;
+        }
+
+            .login-container button:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px #ff33aa, 0 0 40px #ff66cc;
+            }
+
+    .error-message {
+        color: #ff4444;
+        text-align: center;
+        margin-top: 20px;
+        text-shadow: 0 0 5px #ff8888;
+    }
+
+    .signup-link {
+        margin-top: 30px;
+        text-align: center;
+        color: #aaa;
+    }
+
+        .signup-link a {
+            color: #ff66cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+            .signup-link a:hover {
+                text-decoration: underline;
+                text-shadow: 0 0 5px #ff66cc;
+            }
+</style>
+
+<div class="login-container">
+    <h2>Welcome to EduSphere</h2>
+
+    <form method="post">
+        <input type="text" name="username" placeholder="Username" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-message">@ViewBag.Error</div>
+        }
+
+        <div class="signup-link">
+            Don't have an account? <a href="/Account/Register">Sign up here</a>
+        </div>
+    </form>
+</div>
