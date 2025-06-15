@@ -1,16 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using EduSphere.Data;
-using System.Linq;
 using EduSphere.Models;
-
+using MongoDB.Driver;
+using System.Linq;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 public class AccountController : Controller
 {
-    private readonly EduSphereContext _context;
+    private readonly IMongoCollection<User> _usersCollection;
 
-    public AccountController(EduSphereContext context)
+    public AccountController(IConfiguration configuration)
     {
-        _context = context;
+        var client = new MongoClient(configuration.GetConnectionString("MongoDb"));
+        var database = client.GetDatabase("EduSphere");
+        _usersCollection = database.GetCollection<User>("Users");
     }
 
     [HttpGet]
@@ -18,19 +24,38 @@ public class AccountController : Controller
     {
         return View();
     }
+
     public IActionResult Register()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult Login(string username, string password)
+    public async Task<IActionResult> Login(string username, string password)
     {
-        var user = _context.Users.FirstOrDefault(u => u.username == username && u.password == password);
+        var user = _usersCollection
+            .Find(u => u.Username == username && u.Password == password)
+            .FirstOrDefault();
 
         if (user != null)
         {
-            return RedirectToAction("Index", "Home");
+            // Kullanıcıyı authenticate et (cookie ile)
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Name ?? user.Username ?? "Anonim"),
+                new Claim("Username", user.Username ?? ""),
+                new Claim("Name", user.Name ?? ""),
+                new Claim("Lastname", user.Lastname ?? ""),
+                new Claim("Email", user.Email ?? "")
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity));
+
+            return RedirectToAction("Index", "Timeline");
         }
         else
         {
@@ -42,13 +67,17 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult Register(string name, string lastname, string username, string email, string phone, string address, string password)
     {
-        if (_context.Users.Any(u => u.email == email))
+        // Email kontrolü
+        var emailExists = _usersCollection.Find(u => u.Email == email).Any();
+        if (emailExists)
         {
             ViewBag.Error = "This email address is already in use.";
             return View();
         }
 
-        if (_context.Users.Any(u => u.phonenumber == phone))
+        // Telefon kontrolü
+        var phoneExists = _usersCollection.Find(u => u.PhoneNumber == phone).Any();
+        if (phoneExists)
         {
             ViewBag.Error = "This phone number is already in use.";
             return View();
@@ -56,17 +85,16 @@ public class AccountController : Controller
 
         var user = new User
         {
-            name = name,
-            lastname = lastname,
-            username = username,
-            email = email,
-            phonenumber = phone,
-            adress = address,
-            password = password
+            Name = name,
+            Lastname = lastname,
+            Username = username,
+            Email = email,
+            PhoneNumber = phone,
+            Adress = address,
+            Password = password
         };
 
-        _context.Users.Add(user);
-        _context.SaveChanges();
+        _usersCollection.InsertOne(user);
 
         return RedirectToAction("Login");
     }

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EduSphere.Models.Tweet>
+@{
+    ViewData["Title"] = "Timeline";
+}
+
+<style>
+    .timeline-container {
+        max-width: 600px;
+        margin: 32px auto;
+    }
+
+    .tweet-form {
+        margin-bottom: 24px;
+        background: #f7f7f8;
+        padding: 16px;
+        border-radius: 8px;
+    }
+
+        .tweet-form textarea {
+            width: 100%;
+            min-height: 60px;
+            resize: vertical;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        .tweet-form button {
+            float: right;
+            margin-top: 8px;
+        }
+
+    .tweet-list {
+        list-style: none;
+        padding: 0;
+    }
+
+    .tweet-item {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        padding: 16px;
+        transition: box-shadow .2s;
+    }
+
+        .tweet-item:hover {
+            box-shadow: 0 2px 8px #e0e0e0;
+        }
+
+    .tweet-meta {
+        font-size: 0.91em;
+        color: #666;
+        margin-bottom: 4px;
+    }
+
+    .tweet-username {
+        font-weight: bold;
+        color: #222;
+    }
+
+    .tweet-date {
+        float: right;
+        color: #aaa;
+        font-size: 0.88em;
+    }
+
+    .system-message {
+        color: #c00;
+        margin-bottom: 12px;
+    }
+</style>
+
+<div class="timeline-container">
+    <h2>Timeline</h2>
+
+    <form class="tweet-form" asp-action="Create" asp-controller="Timeline" method="post">
+        @if (TempData["Error"] != null)
+        {
+            <div class="system-message">@TempData["Error"]</div>
+        }
+        <textarea name="text" maxlength="280" placeholder="Ne düşünüyorsun?"></textarea>
+        <button type="submit" class="btn btn-primary">Tweetle</button>
+        <div style="clear:both"></div>
+    </form>
+
+    <ul class="tweet-list">
+        @foreach (var tweet in Model ?? new List<EduSphere.Models.Tweet>())
+        {
+            <li class="tweet-item">
+                <div class="tweet-meta">
+                    <span class="tweet-username">
+                        @(string.IsNullOrEmpty(tweet?.Name) ? "" : tweet.Name + ", ")
+                        @tweet?.Username ?? "Anonim"
+                    </span>
+                    <span class="tweet-date">
+                        @(tweet?.CreatedAt != null ? tweet.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "")
+                    </span>
+                </div>
+                <div class="tweet-text">@tweet?.Text ?? ""</div>
+            </li>
+        }
+    </ul>
+</div>

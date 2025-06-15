@@ -1,14 +1,33 @@
-﻿namespace EduSphere.Models
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
+namespace EduSphere.Models
 {
     public class User
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string lastname { get; set; }
-        public string username { get; set; }
-        public string email { get; set; }
-        public string phonenumber { get; set; }
-        public string adress { get; set; }
-        public string password { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+
+        [BsonElement("name")]
+        public string Name { get; set; }
+
+        [BsonElement("lastname")]
+        public string Lastname { get; set; }
+
+        [BsonElement("username")]
+        public string Username { get; set; }
+
+        [BsonElement("email")]
+        public string Email { get; set; }
+
+        [BsonElement("phonenumber")]
+        public string PhoneNumber { get; set; }
+
+        [BsonElement("adress")]
+        public string Adress { get; set; }
+
+        [BsonElement("password")]
+        public string Password { get; set; }
     }
 }
