@@ -9,3 +9,19 @@
     align-items: center;
     height: 100vh;
 }
+
+.nav-link.active-link {
+    border-bottom: 2px solid #ff1493;
+    color: #ff1493 !important;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.navbar {
+    backdrop-filter: blur(5px);
+    transition: background-color 0.3s ease-in-out;
+}

@@ -3,6 +3,18 @@
 }
 
 <style>
+	body {
+		margin: 0;
+		padding: 0;
+		background: url('/images/wallpaper.png') no-repeat center center fixed;
+		background-size: cover;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+	}
+
 	* {
 		margin: 0;
 		padding: 0;
@@ -11,9 +23,9 @@
 
 	body {
 		font-family: Arial, sans-serif;
-		background-color: #f5f8fa;
+		background-color: #1c1c1c;
+		color: #fff;
 		display: flex;
-		margin: 0;
 	}
 
 	.sidebar-container {
@@ -21,17 +33,20 @@
 		flex-direction: column;
 		align-items: flex-start;
 		width: 250px;
-		height: 100vh;
-		background-color: #ffffff;
-		border-right: 1px solid #ddd;
+		height: 50vh;
+		overflow-y: auto;
+		background-color: rgba(70, 70, 70, 0.85);
+		border-right: 1px solid #444;
 		padding: 20px 15px;
 		position: fixed;
+		top: 70px;
+		left: 0; /*sola tasimak icin kullaniyorum bu ilk kisim */
 	}
 
 	.sidebar-logo {
 		font-size: 24px;
 		font-weight: bold;
-		color: #1da1f2;
+		color: #ff1493;
 		margin-bottom: 30px;
 	}
 
@@ -47,7 +62,7 @@
 
 		.sidebar-menu a {
 			text-decoration: none;
-			color: #333;
+			color: #fff;
 			font-size: 18px;
 			font-weight: 500;
 			display: flex;
@@ -58,13 +73,13 @@
 		}
 
 			.sidebar-menu a:hover {
-				background-color: #e8f5fd;
-				color: #1da1f2;
+				background-color: #ff1493;
+				color: #fff;
 			}
 
 		.sidebar-menu .active {
-			background-color: #1da1f2;
-			color: #ffffff;
+			background-color: #ff1493;
+			color: #fff;
 		}
 
 		.sidebar-menu a i {
@@ -75,45 +90,55 @@
 	.sidebar-footer {
 		margin-top: auto;
 		font-size: 14px;
-		color: #657786;
+		color: #ccc;
 	}
 
 	.content-container {
 		margin-left: 270px;
+		margin-top: 70px; /* Sidebar yukarıdan 70px aşağı indiği için içerik de buna göre ayarlanmalı */
 		padding: 20px;
 		flex-grow: 1;
 	}
 
+
+
 	.tweet-box {
-		background: white;
+		background: rgba(128, 128, 128, 0.85);
 		border-radius: 10px;
 		padding: 15px;
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 		margin-bottom: 20px;
 	}
 
+	.tweet-box {
+		margin-top: -300px; /* eren tweet box yuksekligini buradan ayarla degeri kucultursen yukari cikar */
+	}
+
+
 		.tweet-box textarea {
 			width: 100%;
-			border: 1px solid #ddd;
-			border-radius: 5px;
+			border: 1px solid #ff1493;
+			border-radius: 8px;
 			padding: 10px;
 			font-size: 16px;
 			margin-bottom: 10px;
 			resize: none;
+			background-color: #2e2e2e;
+			color: white;
 		}
 
 		.tweet-box button {
-			background-color: #1da1f2;
-			color: white;
+			background-color: #696969;
+			color: #ff1493;
 			border: none;
 			padding: 10px 20px;
-			border-radius: 5px;
+			border-radius: 8px;
 			cursor: pointer;
 			font-size: 16px;
 		}
 
 			.tweet-box button:hover {
-				background-color: #0d8ddf;
+				background-color: #505050;
 			}
 
 	.tweets-container {
@@ -121,25 +146,23 @@
 	}
 
 	.tweet {
-		background: white;
+		background: rgba(128, 128, 128, 0.85);
 		border-radius: 10px;
 		padding: 15px;
 		margin-bottom: 10px;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 	}
 
 		.tweet p {
 			margin: 0;
 			font-size: 16px;
-			color: #333;
+			color: #fff;
 		}
 </style>
 
 <body>
 	<div class="sidebar-container">
-		<div class="sidebar-logo">
-			EduSphere
-		</div>
+
 		<ul class="sidebar-menu">
 			<li>
 				<a href="/home" class="active">
@@ -162,9 +185,7 @@
 				</a>
 			</li>
 		</ul>
-		<div class="sidebar-footer">
-			© 2025 EduSphere
-		</div>
+
 	</div>
 
 	<div class="content-container">
@@ -174,6 +195,7 @@
 		</div>
 
 		<div class="tweets-container" id="tweetsContainer">
+			<!-- Tweetler buraya gelir -->
 		</div>
 	</div>
 
@@ -198,4 +220,3 @@
 		}
 	</script>
 </body>
-</html>

@@ -18,6 +18,7 @@
         align-items: center;
         height: 100vh;
     }
+
     .register-container {
         width: 450px;
         margin: 80px auto;
@@ -47,19 +48,29 @@
 
         .register-container button {
             width: 100%;
-            background-color: #2c2c2c;
-            color: white;
             padding: 14px;
-            margin-top: 20px;
+            background-color: #ff69b4;
+            color: #fff;
             border: none;
             border-radius: 8px;
-            cursor: pointer;
             font-size: 16px;
+            cursor: pointer;
         }
 
             .register-container button:hover {
                 background-color: #e754a1;
             }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #fff;
+    }
+
+        .login-link a {
+            color: #ff69b4;
+            text-decoration: none;
+        }
 </style>
 
 <div class="register-container">
@@ -81,9 +92,9 @@
         <input type="password" name="password" placeholder="password" required />
 
         <button type="submit">Sign Up</button>
-    
-        <p style="text-align:center; margin-top:20px;">
-            Do you have an account? <a href="/Account/Login">click to login</a>
-        </p>
+
+        <div class="login-link">
+            Don't have an account? <a href="/Account/Login">Click to Login</a>
+        </div>
     </form>
 </div>

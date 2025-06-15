@@ -7,10 +7,28 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/EduSphere.styles.css" asp-append-version="true" />
+
+    <style>
+        body {
+            padding-top: 70px; /* Navbar yüksekliği kadar boşluk bırakılır */
+        }
+
+        /* Menü elemanları arasına ekstra boşluk */
+        .navbar-nav .nav-item {
+            margin-right: 20px; /* İstediğin kadar artırabilirsin */
+        }
+
+        /* Aktif link stili */
+        .nav-link.active {
+            color: deeppink !important; /* pembe vurgu */
+            border-bottom: 2px solid deeppink;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow fixed-top">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EduSphere</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -20,37 +38,37 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">TimeLine</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index">TimeLine</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Events</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Events" ? "active" : "")" asp-controller="Home" asp-action="Events">Events</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">About</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "About" ? "active" : "")" asp-controller="Home" asp-action="About">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Announcements</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Announcements" ? "active" : "")" asp-controller="Home" asp-action="Announcements">Announcements</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Online Library</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "OnlineLibrary" ? "active" : "")" asp-controller="Home" asp-action="OnlineLibrary">Online Library</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Message</a> @* degisecek *@
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Message" ? "active" : "")" asp-controller="Home" asp-action="Message">Message</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">My Profile</a> @* degisecek *@
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Profile" ? "active" : "")" asp-controller="Home" asp-action="Profile">My Profile</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - EduSphere - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

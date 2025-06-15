@@ -1,6 +1,90 @@
-﻿namespace EduSphere.Views.Home
-{
-    public class About
-    {
-    }
+﻿@{
+    ViewBag.Title = "About";
 }
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('/images/wallpaper.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #1c1c1c;
+        font-family: Arial, sans-serif;
+        color: #ffffff;
+    }
+
+    .about-container {
+        max-width: 1000px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: rgba(50, 50, 50, 0.95);
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-title {
+        text-align: center;
+        font-size: 32px;
+        color: #ff1493;
+        margin-bottom: 30px;
+    }
+
+    .about-section {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 40px;
+        gap: 30px;
+    }
+
+        .about-section img {
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+    .about-text {
+        flex: 1;
+        font-size: 18px;
+        line-height: 1.6;
+        color: #f0f0f0;
+    }
+
+</style>
+
+<div class="about-container">
+    <div class="about-title">About EduSphere</div>
+
+    <div class="about-section">
+        <img src="/images/about1.jpg" alt="EduSphere Tanıtımı" />
+        <div class="about-text">
+            EduSphere, modern eğitimi dijital dünyaya taşıyan yenilikçi bir platformdur.
+            Kullanıcı dostu arayüzüyle öğrenciler, öğretmenler ve veliler arasında kolay iletişim sağlar.
+        </div>
+    </div>
+
+    <div class="about-section">
+        <img src="/images/about2.jpg" alt="Öğrenci Paneli" />
+        <div class="about-text">
+            Platformumuzda, kullanıcılar kişiselleştirilmiş paneller üzerinden ders takibi yapabilir,
+            ödevleri yönetebilir ve öğretmenlerle doğrudan iletişime geçebilirler.
+        </div>
+    </div>
+
+    <div class="about-section">
+        <img src="/images/about3.jpg" alt="Mobil Uyum" />
+        <div class="about-text">
+            EduSphere tüm cihazlarda sorunsuz çalışır. Mobil ve masaüstü uyumlu yapısıyla her an, her yerden erişilebilir.
+        </div>
+    </div>
+</div>
