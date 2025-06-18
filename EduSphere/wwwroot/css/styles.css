@@ -4,24 +4,147 @@
     background: url('/images/wallpaper.png') no-repeat center center fixed;
     background-size: cover;
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-.nav-link.active-link {
-    border-bottom: 2px solid #ff1493;
-    color: #ff1493 !important;
-    font-weight: bold;
+/* Navbar */
+.navbar-cloud {
+    width: 100vw;
+    background: rgba(255,255,255,0.17);
+    box-shadow: 0 4px 20px rgba(99,102,241,0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    padding: 0;
+    backdrop-filter: blur(12px);
+}
+
+.navbar-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0 26px;
 }
 
 .navbar-brand {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 27px;
+    color: #fff;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    text-shadow: 0 2px 8px #b68af5, 0 1px 1px #8c69c7;
 }
 
-.navbar {
-    backdrop-filter: blur(5px);
-    transition: background-color 0.3s ease-in-out;
+.navbar-cloud-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 38px;
+}
+
+.cloud-link {
+    position: relative;
+    padding: 12px 32px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 16px;
+    font-size: 1.19rem;
+    letter-spacing: 0.5px;
+    transition: color 0.18s;
+    z-index: 1;
+    text-shadow: 0 2px 5px #b68af5, 0 1px 1px #8c69c7;
+    overflow: visible;
+}
+
+    .cloud-link:hover, .cloud-link:focus {
+        color: #ffe4fe;
+    }
+
+.cloud-efekt-link {
+    z-index: 2;
+}
+
+    .cloud-efekt-link .hover-cloud {
+        pointer-events: none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 120px;
+        height: 56px;
+        transform: translate(-50%, -52%) scale(0.69);
+        opacity: 0;
+        transition: opacity 0.24s, transform 0.55s cubic-bezier(.77,0,.18,1.1);
+        z-index: -1;
+        background: none;
+        will-change: transform, opacity;
+    }
+
+        .cloud-efekt-link .hover-cloud::before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g1" cx="50%" cy="50%" r="80%" fx="60%" fy="65%"><stop offset="0%" stop-color="%23ff7edb"/><stop offset="75%" stop-color="%239a7fff"/><stop offset="100%" stop-color="%238b5cf6"/></radialGradient></defs><ellipse cx="60" cy="36" rx="54" ry="18" fill="url(%23g1)" fill-opacity="0.96"/><ellipse cx="36" cy="22" rx="24" ry="14" fill="url(%23g1)" fill-opacity="0.87"/><ellipse cx="84" cy="22" rx="22" ry="13" fill="url(%23g1)" fill-opacity="0.92"/></svg>');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            filter: blur(1px) drop-shadow(0 4px 18px #b68af5a0);
+        }
+
+    .cloud-efekt-link:hover .hover-cloud,
+    .cloud-efekt-link:focus .hover-cloud {
+        opacity: 1;
+        transform: translate(-50%, -52%) scale(1.08);
+    }
+
+    .cloud-efekt-link.clicked .hover-cloud {
+        transition: transform 0.33s cubic-bezier(.77,0,.18,1.1), opacity 0.17s;
+        transform: translate(-50%, -52%) scale(0.08);
+        opacity: 0.6;
+    }
+
+/* İçerik aşağıda başlasın */
+.body-content {
+    margin-top: 95px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 95px);
+    width: 100%;
+}
+
+@media (max-width: 700px) {
+    .navbar-content {
+        max-width: 100vw;
+        padding: 0 7px;
+        height: 58px;
+    }
+
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .navbar-cloud-list {
+        gap: 12px;
+    }
+
+    .cloud-link {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+
+    .cloud-efekt-link .hover-cloud {
+        width: 80px;
+        height: 38px;
+    }
+
+    .body-content {
+        margin-top: 62px;
+    }
 }

@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\images\\wallpaper.png"
     },
     {
+      "Id": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\wwwroot\\js\\cloudnav.js",
+      "PackagePath": "staticwebassets\\js\\cloudnav.js"
+    },
+    {
       "Id": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

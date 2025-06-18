@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PmDhjaHaVWh5BGEpoFMzipcUlUXNGQSTCYGEyArbkE0=",
+  "Hash": "0E+cpw4kmtz1R0srrBrtmUaVMiP2mJZjib+z3FtXyF0=",
   "Source": "EduSphere",
   "BasePath": "_content/EduSphere",
   "Mode": "Default",
@@ -129,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\wallpaper.png"
+    },
+    {
+      "Identity": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\wwwroot\\js\\cloudnav.js",
+      "SourceId": "EduSphere",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\wwwroot\\",
+      "BasePath": "_content/EduSphere",
+      "RelativePath": "js/cloudnav.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\cloudnav.js"
     },
     {
       "Identity": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\wwwroot\\js\\site.js",

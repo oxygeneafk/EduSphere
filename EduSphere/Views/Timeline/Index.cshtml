@@ -9,26 +9,42 @@
         margin: 32px auto;
     }
 
+    /* Register sayfasından alınan stiller */
     .tweet-form {
         margin-bottom: 24px;
-        background: #f7f7f8;
-        padding: 16px;
-        border-radius: 8px;
+        background: rgba(30, 30, 30, 0.9);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.6);
     }
 
         .tweet-form textarea {
-            width: 100%;
-            min-height: 60px;
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ff69b4;
+            border-radius: 8px;
             resize: vertical;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            padding: 8px;
+            background-color: #2e2e2e;
+            color: white;
+            font-size: 15px;
         }
 
         .tweet-form button {
-            float: right;
-            margin-top: 8px;
+            width: 100%;
+            padding: 14px;
+            background-color: #ff69b4;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
         }
+
+            .tweet-form button:hover {
+                background-color: #e754a1;
+            }
 
     .tweet-list {
         list-style: none;
@@ -36,69 +52,82 @@
     }
 
     .tweet-item {
-        background: #fff;
-        border: 1px solid #eee;
-        border-radius: 8px;
+        background: rgba(128, 128, 128, 0.85);
+        border-radius: 10px;
         margin-bottom: 16px;
         padding: 16px;
-        transition: box-shadow .2s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
-
-        .tweet-item:hover {
-            box-shadow: 0 2px 8px #e0e0e0;
-        }
 
     .tweet-meta {
         font-size: 0.91em;
-        color: #666;
+        color: #eee;
         margin-bottom: 4px;
     }
 
     .tweet-username {
         font-weight: bold;
-        color: #222;
+        color: #fff;
     }
 
     .tweet-date {
         float: right;
-        color: #aaa;
+        color: #ccc;
         font-size: 0.88em;
     }
 
+    .tweet-text {
+        color: #fff;
+        font-size: 16px;
+        margin-top: 5px;
+    }
+
     .system-message {
-        color: #c00;
+        color: #ff4c4c;
         margin-bottom: 12px;
     }
 </style>
 
 <div class="timeline-container">
-    <h2>Timeline</h2>
+    <h2 style="color: #ff69b4; text-align:center;">Timeline</h2>
 
-    <form class="tweet-form" asp-action="Create" asp-controller="Timeline" method="post">
-        @if (TempData["Error"] != null)
-        {
-            <div class="system-message">@TempData["Error"]</div>
-        }
-        <textarea name="text" maxlength="280" placeholder="Ne düşünüyorsun?"></textarea>
-        <button type="submit" class="btn btn-primary">Tweetle</button>
-        <div style="clear:both"></div>
+    <form class="tweet-form" asp-action="Create" asp-controller="Timeline" method="post" enctype="multipart/form-data">
+        <textarea name="text" maxlength="280" placeholder="What's on your mind?" required></textarea>
+
+        <input type="file" name="mediaFile" accept="image/*,video/*" style="margin-top:10px;" />
+
+        <button type="submit">Tweet</button>
     </form>
-
     <ul class="tweet-list">
-        @foreach (var tweet in Model ?? new List<EduSphere.Models.Tweet>())
+        @foreach (var tweet in Model)
         {
             <li class="tweet-item">
                 <div class="tweet-meta">
                     <span class="tweet-username">
-                        @(string.IsNullOrEmpty(tweet?.Name) ? "" : tweet.Name + ", ")
-                        @tweet?.Username ?? "Anonim"
+                        @tweet.Name @tweet.Username
                     </span>
                     <span class="tweet-date">
-                        @(tweet?.CreatedAt != null ? tweet.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "")
+                        @(tweet.CreatedAt != null ? tweet.CreatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "")
                     </span>
                 </div>
-                <div class="tweet-text">@tweet?.Text ?? ""</div>
+                <div class="tweet-text">
+                    @if (!string.IsNullOrEmpty(tweet.MediaUrl))
+                    {
+                        if (tweet.MediaType == "image")
+                        {
+                            <img src="@tweet.MediaUrl" alt="image" style="max-width:100%; margin-top:10px;" />
+                        }
+                        else if (tweet.MediaType == "video")
+                        {
+                            <video controls style="max-width:100%; margin-top:10px;">
+                                <source src="@tweet.MediaUrl" type="video/mp4" />
+                                Tarayıcınız video öğesini desteklemiyor.
+                            </video>
+                        }
+                    }
+
+                    @tweet.Text
+                </div>
             </li>
         }
     </ul>
-</div>
