@@ -25,6 +25,7 @@ public class AccountController : Controller
         return View();
     }
 
+    [HttpGet]
     public IActionResult Register()
     {
         return View();
@@ -46,7 +47,8 @@ public class AccountController : Controller
                 new Claim("Username", user.Username ?? ""),
                 new Claim("Name", user.Name ?? ""),
                 new Claim("Lastname", user.Lastname ?? ""),
-                new Claim("Email", user.Email ?? "")
+                new Claim("Email", user.Email ?? ""),
+                new Claim("Department", user.Department ?? "")
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -65,7 +67,15 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Register(string name, string lastname, string username, string email, string phone, string address, string password)
+    public IActionResult Register(
+        string name,
+        string lastname,
+        string username,
+        string email,
+        string phone,
+        string address,
+        string department,
+        string password)
     {
         // Email kontrolü
         var emailExists = _usersCollection.Find(u => u.Email == email).Any();
@@ -83,6 +93,14 @@ public class AccountController : Controller
             return View();
         }
 
+        // Kullanıcı adı kontrolü
+        var usernameExists = _usersCollection.Find(u => u.Username == username).Any();
+        if (usernameExists)
+        {
+            ViewBag.Error = "This username is already in use.";
+            return View();
+        }
+
         var user = new User
         {
             Name = name,
@@ -91,11 +109,19 @@ public class AccountController : Controller
             Email = email,
             PhoneNumber = phone,
             Adress = address,
+            Department = department,
             Password = password
         };
 
         _usersCollection.InsertOne(user);
 
+        return RedirectToAction("Login");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Login");
     }
 }

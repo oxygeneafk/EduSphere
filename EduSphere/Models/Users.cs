@@ -23,6 +23,8 @@ namespace EduSphere.Models
 
         [BsonElement("phonenumber")]
         public string PhoneNumber { get; set; }
+        [BsonElement("department")]
+        public string Department { get; set; }
 
         [BsonElement("adress")]
         public string Adress { get; set; }

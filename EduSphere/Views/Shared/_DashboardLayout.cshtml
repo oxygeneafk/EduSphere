@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewBag.Title - EduSphere Dashboard</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-title">EduSphere</div>
+            <a href="/Dashboard" class="@(ViewBag.ActiveMenu == "dashboard" ? "active" : "")"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="/Dashboard/Profile" class="@(ViewBag.ActiveMenu == "profile" ? "active" : "")"><i class="fas fa-user"></i> Profile</a>
+            <a href="/Dashboard/Courses" class="@(ViewBag.ActiveMenu == "courses" ? "active" : "")"><i class="fas fa-book"></i> Courses</a>
+            <a href="/Dashboard/Settings" class="@(ViewBag.ActiveMenu == "settings" ? "active" : "")"><i class="fas fa-cog"></i> Settings</a>
+            <a href="/Account/Logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        <div class="dashboard-main">
+            <header class="dashboard-header">
+                <div>
+                    <i class="fas fa-bars" style="color:#ff69b4; margin-right:10px;"></i>
+                    <span style="font-size:1.15rem; color:#252836;">@ViewBag.PageTitle ?? "Dashboard"</span>
+                </div>
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i> @User.Identity.Name
+                </div>
+            </header>
+            <main class="dashboard-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
