@@ -93,41 +93,47 @@
 
     <form class="tweet-form" asp-action="Create" asp-controller="Timeline" method="post" enctype="multipart/form-data">
         <textarea name="text" maxlength="280" placeholder="What's on your mind?" required></textarea>
-
-        <input type="file" name="mediaFile" accept="image/*,video/*" style="margin-top:10px;" />
-
+        <input type="file" name="media" accept="image/*,video/*" />
         <button type="submit">Tweet</button>
     </form>
+
+
     <ul class="tweet-list">
         @foreach (var tweet in Model)
         {
             <li class="tweet-item">
-                <div class="tweet-meta">
-                    <span class="tweet-username">
-                        @tweet.Name @tweet.Username
-                    </span>
-                    <span class="tweet-date">
-                        @(tweet.CreatedAt != null ? tweet.CreatedAt.Value.ToLocalTime().ToString("dd.MM.yyyy HH:mm") : "")
+                <div class="tweet-meta" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; flex-direction: column;">
+                        <span class="tweet-username">@tweet.Name</span>
+                        <span style="color: #ccc; font-size: 0.9em;">@tweet.Username</span>
+                    </div>
+                    <span class="tweet-date" style="color: #ccc; font-size: 0.9em;">
+                        @tweet.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+
                     </span>
                 </div>
-                <div class="tweet-text">
-                    @if (!string.IsNullOrEmpty(tweet.MediaUrl))
-                    {
-                        if (tweet.MediaType == "image")
-                        {
-                            <img src="@tweet.MediaUrl" alt="image" style="max-width:100%; margin-top:10px;" />
-                        }
-                        else if (tweet.MediaType == "video")
-                        {
-                            <video controls style="max-width:100%; margin-top:10px;">
-                                <source src="@tweet.MediaUrl" type="video/mp4" />
-                                Tarayıcınız video öğesini desteklemiyor.
-                            </video>
-                        }
-                    }
 
+                <div class="tweet-text">
                     @tweet.Text
                 </div>
+
+                @* Medya varsa göster *@
+                @if (tweet.MediaData != null && tweet.MediaType != null)
+                {
+                    var base64 = Convert.ToBase64String(tweet.MediaData);
+                    if (tweet.MediaType.StartsWith("image"))
+                    {
+                        <img src="data:@tweet.MediaType;base64,@base64" style="max-width: 100%; border-radius: 8px; margin-top: 10px;" />
+                    }
+                    else if (tweet.MediaType.StartsWith("video"))
+                    {
+                        <video controls style="max-width: 100%; border-radius: 8px; margin-top: 10px;">
+                            <source src="data:@tweet.MediaType;base64,@base64" type="@tweet.MediaType" />
+                            Tarayıcınız video etiketini desteklemiyor.
+                        </video>
+                    }
+                }
+
             </li>
         }
-    </ul>
+       

@@ -13,7 +13,7 @@ namespace EduSphere.Controllers
         public TimelineController(IConfiguration configuration)
         {
             var client = new MongoClient(configuration.GetConnectionString("MongoDb"));
-            var database = client.GetDatabase("EduSphereDB");
+            var database = client.GetDatabase("EduSphere");
             _tweetsCollection = database.GetCollection<Tweet>("Tweets");
         }
 
@@ -27,24 +27,30 @@ namespace EduSphere.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(string text)
+        public IActionResult Create(string text, IFormFile media)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrWhiteSpace(text) && media == null)
             {
                 TempData["Error"] = "Tweet boş olamaz!";
                 return RedirectToAction("Index");
             }
 
-            var username = User?.Identity?.IsAuthenticated == true
-                ? User.Identity.Name
-                : "Anonim";
-
             var tweet = new Tweet
             {
                 Text = text,
-                Username = username,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                Username = User.Identity.IsAuthenticated ? User.Identity.Name : "Anonim",
             };
+
+            if (media != null && media.Length > 0)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    media.CopyTo(memoryStream);
+                    tweet.MediaData = memoryStream.ToArray();
+                    tweet.MediaType = media.ContentType;
+                }
+            }
 
             _tweetsCollection.InsertOne(tweet);
 
