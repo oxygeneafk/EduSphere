@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EduSphere")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f99b30d5f04eb0291b1929a0fa64de27e2aa48d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3b56d1985064ade49565cda535126e44d7e6eea")]
 [assembly: System.Reflection.AssemblyProductAttribute("EduSphere")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EduSphere")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,35 @@
+﻿@model List<EduSphere.Models.LessonScheduleViewModel>
+@{
+    ViewData["Title"] = "Ders Programı";
+}
+<div class="academy-card">
+    <h1>Ders Programı</h1>
+    @if (Model != null && Model.Count > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Gün</th>
+                    <th>Saat</th>
+                    <th>Öğretmen</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lesson in Model)
+                {
+                    <tr>
+                        <td>@lesson.CourseName</td>
+                        <td>@lesson.Day</td>
+                        <td>@lesson.Time</td>
+                        <td>@lesson.TeacherName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-text">Ders programı bulunamadı.</div>
+    }
+</div>

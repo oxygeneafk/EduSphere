@@ -1,0 +1,35 @@
+﻿@model List<EduSphere.Models.ExamCalendarViewModel>
+@{
+    ViewData["Title"] = "Sınav Takvimi";
+}
+<div class="academy-card">
+    <h1>Sınav Takvimi</h1>
+    @if (Model != null && Model.Count > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Tarih</th>
+                    <th>Saat</th>
+                    <th>Sınav Türü</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var exam in Model)
+                {
+                    <tr>
+                        <td>@exam.CourseName</td>
+                        <td>@exam.Date.ToString("dd.MM.yyyy")</td>
+                        <td>@exam.Time.ToString(@"hh\:mm")</td>
+                        <td>@exam.ExamType</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-text">Şu an için sınav takvimi bulunmamaktadır.</div>
+    }
+</div>

@@ -1,0 +1,35 @@
+﻿@model List<EduSphere.Models.ExamResultViewModel>
+@{
+    ViewData["Title"] = "Sınav Sonuçları";
+}
+<div class="academy-card">
+    <h1>Sınav Sonuçları</h1>
+    @if (Model != null && Model.Count > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Sınav Türü</th>
+                    <th>Not</th>
+                    <th>Açıklama</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var result in Model)
+                {
+                    <tr>
+                        <td>@result.CourseName</td>
+                        <td>@result.ExamType</td>
+                        <td>@result.Grade</td>
+                        <td>@result.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="empty-text">Henüz sınav sonucu bulunmamaktadır.</div>
+    }
+</div>

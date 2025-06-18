@@ -1,0 +1,23 @@
+﻿@model EduSphere.Models.DepartmentViewModel
+@{
+    ViewData["Title"] = "Bölümüm";
+}
+<div class="academy-card">
+    <h1>Bölümüm</h1>
+    @if (Model != null)
+    {
+        <div style="margin-bottom:18px">
+            <strong>Bölüm Adı:</strong> @Model.Name <br />
+            <strong>Danışman:</strong> @Model.Advisor <br />
+            <strong>Öğrenci Sayısı:</strong> @Model.StudentCount
+        </div>
+        <div>
+            <strong>Açıklama:</strong>
+            <div style="margin-top:8px; color:#4f3869;">@Model.Description</div>
+        </div>
+    }
+    else
+    {
+        <div class="empty-text">Bölüm bilgisi bulunamadı.</div>
+    }
+</div>
