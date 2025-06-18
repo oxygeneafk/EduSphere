@@ -55,4 +55,4 @@ public class DashboardController : Controller
         _usersCollection.DeleteOne(u => u.Id == id);
         return RedirectToAction("Index");
     }
-}   
+}

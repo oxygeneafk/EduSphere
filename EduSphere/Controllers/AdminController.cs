@@ -13,17 +13,16 @@ namespace EduSphere.Controllers
         {
             if (model.UserName == "admin" && model.Password == "123")
             {
-                // Burada admin için session/cookie vs. başlatabilirsin
-                return RedirectToAction("Dashboard");
+                // İleride session/cookie ile geliştirirsin
+                return RedirectToAction("Index");
             }
             ModelState.AddModelError("", "Kullanıcı adı veya şifre yanlış.");
             return View(model);
         }
 
-        // (İstersen Index action da ekle, istersen ekleme)
-        public IActionResult Dashboard()
+        public IActionResult Index()
         {
-            // Admin ana sayfası, kullanıcı yönetimine yönlendir
+            ViewBag.Active = "dashboard";
             return View();
         }
     }

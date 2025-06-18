@@ -1,37 +1,134 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
+    <title>@ViewBag.Title - EduSphere Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewBag.Title - EduSphere Dashboard</title>
-    <link rel="stylesheet" href="~/css/style.css" />
-    @RenderSection("Styles", required: false)
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            background: #f4f8fb;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .sidebar {
+            background: linear-gradient(180deg, #1867c0 0%, #317deb 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 0 0 0;
+            box-shadow: 2px 0 10px #00000008;
+        }
+        .sidebar h4 {
+            font-weight: bold;
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+        .sidebar a {
+            color: #e3ecfa;
+            text-decoration: none;
+            display: block;
+            margin: 0 0 25px 0;
+            font-size: 1.09rem;
+            padding: 10px 30px 10px 24px;
+            border-radius: 24px 0 0 24px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .sidebar a.active, .sidebar a:hover {
+            background: #fff;
+            color: #1867c0;
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 40px 40px 20px 40px;
+        }
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #e0e7ef;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 6px #00000008;
+        }
+        .navbar-brand {
+            color: #1867c0 !important;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .footer {
+            background: #fff;
+            color: #8ca1c2;
+            text-align: center;
+            padding: 10px 0;
+            border-top: 1px solid #e0e7ef;
+            margin-top: 50px;
+            border-radius: 0 0 14px 14px;
+            font-size: 0.98rem;
+        }
+        .btn-primary, .btn-success, .btn-danger {
+            border-radius: 12px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border: none;
+            transition: background .15s;
+        }
+        .btn-primary {
+            background: #1867c0;
+        }
+        .btn-primary:hover {
+            background: #155a9b;
+        }
+        .btn-success {
+            background: #2ecc71;
+        }
+        .btn-danger {
+            background: #e74c3c;
+        }
+        table.table {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px #00000010;
+            background: #fff;
+        }
+        .table thead th {
+            background: #1867c0;
+            color: #fff;
+            border: none;
+            font-size: 1.05rem;
+        }
+        .table tbody td {
+            vertical-align: middle;
+        }
+        .card {
+            border-radius: 16px;
+            box-shadow: 0 2px 16px #00000010;
+        }
+    </style>
 </head>
 <body>
-    <div class="dashboard-container">
-        <nav class="sidebar">
-            <div class="sidebar-title">EduSphere</div>
-            <a href="/Dashboard" class="@(ViewBag.ActiveMenu == "dashboard" ? "active" : "")"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="/Dashboard/Profile" class="@(ViewBag.ActiveMenu == "profile" ? "active" : "")"><i class="fas fa-user"></i> Profile</a>
-            <a href="/Dashboard/Courses" class="@(ViewBag.ActiveMenu == "courses" ? "active" : "")"><i class="fas fa-book"></i> Courses</a>
-            <a href="/Dashboard/Settings" class="@(ViewBag.ActiveMenu == "settings" ? "active" : "")"><i class="fas fa-cog"></i> Settings</a>
-            <a href="/Account/Logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </nav>
-        <div class="dashboard-main">
-            <header class="dashboard-header">
-                <div>
-                    <i class="fas fa-bars" style="color:#ff69b4; margin-right:10px;"></i>
-                    <span style="font-size:1.15rem; color:#252836;">@ViewBag.PageTitle ?? "Dashboard"</span>
-                </div>
-                <div class="user-info">
-                    <i class="fas fa-user-circle"></i> @User.Identity.Name
-                </div>
-            </header>
-            <main class="dashboard-content">
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block sidebar">
+                <h4 class="mb-4 ms-4">EduSphere</h4>
+                <a href="/Admin/Index" class="@(ViewBag.Active=="dashboard"?"active":"")">Dashboard</a>
+                <a href="/Dashboard" class="@(ViewBag.Active=="users"?"active":"")">Kullanıcılar</a>
+                <a href="/Dashboard/Courses" class="@(ViewBag.Active=="courses"?"active":"")">Dersler</a>
+                <a href="/Account/Logout">Çıkış Yap</a>
+            </nav>
+            <!-- Main Content -->
+            <main class="col-md-10 ms-sm-auto main-content">
+                <nav class="navbar navbar-expand navbar-light mb-4">
+                    <div class="container-fluid">
+                        <span class="navbar-brand">Admin Paneli</span>
+                        <span class="navbar-text ms-auto text-secondary">Hoş geldin, admin!</span>
+                    </div>
+                </nav>
                 @RenderBody()
             </main>
         </div>
     </div>
-    @RenderSection("Scripts", required: false)
+    <footer class="footer mt-auto">
+        EduSphere Admin Panel &copy; @DateTime.Now.Year
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
