@@ -34,8 +34,24 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Account giriş ekranı ana route
+app.MapControllerRoute(
+    name: "login",
+    pattern: "",
+    defaults: new { controller = "Account", action = "Login" }
+);
+
+// Messages için özel route
+app.MapControllerRoute(
+    name: "messages",
+    pattern: "Messages/{action=Index}/{id?}",
+    defaults: new { controller = "Messages" }
+);
+
+// Diğer controller'lar için genel route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Account}/{action=Login}/{id?}"
+);
 
 app.Run();

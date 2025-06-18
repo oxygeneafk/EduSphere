@@ -53,7 +53,7 @@
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "OnlineLibrary" ? "active" : "")" asp-controller="Home" asp-action="OnlineLibrary">Online Library</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Message" ? "active" : "")" asp-controller="Home" asp-action="Message">Message</a>
+                            <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Messages" ? "active" : "")" asp-controller="Messages" asp-action="Index">Message</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark @(ViewContext.RouteData.Values["action"]?.ToString() == "Profile" ? "active" : "")" asp-controller="Home" asp-action="Profile">My Profile</a>
