@@ -1,0 +1,44 @@
+﻿@model EduSphere.Models.User
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Kullanıcıyı Düzenle";
+}
+
+<h2>Kullanıcıyı Düzenle</h2>
+<form asp-action="EditUser" method="post">
+    @Html.HiddenFor(m => m.Id)
+    <div class="mb-3">
+        <label class="form-label">Ad</label>
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Soyad</label>
+        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Kullanıcı Adı</label>
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Telefon</label>
+        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Adres</label>
+        @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Bölüm</label>
+        @Html.TextBoxFor(m => m.Department, new { @class = "form-control" })
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Şifre</label>
+        @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">İptal</a>
+</form>

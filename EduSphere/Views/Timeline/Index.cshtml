@@ -4,12 +4,19 @@
 }
 
 <style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: url('/images/wallpaper2.png') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
     .timeline-container {
         max-width: 600px;
         margin: 32px auto;
     }
 
-    /* Register sayfasından alınan stiller */
     .tweet-form {
         margin-bottom: 24px;
         background: rgba(30, 30, 30, 0.9);
@@ -52,7 +59,7 @@
     }
 
     .tweet-item {
-        background: rgba(128, 128, 128, 0.85);
+        background: rgba(30, 30, 30, 0.9);
         border-radius: 10px;
         margin-bottom: 16px;
         padding: 16px;
@@ -63,15 +70,22 @@
         font-size: 0.91em;
         color: #eee;
         margin-bottom: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .tweet-name {
+        font-weight: bold;
+        color: #f1f1f1;
     }
 
     .tweet-username {
-        font-weight: bold;
-        color: #fff;
+        color: #ccc;
+        font-size: 0.9em;
     }
 
     .tweet-date {
-        float: right;
         color: #ccc;
         font-size: 0.88em;
     }
@@ -86,30 +100,48 @@
         color: #ff4c4c;
         margin-bottom: 12px;
     }
+
+    .profile-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
 </style>
 
 <div class="timeline-container">
     <h2 style="color: #ff69b4; text-align:center;">Timeline</h2>
 
+    <!-- 🔍 Arama Kutusu -->
+    <form method="get" asp-action="Index" style="margin-bottom: 20px; display: flex; gap: 10px;">
+        <input type="text" name="search" value="@ViewBag.Search" placeholder="Tweetlerde ara..."
+               style="flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #ff69b4; background-color: #1c1c1c; color: white;" />
+        <button type="submit"
+                style="padding: 10px 20px; background-color: #ff69b4; color: white; border: none; border-radius: 6px;">
+            Ara
+        </button>
+    </form>
+
+    <!-- 📝 Tweet Gönderme Formu -->
     <form class="tweet-form" asp-action="Create" asp-controller="Timeline" method="post" enctype="multipart/form-data">
         <textarea name="text" maxlength="280" placeholder="What's on your mind?" required></textarea>
         <input type="file" name="media" accept="image/*,video/*" />
         <button type="submit">Tweet</button>
     </form>
 
-
+    <!-- 📄 Tweet Listesi -->
     <ul class="tweet-list">
         @foreach (var tweet in Model)
         {
             <li class="tweet-item">
-                <div class="tweet-meta" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="tweet-meta">
                     <div style="display: flex; flex-direction: column;">
-                        <span class="tweet-username">@tweet.Name</span>
-                        <span style="color: #ccc; font-size: 0.9em;">@tweet.Username</span>
+                        <span class="tweet-name">@tweet.Name</span>
+                        <span class="tweet-username">@($"@{tweet.Username}")</span>
                     </div>
-                    <span class="tweet-date" style="color: #ccc; font-size: 0.9em;">
+                    <span class="tweet-date">
                         @tweet.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
-
                     </span>
                 </div>
 
@@ -117,7 +149,6 @@
                     @tweet.Text
                 </div>
 
-                @* Medya varsa göster *@
                 @if (tweet.MediaData != null && tweet.MediaType != null)
                 {
                     var base64 = Convert.ToBase64String(tweet.MediaData);
@@ -133,7 +164,7 @@
                         </video>
                     }
                 }
-
             </li>
         }
-       
+    </ul>
+</div>

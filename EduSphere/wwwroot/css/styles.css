@@ -1,12 +1,4 @@
-﻿body {
-    margin: 0;
-    padding: 0;
-    background: url('/images/wallpaper.png') no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-:root {
+﻿:root {
     --navbar-height: 70px;
 }
 /* Navbar */
@@ -30,7 +22,7 @@
     align-items: center;
     justify-content: flex-start; /* Sola yasla */
     height: 100%;
-    padding: 0 16px;           /* Sağ ve solu azalt */
+    padding: 0 16px; /* Sağ ve solu azalt */
     width: 100%;
     gap: 40px;
 }
@@ -153,6 +145,7 @@
         margin-top: 62px;
     }
 }
+
 .dropdown {
     position: relative;
 }
@@ -196,7 +189,7 @@
         color: #fff;
     }
 
-    .academy-card {
+.academy-card {
     background: rgba(255,255,255,0.93);
     box-shadow: 0 8px 32px rgba(50,0,80,0.13);
     border-radius: 18px;
@@ -207,37 +200,43 @@
     border: 1px solid #ece6f5;
     transition: box-shadow 0.16s;
 }
-.academy-card h1, .academy-card h2 {
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-weight: 800;
-    font-size: 2.1rem;
-    color: #28204a;
-    margin-bottom: 22px;
-}
-.academy-card table {
-    width: 100%;
-    background: #f8f7fc;
-    border-radius: 10px;
-    box-shadow: 0 1px 8px #e9e7f3;
-    margin-top: 16px;
-    margin-bottom: 16px;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-.academy-card th, .academy-card td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #e9e2f6;
-}
-.academy-card th {
-    background: #f2e5fc;
-    color: #6d3faf;
-    font-weight: 700;
-}
-.academy-card tr:last-child td {
-    border-bottom: none;
-}
-.academy-card .empty-text {
-    color: #888;
-    font-size: 1.09rem;
-    margin: 16px 0 0 0;
-}
+
+    .academy-card h1, .academy-card h2 {
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-weight: 800;
+        font-size: 2.1rem;
+        color: #28204a;
+        margin-bottom: 22px;
+    }
+
+    .academy-card table {
+        width: 100%;
+        background: #f8f7fc;
+        border-radius: 10px;
+        box-shadow: 0 1px 8px #e9e7f3;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .academy-card th, .academy-card td {
+        padding: 12px 10px;
+        border-bottom: 1px solid #e9e2f6;
+    }
+
+    .academy-card th {
+        background: #f2e5fc;
+        color: #6d3faf;
+        font-weight: 700;
+    }
+
+    .academy-card tr:last-child td {
+        border-bottom: none;
+    }
+
+    .academy-card .empty-text {
+        color: #888;
+        font-size: 1.09rem;
+        margin: 16px 0 0 0;
+    }

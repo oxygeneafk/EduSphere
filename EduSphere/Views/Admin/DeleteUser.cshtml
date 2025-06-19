@@ -1,0 +1,16 @@
+﻿@model EduSphere.Models.User
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Kullanıcı Sil";
+}
+
+<h2>Kullanıcıyı Sil</h2>
+<div class="alert alert-danger">
+    <strong>@Model.Name @Model.Lastname</strong> adlı kullanıcıyı silmek istediğine emin misin?
+</div>
+
+<form asp-action="DeleteUser" method="post">
+    @Html.HiddenFor(m => m.Id)
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">Vazgeç</a>
+</form>

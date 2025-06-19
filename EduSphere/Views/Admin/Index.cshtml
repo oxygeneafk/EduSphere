@@ -1,18 +1,17 @@
 ﻿@{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
     ViewBag.Title = "Admin Paneli";
-    ViewBag.Active = "dashboard";
 }
 
-<div class="container">
-    <h2 class="mb-4">Admin Dashboard</h2>
-    <div class="row">
+<div class="container mt-4">
+    <h2>Admin Dashboard</h2>
+    <div class="row mt-4">
         <div class="col-md-4">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Kullanıcılar</h5>
                     <p class="card-text">Sistemdeki tüm kullanıcıları yönetin.</p>
-                    <a href="/Dashboard" class="btn btn-light">Git</a>
+                    <a href="@Url.Action("Users", "Admin")" class="btn btn-light">Git</a>
                 </div>
             </div>
         </div>
@@ -21,7 +20,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Dersler</h5>
                     <p class="card-text">Dersleri görüntüleyin ve düzenleyin.</p>
-                    <a href="/Dashboard/Courses" class="btn btn-light">Git</a>
+                    <a href="@Url.Action("Courses", "Admin")" class="btn btn-light">Git</a>
                 </div>
             </div>
         </div>
@@ -30,7 +29,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Çıkış</h5>
                     <p class="card-text">Oturumdan çıkış yap.</p>
-                    <a href="/Account/Logout" class="btn btn-light">Çıkış Yap</a>
+                    <a href="@Url.Action("Logout", "Admin")" class="btn btn-light">Çıkış Yap</a>
                 </div>
             </div>
         </div>
