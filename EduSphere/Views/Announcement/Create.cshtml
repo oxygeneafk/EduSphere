@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Gerekirse admin layoutunu burada değiştirirsin
+}
+<h2>Yeni Duyuru Ekle</h2>
+<form asp-action="Create" method="post">
+    <div>
+        <label>Başlık:</label>
+        <input type="text" name="title" required />
+    </div>
+    <div>
+        <label>İçerik:</label>
+        <textarea name="content" rows="5" required></textarea>
+    </div>
+    <button type="submit">Kaydet</button>
+</form>

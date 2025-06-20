@@ -1,6 +1,148 @@
-﻿namespace EduSphere.Views.Settings
-{
-    public class MyTweet
-    {
-    }
+﻿@model List<EduSphere.Models.Tweet>
+@{
+    ViewBag.Title = "Tweetlerim";
+    var editedId = Context.Request.Query["edit"].FirstOrDefault();
 }
+<style>
+        .tweet-tim eline
+        {
+        max-width:600px;
+
+        margin:32px auto;
+        background:#191919ee;
+        padding:30px 24px 20px 24px;
+            border- radius:
+        16px;
+        box-shadow:0 2px 18px 0 #69b4ff40;
+
+        color:#fff;
+    }
+    .tweet-card {
+            background :#212c3a;
+        border-radius:12px;
+
+        box-shadow:0 1px 7px 0 #0002;
+        margin-bottom:22px;
+        padding:18px 18px 8px 18px;
+            po sitio
+        n:relat ive;
+        border-left:6px solid #69b4ff;
+
+        transition:.15s;
+    }
+    .tweet-card:hover {
+            bor der-left:6px solid #ff69b4;
+        box-shadow:0 3px 12px 0 #69b4ff30;
+
+    }
+    .tweet-text {
+        font-size:16px;
+            white-s pace:pre
+        -line;
+        margin-bottom:8px;
+
+        line-height:1.5;
+    }
+    .tweet-meta {
+            fo nt-size:12px;
+        color:#99c;
+
+        margin-bottom:7px;
+    }
+    .tweet-actions {
+            tex t-
+        align:right ;
+        margin-top:4px;
+
+    }
+    .tweet-actions form, .tweet-actions a {
+        display:inline-block;
+            ma rgin-
+        left:6px;
+    }
+
+    .tweet-edit-form {
+        margin-bottom:10px;
+    }
+        .tweet-e dit-form texta
+        rea {
+        width:100%;
+
+        border-radius:7px;
+        border:1px solid #69b4ff;
+        background:#222f;
+            co lor:#fff;
+        padding:7px;
+
+        min-height:40px;
+    }
+    .tweet-edit-form button {
+            margin -top:
+        3px;
+        background:#69b4ff;
+
+        color:#fff;
+        border:none;
+        border-radius:7px;
+            paddin g:5px
+         17px;
+    }
+
+    button.tweet-delete-btn {
+        background:#e74c3c;
+        color:#fff;
+            border :none;
+
+        border-radius:7px;
+
+        padding:5px 17px;
+    }
+</style>
+
+<div class="tweet-timeline">
+    <h2 style="text-align:center;color:#69b4ff;">Tweetlerim</h2>
+    <form asp-action="AddTweet" asp-controller="UserSettings" method="post" style="margin-bottom:18px;">
+        <textarea name="content" required maxlength="280" placeholder="Bir şeyler yaz..." style="width:100%;height:60px;border-radius:8px;border:1px solid #69b4ff;background:#232323;color:#fff;padding:8px;"></textarea>
+        <button type="submit" style="background:#69b4ff;color:#fff;border:none;border-radius:8px;padding:7px 28px;margin-top:7px;float:right;">Tweetle</button>
+        <div style="clear:both;"></div>
+    </form>
+    <hr style="border:0;border-top:1px solid #69b4ff;">
+    @if (Model.Count == 0)
+    {
+        <div style="color:#aaa;text-align:center;margin-top:22px;">Hiç tweetin yok.</div>
+    }
+    else
+    {
+        foreach (var tweet in Model)
+        {
+            <div class="tweet-card">
+                @if (editedId == tweet.Id)
+                {
+                    <form asp-action="UpdateTweet" asp-controller="UserSettings" method="post" class="tweet-edit-form">
+                        <input type="hidden" name="id" value="@tweet.Id" />
+                        <textarea name="updatedText" maxlength="280" required>@tweet.Text</textarea>
+                        <button type="submit">Kaydet</button>
+                        <a href="@Url.Action("MyTweet")" style="margin-left:10px;color:#69b4ff;text-decoration:underline;">Vazgeç</a>
+                    </form>
+                }
+                else
+                {
+                    <div class="tweet-text">@tweet.Text</div>
+                }
+                <div class="tweet-meta">
+                    @tweet.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                </div>
+                <div class="tweet-actions">
+                    @if (editedId != tweet.Id)
+                    {
+                        <a href="@Url.Action("MyTweet", new { edit = tweet.Id })" style="color:#69b4ff;">Düzenle</a>
+                        <form asp-action="DeleteTweet" asp-controller="UserSettings" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@tweet.Id" />
+                            <button type="submit" class="tweet-delete-btn" onclick="return confirm('Tweet silinsin mi?');">Sil</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

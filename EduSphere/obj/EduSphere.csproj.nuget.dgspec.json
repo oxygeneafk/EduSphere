@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\EduSphere.csproj": {}
+    "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\EduSphere.csproj": {
+    "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\EduSphere.csproj",
+        "projectUniqueName": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj",
         "projectName": "EduSphere",
-        "projectPath": "C:\\Users\\aydin\\source\\repos\\EduSphere\\EduSphere\\EduSphere.csproj",
+        "projectPath": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\EduSphere.csproj",
         "packagesPath": "C:\\Users\\aydin\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\obj\\",
         "projectStyle": "PackageReference",

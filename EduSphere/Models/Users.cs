@@ -23,6 +23,7 @@ namespace EduSphere.Models
 
         [BsonElement("phonenumber")]
         public string PhoneNumber { get; set; }
+
         [BsonElement("department")]
         public string Department { get; set; }
 
@@ -31,5 +32,12 @@ namespace EduSphere.Models
 
         [BsonElement("password")]
         public string Password { get; set; }
+
+        // ----- PROFİL FOTOĞRAFI DESTEĞİ -----
+        [BsonElement("profilePhoto")]
+        public byte[] ProfilePhoto { get; set; }
+
+        [BsonElement("profilePhotoType")]
+        public string ProfilePhotoType { get; set; }
     }
 }

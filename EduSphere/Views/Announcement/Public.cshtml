@@ -1,0 +1,14 @@
+﻿@model List<EduSphere.Models.Announcement>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Duyurular</h2>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li>
+            <strong>@item.Title</strong> <span style="color:gray">@item.CreatedAt.ToString("yyyy-MM-dd")</span>
+            <p>@item.Content</p>
+        </li>
+    }
+</ul>

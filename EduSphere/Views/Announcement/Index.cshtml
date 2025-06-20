@@ -1,0 +1,25 @@
+﻿@model List<EduSphere.Models.Announcement>
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml"; // Gerekirse admin layoutunu burada değiştirirsin
+}
+<h2>Duyurular (Yönetim)</h2>
+<a href="/Announcement/Create">Yeni Duyuru Ekle</a>
+<table>
+    <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Yazar</th>
+            <th>Tarih</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Author</td>
+                <td>@item.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>
