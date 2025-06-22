@@ -1,0 +1,33 @@
+﻿@model List<EduSphere.Models.Event>
+@{
+    ViewBag.Title = "Etkinlik Yönetimi";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+<h2>Etkinlik Yönetimi</h2>
+<a href="@Url.Action("Create", "Event")" class="btn btn-success mb-2">Yeni Etkinlik Ekle</a>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Başlık</th>
+            <th>Tarih</th>
+            <th>Konum</th>
+            <th>Ekleyen</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evt in Model)
+        {
+            <tr>
+                <td>@evt.Title</td>
+                <td>@evt.Date.ToString("yyyy-MM-dd")</td>
+                <td>@evt.Location</td>
+                <td>@evt.Author</td>
+                <td>
+                    <!-- Düzenleme ve silme butonları eklenebilir -->
+                    <a href="@Url.Action("Details", "Event", new { id = evt.Id })" class="btn btn-info btn-sm">Detay</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

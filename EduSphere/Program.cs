@@ -2,12 +2,19 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
+// DI için mail servis interface ve classlarını eklemeyi unutma!
+using Microsoft.AspNetCore.Http; // IHttpContextAccessor için
+
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Servisleri ekle
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<EduSphereContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// IHttpContextAccessor DI container'a ekle
+builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

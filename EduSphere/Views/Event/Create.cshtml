@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Yeni Etkinlik";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h2>Yeni Etkinlik Ekle</h2>
+<form asp-action="Create" method="post">
+    <div class="form-group mb-3">
+        <label>Başlık</label>
+        <input name="title" class="form-control" required />
+    </div>
+    <div class="form-group mb-3">
+        <label>Açıklama</label>
+        <textarea name="description" class="form-control" required></textarea>
+    </div>
+    <div class="form-group mb-3">
+        <label>Tarih</label>
+        <input name="date" type="date" class="form-control" required />
+    </div>
+    <div class="form-group mb-3">
+        <label>Adres (Açık Adres)</label>
+        <input name="location" id="location" class="form-control" required autocomplete="off" />
+        <button type="button" class="btn btn-primary btn-sm mt-2" id="find-address">Haritada Göster</button>
+        <small class="form-text text-muted">Adres yazıp "Haritada Göster"e basınca marker o konuma gider.</small>
+    </div>
+    <div class="form-group mb-3">
+        <label>Haritadan Konum Seç</label>
+        <div id="map" style="height:350px; width:100%;"></div>
+        <input type="hidden" id="latitude" name="latitude" />
+        <input type="hidden" id="longitude" name="longitude" />
+        <div class="form-text">Seçilen Konum: <span id="latlong-text"></span></div>
+    </div>
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a href="@Url.Action("Manage", "Event")" class="btn btn-secondary">İptal</a>
+</form>
+
+<!-- Leaflet CSS/JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Başlangıç noktası Ankara
+    let map = L.map('map').setView([39.925533, 32.866287], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    let marker = L.marker([39.925533, 32.866287], { draggable: true }).addTo(map);
+    document.getElementById("latitude").value = 39.925533;
+    document.getElementById("longitude").value = 32.866287;
+    document.getElementById("latlong-text").textContent = "39.925533, 32.866287";
+
+    function updateLatLng(lat, lng) {
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lng;
+        document.getElementById("latlong-text").textContent = lat + ", " + lng;
+    }
+
+    // Haritada tıklayınca marker oraya gider
+    map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateLatLng(e.latlng.lat, e.latlng.lng);
+    });
+
+    // Marker’ı sürükleyince konum güncellenir
+    marker.on('dragend', function (e) {
+        let latlng = marker.getLatLng();
+        updateLatLng(latlng.lat, latlng.lng);
+    });
+
+    // Adres ile konum bulma (Nominatim)
+    document.getElementById("find-address").addEventListener("click", function () {
+        let address = document.getElementById("location").value;
+        if (!address) return alert("Lütfen bir adres gir.");
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    let lat = parseFloat(data[0].lat);
+                    let lon = parseFloat(data[0].lon);
+                    map.setView([lat, lon], 16);
+                    marker.setLatLng([lat, lon]);
+                    updateLatLng(lat, lon);
+                } else {
+                    alert("Adres bulunamadı.");
+                }
+            })
+            .catch(() => alert("Adres aranırken hata oluştu."));
+    });
+</script>
