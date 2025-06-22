@@ -1,0 +1,180 @@
+﻿@model EduSphere.Models.Exam
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Sınav Düzenle";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Sınav Düzenle</h4>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle"></i> @ViewBag.Error
+                        </div>
+                    }
+
+                    <form method="post" asp-action="EditExam">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="CreatedAt" />
+                        <input type="hidden" asp-for="CreatedBy" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Departman</label>
+                                    <select asp-for="Department" id="departmentSelect" class="form-select" required>
+                                        <option value="">-- Departman Seçiniz --</option>
+                                        @foreach (var dept in ViewBag.Departments as List<string>)
+                                        {
+                                            if (dept == Model.Department)
+                                            {
+                                                <option value="@dept" selected>@dept</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@dept">@dept</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Ders</label>
+                                    <select asp-for="CourseName" id="courseSelect" class="form-select" required>
+                                        <option value="">-- Ders Seçiniz --</option>
+                                        @if (ViewBag.DepartmentCourses != null)
+                                        {
+                                            @foreach (var course in ViewBag.DepartmentCourses as List<string>)
+                                            {
+                                                if (course == Model.CourseName)
+                                                {
+                                                    <option value="@course" selected>@course</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@course">@course</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Sınav Tarihi</label>
+                                    <input asp-for="ExamDate" type="date" class="form-control" required value="@Model.ExamDate.ToString("yyyy-MM-dd")" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Sınav Saati</label>
+                                    <input asp-for="ExamTime" type="time" class="form-control" required value="@Model.ExamTime.ToString(@"hh\:mm")" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Sınav Türü</label>
+                                    <select asp-for="ExamType" class="form-select" required>
+                                        <option value="">-- Seçiniz --</option>
+                                        @if (Model.ExamType == "Vize")
+                                        {
+                                            <option value="Vize" selected>Vize</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Vize">Vize</option>
+                                        }
+
+                                        @if (Model.ExamType == "Final")
+                                        {
+                                            <option value="Final" selected>Final</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Final">Final</option>
+                                        }
+
+                                        @if (Model.ExamType == "Bütünleme")
+                                        {
+                                            <option value="Bütünleme" selected>Bütünleme</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Bütünleme">Bütünleme</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Sınıf</label>
+                                    <input asp-for="Classroom" type="text" class="form-control" required placeholder="Ör: A101" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Süre (Dakika)</label>
+                                    <input asp-for="Duration" type="number" class="form-control" required min="30" max="240" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Öğretmen</label>
+                            <input asp-for="Instructor" type="text" class="form-control" required placeholder="Öğretmen Adı" />
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Sınavı Güncelle
+                            </button>
+                            <a href="@Url.Action("Exams", "Admin")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Geri Dön
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('departmentSelect').addEventListener('change', function() {
+        var department = this.value;
+        var courseSelect = document.getElementById('courseSelect');
+
+        if (department) {
+            fetch('/Admin/GetCoursesByDepartment?department=' + encodeURIComponent(department))
+                .then(response => response.json())
+                .then(courses => {
+                    courseSelect.innerHTML = '<option value="">-- Ders Seçiniz --</option>';
+                    courses.forEach(course => {
+                        courseSelect.innerHTML += '<option value="' + course + '">' + course + '</option>';
+                    });
+                    courseSelect.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    courseSelect.innerHTML = '<option value="">-- Hata oluştu --</option>';
+                    courseSelect.disabled = true;
+                });
+        } else {
+            courseSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
+            courseSelect.disabled = true;
+        }
+    });
+</script>

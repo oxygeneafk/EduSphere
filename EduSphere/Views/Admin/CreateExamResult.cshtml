@@ -84,26 +84,34 @@
             const department = this.value;
 
             if (department) {
-                // Load exams
+                // Load exams - 'display' property'sini kullan, 'displayText' değil
                 fetch(`/Admin/GetExamsByDepartment?department=${encodeURIComponent(department)}`)
                     .then(response => response.json())
                     .then(exams => {
                         examSelect.innerHTML = '<option value="">-- Sınav Seçiniz --</option>';
                         exams.forEach(exam => {
-                            examSelect.innerHTML += `<option value="${exam.id}">${exam.displayText}</option>`;
+                            examSelect.innerHTML += `<option value="${exam.id}">${exam.display}</option>`;
                         });
                         examSelect.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Sınavlar yüklenirken hata:', error);
+                        examSelect.innerHTML = '<option value="">Hata: Sınavlar yüklenemedi</option>';
                     });
 
-                // Load students
+                // Load students - 'studentNumber' property'sini kaldır
                 fetch(`/Admin/GetStudentsByDepartment?department=${encodeURIComponent(department)}`)
                     .then(response => response.json())
                     .then(students => {
                         studentSelect.innerHTML = '<option value="">-- Öğrenci Seçiniz --</option>';
                         students.forEach(student => {
-                            studentSelect.innerHTML += `<option value="${student.username}">${student.name} (${student.studentNumber})</option>`;
+                            studentSelect.innerHTML += `<option value="${student.username}">${student.name}</option>`;
                         });
                         studentSelect.disabled = false;
+                    })
+                    .catch(error => {
+                        console.error('Öğrenciler yüklenirken hata:', error);
+                        studentSelect.innerHTML = '<option value="">Hata: Öğrenciler yüklenemedi</option>';
                     });
             } else {
                 examSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
