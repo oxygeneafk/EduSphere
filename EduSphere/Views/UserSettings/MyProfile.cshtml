@@ -6,57 +6,55 @@
         ? $"data:{Model.ProfilePhotoType};base64,{Convert.ToBase64String(Model.ProfilePhoto)}"
         : defaultPp;
 }
-<div style="max-width:420px;margin:48px auto;background:#181818e6;padding:32px 28px 26px 28px;border-radius:22px;box-shadow:0 2px 26px 0 #ff69b450;color:#fff;">
-    <div style="text-align:center">
-        <img src="@ppSrc" alt="Profil Fotoğrafı" style="width:110px;height:110px;border-radius:50%;border:3px solid #ff69b4;object-fit:cover;background:#222;">
-        <h2 style="color:#ff69b4;margin-top:14px;margin-bottom:6px;">@Model.Name @Model.Lastname</h2>
-        <div style="color:#fff;font-size:15px;opacity:.7;">@Model.Username</div>
+<div class="profile-modal">
+    <div class="profile-avatar-container">
+        <img src="@ppSrc" alt="Profil Fotoğrafı" class="profile-avatar-img">
+        <h2>@Model.Name @Model.Lastname</h2>
+        <div class="profile-username">@Model.Username</div>
     </div>
-
-    <form asp-action="UpdateProfilePhoto" asp-controller="UserSettings" method="post" enctype="multipart/form-data" style="text-align:center;margin-top:16px;">
-        <input type="file" name="profilePhoto" accept="image/*" style="margin-bottom:8px;color:#fff;">
-        <button type="submit" style="background:#ff69b4;color:#fff;border:none;border-radius:8px;padding:6px 20px;margin:0 4px;">Fotoğrafı Değiştir</button>
+    <form asp-action="UpdateProfilePhoto" asp-controller="UserSettings" method="post" enctype="multipart/form-data" class="profile-photo-form">
+        <input type="file" name="profilePhoto" accept="image/*">
+        <button type="submit" class="profile-btn">Fotoğrafı Değiştir</button>
     </form>
     @if (Model?.ProfilePhoto != null)
     {
-        <form asp-action="RemoveProfilePhoto" asp-controller="UserSettings" method="post" style="text-align:center;">
-            <button type="submit" style="background:#f39c12;color:#fff;border:none;border-radius:8px;padding:6px 20px;margin-top:4px;">Fotoğrafı Kaldır</button>
+        <form asp-action="RemoveProfilePhoto" asp-controller="UserSettings" method="post" class="profile-remove-form">
+            <button type="submit" class="profile-btn profile-btn-yellow">Fotoğrafı Kaldır</button>
         </form>
     }
 
-    <form asp-action="UpdateProfile" asp-controller="UserSettings" method="post" style="margin-top:24px;">
-        <div style="margin-bottom:10px;">
-            <label style="color:#ff69b4;">Ad</label>
-            <input type="text" name="name" value="@Model.Name" required maxlength="50" style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#fff;padding:7px;">
+    <form asp-action="UpdateProfile" asp-controller="UserSettings" method="post" class="profile-info-form">
+        <div class="profile-info-group">
+            <label>Ad</label>
+            <input type="text" name="name" value="@Model.Name" required maxlength="50">
         </div>
-        <div style="margin-bottom:10px;">
-            <label style="color:#ff69b4;">Soyad</label>
-            <input type="text" name="lastname" value="@Model.Lastname" required maxlength="50" style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#fff;padding:7px;">
+        <div class="profile-info-group">
+            <label>Soyad</label>
+            <input type="text" name="lastname" value="@Model.Lastname" required maxlength="50">
         </div>
-        <div style="margin-bottom:10px;">
-            <label style="color:#ff69b4;">Kullanıcı Adı</label>
-            <input type="text" value="@Model.Username" disabled style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#aaa;padding:7px;opacity:.7;">
+        <div class="profile-info-group">
+            <label>Kullanıcı Adı</label>
+            <input type="text" value="@Model.Username" disabled>
         </div>
-        <div style="margin-bottom:10px;">
-            <label style="color:#ff69b4;">Email</label>
-            <input type="email" name="email" value="@Model.Email" required maxlength="60" style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#fff;padding:7px;">
+        <div class="profile-info-group">
+            <label>Email</label>
+            <input type="email" name="email" value="@Model.Email" required maxlength="60">
         </div>
-        <div style="margin-bottom:10px;">
-            <label style="color:#ff69b4;">Telefon Numarası</label>
-            <input type="text" name="phonenumber" value="@Model.PhoneNumber" maxlength="20" style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#fff;padding:7px;">
+        <div class="profile-info-group">
+            <label>Telefon Numarası</label>
+            <input type="text" name="phonenumber" value="@Model.PhoneNumber" maxlength="20">
         </div>
-        <div style="margin-bottom:10px;">
-            <label style="color:#ff69b4;">Bölüm</label>
-            <input type="text" name="department" value="@Model.Department" maxlength="50" style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#fff;padding:7px;">
+        <div class="profile-info-group">
+            <label>Bölüm</label>
+            <input type="text" name="department" value="@Model.Department" maxlength="50">
         </div>
-        <div style="margin-bottom:18px;">
-            <label style="color:#ff69b4;">Adres</label>
-            <input type="text" name="adress" value="@Model.Adress" maxlength="150" style="width:100%;margin-bottom:6px;border-radius:7px;border:1px solid #ff69b4;background:#232323;color:#fff;padding:7px;">
+        <div class="profile-info-group">
+            <label>Adres</label>
+            <input type="text" name="adress" value="@Model.Adress" maxlength="150">
         </div>
-        <button type="submit" style="width:100%;background:#ff69b4;color:#fff;border:none;border-radius:8px;padding:8px 0;font-size:16px;">Kaydet</button>
+        <button type="submit" class="profile-btn-save">Kaydet</button>
     </form>
-
-    <form asp-action="DeleteAccount" asp-controller="UserSettings" method="post" onsubmit="return confirm('Hesabını silmek istediğine emin misin? Bu işlem geri alınamaz!');" style="text-align:center;margin-top:22px;">
-        <button type="submit" style="background:#e74c3c;color:#fff;border:none;border-radius:8px;padding:8px 32px;">Hesabımı Sil</button>
+    <form asp-action="DeleteAccount" asp-controller="UserSettings" method="post" onsubmit="return confirm('Hesabını silmek istediğine emin misin? Bu işlem geri alınamaz!');">
+        <button type="submit" class="profile-btn-danger">Hesabımı Sil</button>
     </form>
 </div>

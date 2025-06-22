@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "EaDgctRNVfZxEPYkG///HxEHLakcyuAOI5wmtLKgLNQ=",
+  "Hash": "gf56ByC+wILelXxkv0ZR7afSpIDF7i/LljN8dGP1Z8w=",
   "Source": "EduSphere",
   "BasePath": "_content/EduSphere",
   "Mode": "Default",
@@ -110,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\admin.png",
+      "SourceId": "EduSphere",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\",
+      "BasePath": "_content/EduSphere",
+      "RelativePath": "images/admin.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\admin.png"
     },
     {
       "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\chat.png",

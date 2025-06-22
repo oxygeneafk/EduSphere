@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\admin.png",
+      "PackagePath": "staticwebassets\\images\\admin.png"
+    },
+    {
       "Id": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\chat.png",
       "PackagePath": "staticwebassets\\images\\chat.png"
     },

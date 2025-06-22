@@ -5,84 +5,25 @@
     var searchValue = ViewBag.Search as string ?? "";
 }
 
-@section Styles {
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('/images/chat.png') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .chat-search-container {
-            max-width: 400px;
-            margin: 50px auto 0 auto;
-            padding: 32px 32px 24px 32px;
-            background: #2e2e2e;
-            border-radius: 20px;
-            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12);
-        }
-
-        .chat-search-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 18px;
-            color: #ff69b4;
-            text-align: center;
-        }
-
-        .form-control, .btn-primary {
-            border-radius: 10px;
-        }
-
-        .list-group-item {
-            border: none;
-            border-bottom: 1px solid #e2e8f0;
-            background: transparent;
-        }
-
-        .btn-success {
-            border-radius: 10px;
-        }
-
-        .no-users {
-            color: #718096;
-            text-align: center;
-            margin-top: 24px;
-        }
-    </style>
-}
-
 <div class="chat-search-container">
     <div class="chat-search-title">Kullanıcı Ara</div>
     <form method="get" asp-action="Index" class="mb-3">
         <input type="text" name="search" placeholder="Kullanıcı adı ya da isim ara..." value="@searchValue" class="form-control mb-2" autocomplete="off" />
         <button type="submit" class="btn btn-primary w-100">Ara</button>
     </form>
-    <ul class="list-group mt-4">
-        @if (Model.Count > 0)
+    @if (Model.Count > 0)
+    {
+        @foreach (var user in Model)
         {
-            foreach (var user in Model)
-            {
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <span class="fw-bold">@user.Name</span>
-                        <span class="text-muted">(@user.Username)</span>
-                    </div>
-                    <a class="btn btn-success btn-sm" asp-action="Chat" asp-route-toUsername="@user.Username">
-                        Sohbet
-                    </a>
-                </li>
-            }
+            <div class="user-chat-card">
+                <strong>@user.Name</strong>
+                <span class="chat-nickname">(@user.Username)</span>
+                <a class="chat-link" asp-action="Chat" asp-route-toUsername="@user.Username">Sohbet</a>
+            </div>
         }
-        else
-        {
-            <div class="no-users">Kullanıcı bulunamadı.</div>
-        }
-    </ul>
+    }
+    else
+    {
+        <div class="no-users">Kullanıcı bulunamadı.</div>
+    }
 </div>

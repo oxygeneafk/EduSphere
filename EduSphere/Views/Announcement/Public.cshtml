@@ -1,14 +1,16 @@
-﻿@model List<EduSphere.Models.Announcement>
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-<h2>Duyurular</h2>
-<ul>
-    @foreach (var item in Model)
-    {
-        <li>
-            <strong>@item.Title</strong> <span style="color:gray">@item.CreatedAt.ToString("yyyy-MM-dd")</span>
-            <p>@item.Content</p>
-        </li>
-    }
-</ul>
+﻿<div class="announcement-modal">
+    <h2 class="announcement-title">Duyurular</h2>
+    <div class="announcement-list">
+        <!-- Birden fazla duyuru varsa foreach ile dön -->
+        <div class="announcement-card">
+            <div class="announcement-header">
+                <span class="announcement-title-inner">Duyuru Başlığı</span>
+                <span class="announcement-date">2025-06-20</span>
+            </div>
+            <div class="announcement-content">
+                Duyuru açıklaması burada olacak.
+            </div>
+        </div>
+        <!-- ... başka duyurular ... -->
+    </div>
+</div>

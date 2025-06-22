@@ -1,6 +1,16 @@
 ﻿:root {
     --navbar-height: 70px;
 }
+
+/* --- GENEL (NAVBAR, BODY, ETC.) --- */
+body {
+    margin: 0;
+    padding: 0;
+    background: url('/images/chat.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 /* Navbar */
 .navbar-cloud {
     height: var(--navbar-height);
@@ -20,9 +30,9 @@
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Sola yasla */
+    justify-content: center;
     height: 100%;
-    padding: 0 16px; /* Sağ ve solu azalt */
+    padding: 0 16px;
     width: 100%;
     gap: 40px;
 }
@@ -45,6 +55,13 @@
     gap: 38px;
 }
 
+.profile-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .cloud-link {
     position: relative;
     padding: 12px 32px;
@@ -58,6 +75,9 @@
     z-index: 1;
     text-shadow: 0 2px 5px #b68af5, 0 1px 1px #8c69c7;
     overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
     .cloud-link:hover, .cloud-link:focus {
@@ -66,6 +86,9 @@
 
 .cloud-efekt-link {
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
     .cloud-efekt-link .hover-cloud {
@@ -116,6 +139,212 @@
     width: 100%;
 }
 
+/* --- Kullanıcı Ara ve Mesaj Listesi (Chat Search Box) --- */
+.chat-search-container {
+    max-width: 400px;
+    margin: 50px auto 0 auto;
+    padding: 32px 32px 24px 32px;
+    background: #2e2e2e;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12);
+    animation: showAbout 0.7s cubic-bezier(.66,0,.34,1) both;
+}
+
+@keyframes showUserChatCard {
+    from {
+        opacity: 0;
+        transform: scale(.98) translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.chat-search-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #ff69b4;
+    text-align: center;
+}
+
+.form-control, .btn-primary {
+    border-radius: 10px !important;
+}
+
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #e2e8f0;
+    background: transparent;
+}
+
+.btn-success {
+    border-radius: 10px !important;
+}
+
+.no-users {
+    color: #718096;
+    text-align: center;
+    margin-top: 24px;
+}
+
+/* --- Mesaj Kullanıcı Kartı (Mesajlar için ekstra kutu) --- */
+.user-chat-card {
+    background: rgba(40,30,55,0.93);
+    border-radius: 13px;
+    padding: 14px 19px 12px 19px;
+    margin-bottom: 15px;
+    margin-top: 14px;
+    box-shadow: 0 2px 14px #0001, 0 1px 1px #ff69b435;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 220px;
+    border: 1px solid #ff69b455;
+    gap: 4px;
+    animation: showUserChatCard 0.7s cubic-bezier(.66,0,.34,1) both;
+}
+
+    .user-chat-card strong {
+        color: #ffe1f6;
+        font-weight: 700;
+        font-size: 1.11rem;
+        margin-bottom: 2px;
+    }
+
+    .user-chat-card .chat-nickname {
+        font-size: 0.97rem;
+        color: #bfa6e0;
+        margin-bottom: 7px;
+    }
+
+    .user-chat-card .chat-link {
+        color: #fff;
+        font-weight: 700;
+        padding: 7px 26px;
+        background: linear-gradient(90deg,#ff69b4 70%,#b87efb 100%);
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 1px 6px #b87efb35;
+        font-size: 1rem;
+        border: none;
+        outline: none;
+        margin-top: 4px;
+        transition: background 0.18s, color 0.13s, box-shadow 0.14s;
+        display: inline-block;
+        letter-spacing: 0.7px;
+    }
+
+        .user-chat-card .chat-link:hover {
+            background: linear-gradient(90deg,#b87efb 50%,#ff69b4 100%);
+            color: #fff;
+            box-shadow: 0 2px 10px #ff69b445;
+        }
+
+/* --- Chat Page (Mesajlaşma ekranı) --- */
+.chat-main-container {
+    max-width: 450px;
+    margin: 50px auto 0 auto;
+    background: #2e2e2e;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12);
+    padding: 0;
+    overflow: hidden;
+}
+
+.chat-header {
+    background: #2d3748;
+    color: #fff;
+    padding: 18px 24px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat-messages {
+    height: 400px;
+    overflow-y: auto;
+    padding: 24px;
+    background: url('/images/chat.png') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.chat-message-row {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .chat-message-row.me {
+        align-items: flex-end;
+    }
+
+.chat-bubble {
+    max-width: 70%;
+    padding: 12px 18px;
+    border-radius: 16px;
+    background: #e2e8f0;
+    color: #2d3748;
+    font-size: 1rem;
+    word-break: break-all;
+}
+
+.chat-message-row.me .chat-bubble {
+    background: #ff1493;
+    color: #fff;
+}
+
+.chat-meta {
+    font-size: 0.8rem;
+    color: #fff;
+    margin-top: 3px;
+}
+
+.chat-form {
+    display: flex;
+    gap: 10px;
+    padding: 16px 24px;
+    background: #2e2e2e;
+    border-top: 1px solid #e2e8f0;
+    background-size: cover;
+}
+
+    .chat-form input[type="text"] {
+        border-radius: 10px;
+        flex: 1;
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        font-size: 1rem;
+    }
+
+    .chat-form button {
+        border-radius: 10px;
+        padding: 8px 18px;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+.back-btn {
+    background: #e2e8f0;
+    color: #2d3748;
+    border: none;
+    border-radius: 10px;
+    padding: 6px 16px;
+    font-size: 1rem;
+    margin-right: 10px;
+    text-decoration: none;
+    transition: background 0.13s, color 0.13s;
+}
+
+    .back-btn:hover {
+        background: #ff69b4;
+        color: #fff;
+    }
+
 @media (max-width: 700px) {
     .navbar-content {
         max-width: 100vw;
@@ -143,6 +372,39 @@
 
     .body-content {
         margin-top: 62px;
+    }
+
+    .chat-search-container {
+        max-width: 98vw;
+        padding: 16px 5vw 18px 5vw;
+    }
+
+    .user-chat-card {
+        min-width: 0;
+        width: 100%;
+        padding: 12px 8px;
+    }
+
+    .chat-main-container {
+        max-width: 99vw;
+        margin: 12px 2vw 0 2vw;
+        border-radius: 12px;
+        padding: 0;
+    }
+
+    .chat-header {
+        font-size: 1rem;
+        padding: 10px 10px;
+    }
+
+    .chat-messages {
+        padding: 8px;
+        height: 240px;
+    }
+
+    .chat-form {
+        padding: 10px 10px;
+        gap: 5px;
     }
 }
 
@@ -201,7 +463,8 @@
     transition: box-shadow 0.16s;
 }
 
-    .academy-card h1, .academy-card h2 {
+    .academy-card h1,
+    .academy-card h2 {
         font-family: 'Montserrat', Arial, sans-serif;
         font-weight: 800;
         font-size: 2.1rem;
@@ -220,7 +483,8 @@
         border-spacing: 0;
     }
 
-    .academy-card th, .academy-card td {
+    .academy-card th,
+    .academy-card td {
         padding: 12px 10px;
         border-bottom: 1px solid #e9e2f6;
     }
@@ -240,3 +504,640 @@
         font-size: 1.09rem;
         margin: 16px 0 0 0;
     }
+/* --- About Page (Hakkımızda ekranı) --- */
+.about-modal {
+    background: rgba(30, 25, 40, 0.95);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(80,0,120,0.25);
+    max-width: 680px;
+    margin: 90px auto 0 auto;
+    padding: 38px 42px 30px 42px;
+    text-align: left;
+    color: #fdf6ff;
+    position: relative;
+    backdrop-filter: blur(3px);
+    border: 1.5px solid #b87efb55;
+    animation: showAbout 0.7s cubic-bezier(.66,0,.34,1) both;
+}
+
+@keyframes showAbout {
+    from {
+        opacity: 0;
+        transform: scale(.98) translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.about-title {
+    color: #ff69b4;
+    font-weight: 800;
+    font-size: 2.3rem;
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+    text-align: center;
+    text-shadow: 0 2px 12px #c945a0a5;
+}
+
+.about-features {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.feature {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #4b375f55;
+}
+
+    .feature:last-child {
+        border-bottom: none;
+    }
+
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg,#ff69b4 60%,#b87efb 100%);
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #fff;
+    box-shadow: 0 2px 9px #ff69b449;
+    margin-top: 5px;
+}
+
+.feature-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffe1f6;
+    margin-bottom: 7px;
+}
+
+.feature-desc {
+    color: #e0d0ed;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+    .about-modal {
+        max-width: 97vw;
+        padding: 14px 7vw;
+    }
+
+    .about-title {
+        font-size: 1.5rem;
+    }
+
+    .feature-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+
+    .feature-title {
+        font-size: 1rem;
+    }
+}
+/* --- Animasyon ve Modern Duyuru Kartları --- */
+@keyframes showAnnouncementModal {
+    from {
+        opacity: 0;
+        transform: scale(.98) translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.announcement-modal {
+    background: rgba(30, 25, 40, 0.97);
+    border-radius: 30px;
+    box-shadow: 0 8px 40px 0 rgba(80,0,120,0.15);
+    max-width: 820px;
+    margin: 95px auto 0 auto;
+    padding: 46px 42px 38px 42px;
+    color: #fdf6ff;
+    position: relative;
+    backdrop-filter: blur(3px);
+    border: 2px solid #b87efb38;
+    animation: showAnnouncementModal 0.72s cubic-bezier(.66,0,.34,1) both;
+}
+
+.announcement-title {
+    color: #ff69b4;
+    font-weight: 800;
+    font-size: 2.3rem;
+    margin-bottom: 34px;
+    letter-spacing: 1px;
+    text-align: center;
+    text-shadow: 0 2px 12px #c945a0a5;
+}
+
+.announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.announcement-card {
+    background: rgba(50, 40, 70, 0.93);
+    border-radius: 14px;
+    box-shadow: 0 2px 14px #0001, 0 1px 1px #ff69b435;
+    padding: 22px 28px 15px 28px;
+    border: 1.5px solid #b87efb33;
+    animation: showAnnouncementModal 0.7s cubic-bezier(.66,0,.34,1) both;
+}
+
+.announcement-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.announcement-title-inner {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffe1f6;
+    text-shadow: 0 2px 7px #ff69b486;
+}
+
+.announcement-date {
+    color: #b87efb;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: 18px;
+    letter-spacing: 0.5px;
+}
+
+.announcement-content {
+    color: #e0d0ed;
+    font-size: 1.07rem;
+    line-height: 1.66;
+    word-break: break-word;
+    margin-top: 2px;
+    margin-bottom: 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #5b397a33;
+}
+
+.announcement-card:last-child .announcement-content {
+    border-bottom: none;
+}
+
+@media (max-width: 900px) {
+    .announcement-modal {
+        max-width: 98vw;
+        padding: 8vw 2vw 4vw 2vw;
+    }
+
+    .announcement-title {
+        font-size: 1.4rem;
+    }
+
+    .announcement-card {
+        padding: 12px 8px 10px 11px;
+    }
+}
+
+/* --- Profil Modal (Modern, Animasyonlu) --- */
+@keyframes showProfileModal {
+    from {
+        opacity: 0;
+        transform: scale(.98) translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.profile-modal {
+    max-width: 480px;
+    margin: 64px auto 0 auto;
+    background: rgba(30, 25, 40, 0.97);
+    padding: 38px 32px 28px 32px;
+    border-radius: 26px;
+    box-shadow: 0 8px 36px 0 #b87efb45, 0 2px 26px 0 #ff69b450;
+    color: #fff;
+    animation: showProfileModal 0.72s cubic-bezier(.66,0,.34,1) both;
+    position: relative;
+    backdrop-filter: blur(3px);
+    border: 2px solid #b87efb38;
+}
+
+    .profile-modal .profile-avatar-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+
+    .profile-modal .profile-avatar-img {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ff69b4;
+        box-shadow: 0 4px 22px #ff69b485;
+        background: #222;
+    }
+
+    .profile-modal h2 {
+        color: #ff69b4;
+        margin-top: 14px;
+        margin-bottom: 6px;
+        text-align: center;
+        font-size: 1.6rem;
+        font-weight: 700;
+        text-shadow: 0 2px 10px #ff69b488;
+    }
+
+    .profile-modal .profile-username {
+        color: #b87efb;
+        font-size: 15px;
+        opacity: .85;
+        text-align: center;
+        margin-bottom: 0;
+        margin-top: -2px;
+    }
+
+    .profile-modal form {
+        margin-bottom: 0;
+    }
+
+    .profile-modal .profile-photo-form,
+    .profile-modal .profile-remove-form {
+        text-align: center;
+        margin-top: 14px;
+        margin-bottom: 0;
+    }
+
+        .profile-modal .profile-photo-form input[type="file"] {
+            margin-bottom: 9px;
+            color: #fff;
+        }
+
+    .profile-modal .profile-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 6px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0 4px 0 0;
+        background: linear-gradient(90deg,#ff69b4 60%,#b87efb 100%);
+        color: #fff;
+        transition: background 0.18s, color 0.13s, box-shadow 0.17s;
+        box-shadow: 0 1px 6px #b87efb35;
+        cursor: pointer;
+    }
+
+        .profile-modal .profile-btn:hover {
+            background: linear-gradient(90deg,#b87efb 50%,#ff69b4 100%);
+            color: #fff;
+            box-shadow: 0 2px 10px #ff69b445;
+        }
+
+    .profile-modal .profile-btn-yellow {
+        background: linear-gradient(90deg,#ffe16b 70%,#ff69b4 100%);
+        color: #4b375f;
+        box-shadow: 0 1px 6px #ff69b435;
+    }
+
+        .profile-modal .profile-btn-yellow:hover {
+            background: linear-gradient(90deg,#ff69b4 60%,#ffe16b 100%);
+            color: #fff;
+        }
+
+    .profile-modal .profile-info-form {
+        margin-top: 28px;
+    }
+
+    .profile-modal .profile-info-group {
+        margin-bottom: 13px;
+    }
+
+        .profile-modal .profile-info-group label {
+            color: #ff69b4;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+            display: inline-block;
+        }
+
+        .profile-modal .profile-info-group input[type="text"],
+        .profile-modal .profile-info-group input[type="email"] {
+            width: 100%;
+            border-radius: 7px;
+            border: 1.5px solid #ff69b4;
+            background: #232323;
+            color: #fff;
+            padding: 8px 11px;
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 4px;
+            transition: border 0.14s, background 0.13s;
+        }
+
+        .profile-modal .profile-info-group input:disabled {
+            color: #aaa;
+            opacity: .7;
+            background: #222;
+        }
+
+        .profile-modal .profile-info-group input:focus {
+            border: 1.5px solid #b87efb;
+            background: #322c40;
+        }
+
+    .profile-modal .profile-btn-save {
+        width: 100%;
+        margin-top: 18px;
+        background: linear-gradient(90deg,#ff69b4 60%,#b87efb 100%);
+        color: #fff;
+        border-radius: 9px;
+        padding: 11px 0;
+        font-size: 1.13rem;
+        margin-bottom: 0;
+        border: none;
+        font-weight: 700;
+        letter-spacing: .5px;
+        box-shadow: 0 1px 8px #b87efb33;
+    }
+
+        .profile-modal .profile-btn-save:hover {
+            background: linear-gradient(90deg,#b87efb 50%,#ff69b4 100%);
+        }
+
+    .profile-modal .profile-btn-danger {
+        background: #e74c3c;
+        color: #fff;
+        border-radius: 8px;
+        padding: 8px 32px;
+        margin-top: 22px;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: 700;
+        border: none;
+        box-shadow: 0 1px 8px #e74c3c33;
+        transition: background 0.13s, color 0.13s;
+    }
+
+        .profile-modal .profile-btn-danger:hover {
+            background: #c0392b;
+        }
+
+@media (max-width: 600px) {
+    .profile-modal {
+        max-width: 99vw;
+        padding: 9vw 2vw 3vw 2vw;
+    }
+
+        .profile-modal .profile-avatar-img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .profile-modal h2 {
+            font-size: 1.1rem;
+        }
+}
+
+@keyframes showTweetCard {
+    from {
+        opacity: 0;
+        transform: scale(.98) translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.tweet-timeline {
+    max-width: 600px;
+    margin: 48px auto 0 auto;
+    background: rgba(30, 25, 40, 0.97);
+    padding: 36px 32px 24px 32px;
+    border-radius: 24px;
+    box-shadow: 0 8px 36px 0 #69b4ff40, 0 2px 18px 0 #ff69b450;
+    color: #fff;
+    animation: showTweetCard 0.7s cubic-bezier(.66,0,.34,1) both;
+    backdrop-filter: blur(3px);
+    border: 2px solid #69b4ff33;
+}
+
+    .tweet-timeline h2 {
+        text-align: center;
+        color: #69b4ff;
+        font-weight: 800;
+        font-size: 2rem;
+        letter-spacing: .5px;
+        margin-bottom: 18px;
+        text-shadow: 0 2px 10px #69b4ff35;
+    }
+
+    .tweet-timeline textarea[name="content"] {
+        width: 100%;
+        height: 60px;
+        border-radius: 8px;
+        border: 1.5px solid #69b4ff;
+        background: #232323;
+        color: #fff;
+        padding: 8px;
+        font-size: 1.08rem;
+        margin-bottom: 2px;
+        transition: border 0.13s;
+        resize: vertical;
+    }
+
+        .tweet-timeline textarea[name="content"]:focus {
+            border: 1.5px solid #ff69b4;
+            outline: none;
+            background: #282039;
+        }
+
+    .tweet-timeline button[type="submit"] {
+        background: linear-gradient(90deg,#69b4ff 60%,#ff69b4 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 7px 28px;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 7px;
+        float: right;
+        transition: background 0.13s, box-shadow 0.14s;
+        box-shadow: 0 1px 6px #69b4ff45;
+        cursor: pointer;
+    }
+
+        .tweet-timeline button[type="submit"]:hover {
+            background: linear-gradient(90deg,#ff69b4 60%,#69b4ff 100%);
+        }
+
+    .tweet-timeline hr {
+        border: 0;
+        border-top: 1.5px solid #69b4ff;
+        margin: 22px 0 18px 0;
+    }
+
+.tweet-card {
+    background: #212c3a;
+    border-radius: 14px;
+    box-shadow: 0 1px 10px 0 #0001, 0 1px 1px #69b4ff35;
+    margin-bottom: 22px;
+    padding: 18px 18px 10px 18px;
+    position: relative;
+    border-left: 6px solid #69b4ff;
+    transition: 0.15s;
+    animation: showTweetCard 0.7s cubic-bezier(.66,0,.34,1) both;
+}
+
+    .tweet-card:hover {
+        border-left: 6px solid #ff69b4;
+        box-shadow: 0 3px 18px 0 #ff69b430;
+    }
+
+.tweet-text {
+    font-size: 1.1rem;
+    white-space: pre-line;
+    margin-bottom: 9px;
+    line-height: 1.6;
+    color: #f7f7ff;
+}
+
+.tweet-meta {
+    font-size: 0.97rem;
+    color: #99c;
+    margin-bottom: 7px;
+    margin-top: -4px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.tweet-actions {
+    text-align: right;
+    margin-top: 2px;
+}
+
+    .tweet-actions form,
+    .tweet-actions a {
+        display: inline-block;
+        margin-left: 7px;
+        vertical-align: middle;
+    }
+
+    .tweet-actions a {
+        color: #69b4ff;
+        font-weight: 600;
+        font-size: 1rem;
+        text-decoration: underline;
+        transition: color 0.13s;
+    }
+
+        .tweet-actions a:hover {
+            color: #ff69b4;
+        }
+
+.tweet-edit-form {
+    margin-bottom: 10px;
+}
+
+    .tweet-edit-form textarea {
+        width: 100%;
+        border-radius: 7px;
+        border: 1.5px solid #69b4ff;
+        background: #232f3a;
+        color: #fff;
+        padding: 7px;
+        min-height: 48px;
+        font-size: 1.06rem;
+        margin-bottom: 5px;
+        transition: border 0.14s;
+        resize: vertical;
+    }
+
+        .tweet-edit-form textarea:focus {
+            border: 1.5px solid #ff69b4;
+            background: #282039;
+            outline: none;
+        }
+
+    .tweet-edit-form button[type="submit"] {
+        margin-top: 3px;
+        background: #69b4ff;
+        color: #fff;
+        border: none;
+        border-radius: 7px;
+        padding: 5px 17px;
+        font-weight: 600;
+        font-size: 1rem;
+        box-shadow: 0 1px 4px #69b4ff33;
+        transition: background 0.13s;
+        cursor: pointer;
+    }
+
+        .tweet-edit-form button[type="submit"]:hover {
+            background: #ff69b4;
+        }
+
+    .tweet-edit-form a {
+        margin-left: 10px;
+        color: #69b4ff;
+        text-decoration: underline;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: color 0.13s;
+    }
+
+        .tweet-edit-form a:hover {
+            color: #ff69b4;
+        }
+
+button.tweet-delete-btn {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    padding: 5px 17px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-left: 4px;
+    box-shadow: 0 1px 4px #e74c3c33;
+    transition: background 0.13s;
+    cursor: pointer;
+}
+
+    button.tweet-delete-btn:hover {
+        background: #b71c1c;
+    }
+
+@media (max-width: 700px) {
+    .tweet-timeline {
+        max-width: 99vw;
+        padding: 14px 2vw 4vw 2vw;
+    }
+
+    .tweet-card {
+        padding: 10px 8px 8px 8px;
+    }
+
+    .tweet-timeline h2 {
+        font-size: 1.1rem;
+    }
+}

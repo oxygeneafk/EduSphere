@@ -1,90 +1,148 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: url('/images/wallpaper.png') no-repeat center center fixed;
-        background-size: cover;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    body {
-        margin: 0;
-        padding: 0;
-        background-color: #1c1c1c;
-        font-family: Arial, sans-serif;
-        color: #ffffff;
-    }
-
-    .about-container {
-        max-width: 1000px;
-        margin: 50px auto;
-        padding: 30px;
-        background-color: rgba(50, 50, 50, 0.95);
-        border-radius: 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    }
-
-    .about-title {
-        text-align: center;
-        font-size: 32px;
-        color: #ff1493;
-        margin-bottom: 30px;
-    }
-
-    .about-section {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        margin-bottom: 40px;
-        gap: 30px;
-    }
-
-        .about-section img {
-            max-width: 300px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-        }
-
-    .about-text {
-        flex: 1;
-        font-size: 18px;
-        line-height: 1.6;
-        color: #f0f0f0;
-    }
-
-</style>
-
-<div class="about-container">
-    <div class="about-title">About EduSphere</div>
-
-    <div class="about-section">
-        <img src="/images/about1.jpg" alt="EduSphere Tanıtımı" />
-        <div class="about-text">
-            EduSphere, modern eğitimi dijital dünyaya taşıyan yenilikçi bir platformdur.
-            Kullanıcı dostu arayüzüyle öğrenciler, öğretmenler ve veliler arasında kolay iletişim sağlar.
+﻿<div class="about-modal">
+    <h2 class="about-title">About EduSphere</h2>
+    <div class="about-features">
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div>
+                <div class="feature-title">EduSphere Tanıtımı</div>
+                <div class="feature-desc">
+                    EduSphere, modern eğitimi dijital dünyaya taşıyan yenilikçi bir platformdur. Kullanıcı dostu arayüzüyle öğrenciler, öğretmenler ve veliler arasında kolay iletişim sağlar.
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="about-section">
-        <img src="/images/about2.jpg" alt="Öğrenci Paneli" />
-        <div class="about-text">
-            Platformumuzda, kullanıcılar kişiselleştirilmiş paneller üzerinden ders takibi yapabilir,
-            ödevleri yönetebilir ve öğretmenlerle doğrudan iletişime geçebilirler.
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-user-friends"></i>
+            </div>
+            <div>
+                <div class="feature-title">Öğrenci Paneli</div>
+                <div class="feature-desc">
+                    Platformumuzda, kullanıcılar kişiselleştirilmiş paneller üzerinden ders takibi yapabilir, ödevleri yönetebilir ve öğretmenlerle doğrudan iletişime geçebilir.
+                </div>
+            </div>
         </div>
-    </div>
-
-    <div class="about-section">
-        <img src="/images/about3.jpg" alt="Mobil Uyum" />
-        <div class="about-text">
-            EduSphere tüm cihazlarda sorunsuz çalışır. Mobil ve masaüstü uyumlu yapısıyla her an, her yerden erişilebilir.
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div>
+                <div class="feature-title">Mobil Uyum</div>
+                <div class="feature-desc">
+                    EduSphere tüm cihazlarda sorunsuz çalışır. Mobil ve masaüstü uyumlu yapısıyla her an, her yerden erişilebilir.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <div>
+                <div class="feature-title">Online Dersler & Video Konferans</div>
+                <div class="feature-desc">
+                    Canlı dersler, video konferans ve etkileşimli beyaz tahta desteğiyle uzaktan eğitim deneyimini zenginleştirir.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-tasks"></i>
+            </div>
+            <div>
+                <div class="feature-title">Otomatik Ödev Takibi</div>
+                <div class="feature-desc">
+                    Öğrenciler için son teslim tarihli ödevler, otomatik hatırlatıcılar ve öğretmenler için kolay değerlendirme araçları sunar.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+                <div class="feature-title">Gelişmiş Raporlama & Analitik</div>
+                <div class="feature-desc">
+                    Başarı, katılım ve performans istatistikleriyle öğretmenler ve veliler öğrencilerin gelişimini kolayca takip edebilir.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div>
+                <div class="feature-title">Anlık Mesajlaşma & Duyurular</div>
+                <div class="feature-desc">
+                    Sınıf içi ve bireysel mesajlaşma ile toplu duyurular; iletişimi hızlı ve kolay hale getirir.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div>
+                <div class="feature-title">Takvim & Etkinlik Yönetimi</div>
+                <div class="feature-desc">
+                    Dersler, sınavlar ve etkinlikler için ortak takvim; hatırlatıcılar ile kimse önemli bir tarihi kaçırmaz.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div>
+                <div class="feature-title">Güvenlik & Veri Koruma</div>
+                <div class="feature-desc">
+                    Kullanıcı verileri endüstri standardı şifreleme ile korunur. Rol ve yetki bazlı erişim ile güvenli platform.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <div>
+                <div class="feature-title">Dosya Paylaşımı & Kaynak Merkezi</div>
+                <div class="feature-desc">
+                    Ders materyalleri, sunumlar ve kaynaklar kolayca yüklenip paylaşılır; öğrenciler her zaman erişebilir.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div>
+                <div class="feature-title">Akıllı Bildirimler</div>
+                <div class="feature-desc">
+                    Kişiselleştirilebilir bildirimler sayesinde ödev, sınav ve duyurulardan anında haberdar olunur.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-language"></i>
+            </div>
+            <div>
+                <div class="feature-title">Çoklu Dil Desteği</div>
+                <div class="feature-desc">
+                    Farklı dillerde arayüz desteği ile herkes, ana dilinde platformu kullanabilir.
+                </div>
+            </div>
+        </div>
+        <div class="feature">
+            <div class="feature-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div>
+                <div class="feature-title">Kapsamlı Yönetim Paneli</div>
+                <div class="feature-desc">
+                    Yöneticiler için kullanıcı, ders ve sistem ayarlarının kolayca kontrol edilebildiği gelişmiş panel.
+                </div>
+            </div>
         </div>
     </div>
 </div>
