@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace EduSphere.Controllers
 {
@@ -12,9 +13,15 @@ namespace EduSphere.Controllers
     {
         private readonly IMongoCollection<User> _users;
         private readonly IMongoCollection<Schedule> _schedules;
+        private readonly IMongoCollection<Exam> _exams;
         private readonly List<string> _departments = new List<string>
         {
-            "Computer Engineering","Computer Programming","Electricity Electironic Engineering","Machinery Engineering","Civil Engineering", "Industiral Engineering",
+            "Computer Engineering",
+            "Computer Programming",
+            "Electricity Electronic Engineering",
+            "Machinery Engineering",
+            "Civil Engineering",
+            "Industrial Engineering"
         };
 
         public AdminController(IConfiguration config)
@@ -23,6 +30,7 @@ namespace EduSphere.Controllers
             var database = client.GetDatabase("EduSphere");
             _users = database.GetCollection<User>("Users");
             _schedules = database.GetCollection<Schedule>("Schedules");
+            _exams = database.GetCollection<Exam>("Exams");
         }
 
         // Admin login screen (GET)
@@ -91,21 +99,77 @@ namespace EduSphere.Controllers
             return RedirectToAction("Users");
         }
 
-        // List schedules
+        // === DERS PROGRAMI YÖNETİMİ ===
+
+        // List schedules - Announcement Index mantığı gibi
         public IActionResult Schedules()
         {
             ViewBag.Active = "schedules";
-            var schedules = _schedules.Find(s => true).ToList();
+            var schedules = _schedules.Find(s => true)
+                          .SortByDescending(s => s.UpdatedAt)
+                          .ToList();
             return View(schedules);
         }
 
-        // Add/Edit schedule (GET)
-        public IActionResult EditSchedule(string department)
+        // Create schedule form - Register screen departman seçimi mantığı
+        public IActionResult CreateSchedule()
         {
             ViewBag.Departments = _departments;
-            Schedule schedule = null;
-            if (!string.IsNullOrEmpty(department))
-                schedule = _schedules.Find(s => s.Department == department).FirstOrDefault();
+            ViewBag.Active = "schedules";
+            return View();
+        }
+
+        // Create schedule POST - Announcement Create mantığı
+        [HttpPost]
+        public IActionResult CreateSchedule(string department)
+        {
+            if (string.IsNullOrEmpty(department))
+            {
+                ViewBag.Error = "Lütfen bir departman seçiniz.";
+                ViewBag.Departments = _departments;
+                ViewBag.Active = "schedules";
+                return View();
+            }
+
+            // Check if schedule already exists
+            var existingSchedule = _schedules.Find(s => s.Department == department).FirstOrDefault();
+            if (existingSchedule != null)
+            {
+                return RedirectToAction("EditSchedule", new { department = department });
+            }
+
+            var schedule = new Schedule
+            {
+                Department = department,
+                Days = new List<DaySchedule>
+                {
+                    new DaySchedule { Day = "Pazartesi", Courses = new List<CourseSchedule>() },
+                    new DaySchedule { Day = "Salı", Courses = new List<CourseSchedule>() },
+                    new DaySchedule { Day = "Çarşamba", Courses = new List<CourseSchedule>() },
+                    new DaySchedule { Day = "Perşembe", Courses = new List<CourseSchedule>() },
+                    new DaySchedule { Day = "Cuma", Courses = new List<CourseSchedule>() }
+                },
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedBy = "Admin"
+            };
+
+            _schedules.InsertOne(schedule);
+            return RedirectToAction("EditSchedule", new { department = department });
+        }
+
+        // Edit schedule (GET)
+        public IActionResult EditSchedule(string department)
+        {
+            if (string.IsNullOrEmpty(department))
+            {
+                return RedirectToAction("Schedules");
+            }
+
+            ViewBag.Departments = _departments;
+            ViewBag.Active = "schedules";
+
+            var schedule = _schedules.Find(s => s.Department == department).FirstOrDefault();
 
             if (schedule == null)
             {
@@ -114,43 +178,277 @@ namespace EduSphere.Controllers
                     Department = department,
                     Days = new List<DaySchedule>
                     {
-                        new DaySchedule{ Day="Monday", Courses=new List<string>() },
-                        new DaySchedule{ Day="Tuesday", Courses=new List<string>() },
-                        new DaySchedule{ Day="Wednesday", Courses=new List<string>() },
-                        new DaySchedule{ Day="Thursday", Courses=new List<string>() },
-                        new DaySchedule{ Day="Friday", Courses=new List<string>() },
+                        new DaySchedule { Day = "Pazartesi", Courses = new List<CourseSchedule>() },
+                        new DaySchedule { Day = "Salı", Courses = new List<CourseSchedule>() },
+                        new DaySchedule { Day = "Çarşamba", Courses = new List<CourseSchedule>() },
+                        new DaySchedule { Day = "Perşembe", Courses = new List<CourseSchedule>() },
+                        new DaySchedule { Day = "Cuma", Courses = new List<CourseSchedule>() }
                     }
                 };
             }
+
             return View(schedule);
         }
 
-        // Add/Edit schedule (POST)
+        // Edit schedule (POST)
         [HttpPost]
-        public IActionResult EditSchedule(Schedule model, List<string> Day, List<string> CoursesStr)
+        public IActionResult EditSchedule(Schedule model)
         {
-            var daysList = new List<DaySchedule>();
-            for (int i = 0; i < Day.Count; i++)
+            if (string.IsNullOrEmpty(model.Department))
             {
-                var courses = (CoursesStr[i] ?? "")
-                    .Split(',', System.StringSplitOptions.RemoveEmptyEntries)
-                    .Select(x => x.Trim())
-                    .ToList();
-
-                daysList.Add(new DaySchedule { Day = Day[i], Courses = courses });
+                ViewBag.Error = "Departman bilgisi gereklidir.";
+                ViewBag.Departments = _departments;
+                ViewBag.Active = "schedules";
+                return View(model);
             }
 
-            model.Days = daysList;
+            model.UpdatedAt = DateTime.UtcNow;
 
             var filter = Builders<Schedule>.Filter.Eq(s => s.Department, model.Department);
             var existing = _schedules.Find(filter).FirstOrDefault();
 
             if (existing == null)
+            {
+                model.CreatedAt = DateTime.UtcNow;
+                model.CreatedBy = "Admin";
                 _schedules.InsertOne(model);
+            }
             else
+            {
+                model.Id = existing.Id;
+                model.CreatedAt = existing.CreatedAt;
+                model.CreatedBy = existing.CreatedBy;
                 _schedules.ReplaceOne(filter, model);
+            }
 
             return RedirectToAction("Schedules");
         }
+
+        // Delete schedule
+        [HttpPost]
+        public IActionResult DeleteSchedule(string department)
+        {
+            if (!string.IsNullOrEmpty(department))
+            {
+                _schedules.DeleteOne(s => s.Department == department);
+            }
+            return RedirectToAction("Schedules");
+        }
+
+        // Add course to specific day
+        [HttpPost]
+        public IActionResult AddCourse(string department, string day, string courseName, string startTime, string endTime, string instructor, string classroom)
+        {
+            var schedule = _schedules.Find(s => s.Department == department).FirstOrDefault();
+            if (schedule != null)
+            {
+                var daySchedule = schedule.Days.FirstOrDefault(d => d.Day == day);
+                if (daySchedule != null)
+                {
+                    var newCourse = new CourseSchedule
+                    {
+                        CourseName = courseName,
+                        StartTime = startTime,
+                        EndTime = endTime,
+                        Instructor = instructor,
+                        Classroom = classroom
+                    };
+
+                    daySchedule.Courses.Add(newCourse);
+                    schedule.UpdatedAt = DateTime.UtcNow;
+
+                    var filter = Builders<Schedule>.Filter.Eq(s => s.Department, department);
+                    _schedules.ReplaceOne(filter, schedule);
+                }
+            }
+            return RedirectToAction("EditSchedule", new { department = department });
+        }
+
+        // Remove course from specific day
+        [HttpPost]
+        public IActionResult RemoveCourse(string department, string day, int courseIndex)
+        {
+            var schedule = _schedules.Find(s => s.Department == department).FirstOrDefault();
+            if (schedule != null)
+            {
+                var daySchedule = schedule.Days.FirstOrDefault(d => d.Day == day);
+                if (daySchedule != null && courseIndex >= 0 && courseIndex < daySchedule.Courses.Count)
+                {
+                    daySchedule.Courses.RemoveAt(courseIndex);
+                    schedule.UpdatedAt = DateTime.UtcNow;
+
+                    var filter = Builders<Schedule>.Filter.Eq(s => s.Department, department);
+                    _schedules.ReplaceOne(filter, schedule);
+                }
+            }
+            return RedirectToAction("EditSchedule", new { department = department });
+        }
+        // List exams - Announcement Index mantığı gibi
+        public IActionResult Exams()
+        {
+            ViewBag.Active = "exams";
+            var exams = _exams.Find(e => true)
+                      .SortBy(e => e.ExamDate)
+                      .ThenBy(e => e.ExamTime)
+                      .ToList();
+            return View(exams);
+        }
+
+        // Create exam form - Register screen departman seçimi mantığı
+        public IActionResult CreateExam()
+        {
+            ViewBag.Departments = _departments;
+            ViewBag.Active = "exams";
+
+            // Tüm departmanların derslerini getir
+            var allCourses = new Dictionary<string, List<string>>();
+            foreach (var dept in _departments)
+            {
+                var schedule = _schedules.Find(s => s.Department == dept).FirstOrDefault();
+                var courses = new List<string>();
+                if (schedule != null)
+                {
+                    courses = schedule.Days
+                        .SelectMany(d => d.Courses)
+                        .Select(c => c.CourseName)
+                        .Distinct()
+                        .ToList();
+                }
+                allCourses[dept] = courses;
+            }
+
+            ViewBag.DepartmentCourses = allCourses;
+            return View();
+        }
+
+        // Create exam POST - Announcement Create mantığı
+        [HttpPost]
+        public IActionResult CreateExam(string department, string courseName, DateTime examDate,
+            TimeSpan examTime, string examType, string classroom, string instructor, int duration)
+        {
+            if (string.IsNullOrEmpty(department) || string.IsNullOrEmpty(courseName))
+            {
+                ViewBag.Error = "Lütfen tüm alanları doldurunuz.";
+                ViewBag.Departments = _departments;
+                ViewBag.Active = "exams";
+                return View();
+            }
+
+            var exam = new Exam
+            {
+                Department = department,
+                CourseName = courseName,
+                ExamDate = examDate,
+                ExamTime = examTime,
+                ExamType = examType,
+                Classroom = classroom,
+                Instructor = instructor,
+                Duration = duration,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedBy = "Admin"
+            };
+
+            _exams.InsertOne(exam);
+            return RedirectToAction("Exams");
+        }
+
+        // Edit exam (GET)
+        public IActionResult EditExam(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Exams");
+            }
+
+            ViewBag.Departments = _departments;
+            ViewBag.Active = "exams";
+
+            var exam = _exams.Find(e => e.Id == id).FirstOrDefault();
+            if (exam == null)
+            {
+                return RedirectToAction("Exams");
+            }
+
+            // Bu departmanın derslerini getir
+            var schedule = _schedules.Find(s => s.Department == exam.Department).FirstOrDefault();
+            var courses = new List<string>();
+            if (schedule != null)
+            {
+                courses = schedule.Days
+                    .SelectMany(d => d.Courses)
+                    .Select(c => c.CourseName)
+                    .Distinct()
+                    .ToList();
+            }
+            ViewBag.DepartmentCourses = courses;
+
+            return View(exam);
+        }
+
+        // Edit exam (POST)
+        [HttpPost]
+        public IActionResult EditExam(Exam model)
+        {
+            if (string.IsNullOrEmpty(model.Department) || string.IsNullOrEmpty(model.CourseName))
+            {
+                ViewBag.Error = "Lütfen tüm alanları doldurunuz.";
+                ViewBag.Departments = _departments;
+                ViewBag.Active = "exams";
+                return View(model);
+            }
+
+            model.UpdatedAt = DateTime.UtcNow;
+
+            var filter = Builders<Exam>.Filter.Eq(e => e.Id, model.Id);
+            var existing = _exams.Find(filter).FirstOrDefault();
+
+            if (existing != null)
+            {
+                model.CreatedAt = existing.CreatedAt;
+                model.CreatedBy = existing.CreatedBy;
+                _exams.ReplaceOne(filter, model);
+            }
+
+            return RedirectToAction("Exams");
+        }
+
+        // Delete exam
+        [HttpPost]
+        public IActionResult DeleteExam(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                _exams.DeleteOne(e => e.Id == id);
+            }
+            return RedirectToAction("Exams");
+        }
+
+        // Get courses by department (AJAX endpoint)
+        [HttpGet]
+        public IActionResult GetCoursesByDepartment(string department)
+        {
+            if (string.IsNullOrEmpty(department))
+            {
+                return Json(new List<string>());
+            }
+
+            var schedule = _schedules.Find(s => s.Department == department).FirstOrDefault();
+            var courses = new List<string>();
+
+            if (schedule != null)
+            {
+                courses = schedule.Days
+                    .SelectMany(d => d.Courses)
+                    .Select(c => c.CourseName)
+                    .Distinct()
+                    .OrderBy(c => c)
+                    .ToList();
+            }
+
+            return Json(courses);
+        }
+
     }
 }
+

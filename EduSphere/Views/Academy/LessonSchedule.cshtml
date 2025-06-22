@@ -2,34 +2,160 @@
 @{
     ViewData["Title"] = "Ders Programı";
 }
-<div class="academy-card">
-    <h1>Ders Programı</h1>
+
+<div class="announcement-modal">
+    <div class="announcement-title">Ders Programım</div>
+
+    @if (ViewBag.UserDepartment != null)
+    {
+        <div class="schedule-info">
+            <p class="department-info">
+                <strong>Departman:</strong> @ViewBag.UserDepartment
+            </p>
+            @if (ViewBag.UserName != null)
+            {
+                <p class="student-info">
+                    <strong>Öğrenci:</strong> @ViewBag.UserName
+                </p>
+            }
+        </div>
+    }
+
     @if (Model != null && Model.Count > 0)
     {
-        <table>
-            <thead>
-                <tr>
-                    <th>Ders</th>
-                    <th>Gün</th>
-                    <th>Saat</th>
-                    <th>Öğretmen</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var lesson in Model)
-                {
-                    <tr>
-                        <td>@lesson.CourseName</td>
-                        <td>@lesson.Day</td>
-                        <td>@lesson.Time</td>
-                        <td>@lesson.TeacherName</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <div class="announcement-list">
+            @{
+                var daysOrder = new List<string> { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
+                var groupedLessons = Model.GroupBy(l => l.Day).ToDictionary(g => g.Key, g => g.ToList());
+            }
+
+            @foreach (var day in daysOrder)
+            {
+                <div class="announcement-card">
+                    <div class="announcement-header">
+                        <div class="announcement-title-inner">@day</div>
+                    </div>
+
+                    @if (groupedLessons.ContainsKey(day) && groupedLessons[day].Any())
+                    {
+                        @foreach (var lesson in groupedLessons[day].OrderBy(l => l.Time))
+                        {
+                            <div class="lesson-item">
+                                <div class="lesson-header">
+                                    <div class="lesson-name">@lesson.CourseName</div>
+                                    <div class="lesson-time">@lesson.Time</div>
+                                </div>
+                                <div class="lesson-teacher">@lesson.TeacherName</div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="announcement-content no-lesson">
+                            Bugün ders yok
+                        </div>
+                    }
+                </div>
+            }
+        </div>
     }
     else
     {
-        <div class="empty-text">Ders programı bulunamadı.</div>
+        <div class="announcement-list">
+            <div class="announcement-card">
+                <div class="announcement-content">
+                    @if (ViewBag.UserDepartment != null)
+                    {
+                        <text>@ViewBag.UserDepartment departmanı için henüz ders programı oluşturulmamış.</text>
+                    }
+                    else
+                    {
+                        <text>Lütfen önce giriş yapınız.</text>
+                    }
+                    <br><br>
+                    Detaylar için akademik biriminizle iletişime geçiniz.
+                </div>
+            </div>
+        </div>
     }
 </div>
+
+<style>
+    /* Announcement ile aynı CSS stilleri */
+    .schedule-info {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #b87efb33;
+    }
+
+    .department-info, .student-info {
+        color: #e0d0ed;
+        font-size: 1.1rem;
+        margin: 5px 0;
+    }
+
+    .lesson-item {
+        margin-bottom: 15px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #5b397a33;
+    }
+
+        .lesson-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+    .lesson-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .lesson-name {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #ffe1f6;
+        text-shadow: 0 2px 7px #ff69b486;
+    }
+
+    .lesson-time {
+        background: #ff69b4;
+        color: #fff;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        box-shadow: 0 2px 8px #ff69b445;
+    }
+
+    .lesson-teacher {
+        color: #b87efb;
+        font-size: 1rem;
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    .no-lesson {
+        text-align: center;
+        font-style: italic;
+        opacity: 0.8;
+    }
+
+    /* Responsive için announcement modal ile aynı media queries */
+    
+    {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .lesson-time {
+        align-self: flex-start;
+    }
+
+    }
+</style>

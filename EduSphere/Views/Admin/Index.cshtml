@@ -6,30 +6,55 @@
 <div class="container mt-4">
     <h2>Admin Dashboard</h2>
     <div class="row mt-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Kullanıcılar</h5>
+                    <h5 class="card-title">
+                        <i class="fas fa-users"></i> Kullanıcılar
+                    </h5>
                     <p class="card-text">Sistemdeki tüm kullanıcıları yönetin.</p>
-                    <a href="@Url.Action("Users", "Admin")" class="btn btn-light">Git</a>
+                    <a href="@Url.Action("Users", "Admin")" class="btn btn-light">
+                        <i class="fas fa-arrow-right"></i> Git
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Dersler</h5>
-                    <p class="card-text">Dersleri görüntüleyin ve düzenleyin.</p>
-                    <a href="@Url.Action("Lesson", "Admin")" class="btn btn-light">Git</a>
+                    <h5 class="card-title">
+                        <i class="fas fa-calendar-alt"></i> Ders Programları
+                    </h5>
+                    <p class="card-text">Departmanların ders programlarını yönetin.</p>
+                    <a href="@Url.Action("Schedules", "Admin")" class="btn btn-light">
+                        <i class="fas fa-arrow-right"></i> Git
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-danger mb-3">
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Çıkış</h5>
-                    <p class="card-text">Oturumdan çıkış yap.</p>
-                    <a href="@Url.Action("Login", "Account")" class="btn btn-light">Çıkış Yap</a>
+                    <h5 class="card-title">
+                        <i class="fas fa-clipboard-list"></i> Sınav Takvimi
+                    </h5>
+                    <p class="card-text">Sınav takvimlerini yönetin.</p>
+                    <a href="@Url.Action("Exams", "Admin")" class="btn btn-light">
+                        <i class="fas fa-arrow-right"></i> Git
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-bullhorn"></i> Duyurular
+                    </h5>
+                    <p class="card-text">Sistem duyurularını yönetin.</p>
+                    <a href="@Url.Action("Index", "Announcement")" class="btn btn-light">
+                        <i class="fas fa-arrow-right"></i> Git
+                    </a>
                 </div>
             </div>
         </div>

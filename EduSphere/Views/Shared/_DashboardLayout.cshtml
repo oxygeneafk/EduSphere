@@ -6,19 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('/images/admin.png') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -27,132 +16,93 @@
             background: linear-gradient(180deg, #1867c0 0%, #317deb 100%);
             color: #fff;
             min-height: 100vh;
-            padding: 40px 0 0 0;
-            box-shadow: 2px 0 10px #00000008;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 1rem;
         }
 
-            .sidebar h4 {
-                font-weight: bold;
-                margin-bottom: 2rem;
-                letter-spacing: 1px;
+            .sidebar .nav-link {
+                color: rgba(255, 255, 255, 0.8);
+                padding: 0.75rem 1rem;
+                border-radius: 0;
+                transition: all 0.3s;
             }
 
-            .sidebar a {
-                color: #e3ecfa;
-                text-decoration: none;
-                display: block;
-                margin: 0 0 25px 0;
-                font-size: 1.09rem;
-                padding: 10px 30px 10px 24px;
-                border-radius: 24px 0 0 24px;
-                transition: background 0.15s, color 0.15s;
-            }
-
-                .sidebar a.active, .sidebar a:hover {
-                    background: #fff;
-                    color: #1867c0;
-                    font-weight: bold;
+                .sidebar .nav-link:hover,
+                .sidebar .nav-link.active {
+                    color: #fff;
+                    background-color: rgba(255, 255, 255, 0.1);
                 }
 
         .main-content {
-            padding: 40px 40px 20px 40px;
+            margin-left: 250px;
+            padding: 0;
         }
 
         .navbar {
-            background: #fff;
-            border-bottom: 1px solid #e0e7ef;
-            border-radius: 14px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 6px #00000008;
-        }
-
-        .navbar-brand {
-            color: #1867c0 !important;
-            font-weight: bold;
-            letter-spacing: 1px;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
         }
 
         .footer {
-            background: #fff;
-            color: #8ca1c2;
+            background-color: #f8f9fa;
+            color: #6c757d;
             text-align: center;
-            padding: 10px 0;
-            border-top: 1px solid #e0e7ef;
-            margin-top: 50px;
-            border-radius: 0 0 14px 14px;
-            font-size: 0.98rem;
-        }
-
-        .btn-primary, .btn-success, .btn-danger {
-            border-radius: 12px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            border: none;
-            transition: background .15s;
-        }
-
-        .btn-primary {
-            background: #1867c0;
-        }
-
-            .btn-primary:hover {
-                background: #155a9b;
-            }
-
-        .btn-success {
-            background: #2ecc71;
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-        }
-
-        table.table {
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px #00000010;
-            background: #fff;
-        }
-
-        .table thead th {
-            background: #1867c0;
-            color: #fff;
-            border: none;
-            font-size: 1.05rem;
-        }
-
-        .table tbody td {
-            vertical-align: middle;
-        }
-
-        .card {
-            border-radius: 16px;
-            box-shadow: 0 2px 16px #00000010;
+            padding: 1rem;
+            border-top: 1px solid #dee2e6;
         }
     </style>
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row flex-nowrap">
+        <div class="row">
             <!-- Sidebar -->
-            <nav class="col-md-2 d-none d-md-block sidebar">
-                <h4 class="mb-4 ms-4">EduSphere</h4>
-                <a href="/Admin/Index" class="@(ViewBag.Active=="dashboard"?"active":"")">Dashboard</a>
-                <a href="/Admin/Users" class="@(ViewBag.Active=="users"?"active":"")">Kullanıcılar</a>
-                <a href="/Admin/Courses" class="@(ViewBag.Active=="courses"?"active":"")">Dersler</a>
-                <a href="/Announcement/Index" class="@(ViewBag.Active=="courses"?"active":"")">Announcement</a>
-                <a href="/Event/Manage" class="@(ViewBag.Active=="courses"?"active":"")">Events</a>
-                <a href="/Account/Logout">Çıkış Yap</a>
-            </nav>
+            <aside class="sidebar">
+                <div class="text-center mb-4">
+                    <h4>EduSphere Admin</h4>
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link @(ViewBag.Active == "dashboard" ? "active" : "")" href="@Url.Action("Index", "Admin")">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a class="nav-link @(ViewBag.Active == "users" ? "active" : "")" href="@Url.Action("Users", "Admin")">
+                        <i class="fas fa-users"></i> Kullanıcılar
+                    </a>
+                    <a class="nav-link @(ViewBag.Active == "schedules" ? "active" : "")" href="@Url.Action("Schedules", "Admin")">
+                        <i class="fas fa-calendar-alt"></i> Ders Programları
+                    </a>
+                    <a class="nav-link @(ViewBag.Active == "exams" ? "active" : "")" href="@Url.Action("Exams", "Admin")">
+                        <i class="fas fa-clipboard-list"></i> Sınav Takvimi
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Index", "Announcement")">
+                        <i class="fas fa-bullhorn"></i> Duyurular
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Manage", "Event")">
+                        <i class="fas fa-calendar-check"></i> Etkinlikler
+                    </a>
+                    <hr style="border-color: rgba(255,255,255,0.2);">
+                    <a class="nav-link" href="@Url.Action("Index", "Home")">
+                        <i class="fas fa-home"></i> Ana Sayfa
+                    </a>
+                    <a class="nav-link" href="@Url.Action("Login", "Account")">
+                        <i class="fas fa-sign-out-alt"></i> Çıkış
+                    </a>
+                </nav>
+            </aside>
+
             <!-- Main Content -->
-            <main class="col-md-10 ms-sm-auto main-content">
-                <nav class="navbar navbar-expand navbar-light mb-4">
+            <main class="main-content">
+                <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="container-fluid">
                         <span class="navbar-brand">Admin Paneli</span>
                         <span class="navbar-text ms-auto text-secondary">Hoş geldin, admin!</span>
                     </div>
                 </nav>
-                @RenderBody()
+                <div class="container-fluid p-4">
+                    @RenderBody()
+                </div>
             </main>
         </div>
     </div>

@@ -1,0 +1,136 @@
+﻿@model EduSphere.Models.Schedule
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Ders Programı Düzenle";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@Model.Department - Ders Programı</h2>
+    <a href="@Url.Action("Schedules", "Admin")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle"></i> @ViewBag.Error
+    </div>
+}
+
+<div class="row">
+    @for (int i = 0; i < Model.Days.Count; i++)
+    {
+        var day = Model.Days[i];
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">@day.Day</h5>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#addCourseModal"
+                            onclick="setCurrentDay('@day.Day')">
+                        <i class="fas fa-plus"></i> Ders Ekle
+                    </button>
+                </div>
+                <div class="card-body">
+                    @if (day.Courses.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Ders</th>
+                                        <th>Saat</th>
+                                        <th>Öğretmen</th>
+                                        <th>Sınıf</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int j = 0; j < day.Courses.Count; j++)
+                                    {
+                                        var course = day.Courses[j];
+                                        <tr>
+                                            <td><strong>@course.CourseName</strong></td>
+                                            <td>@course.StartTime - @course.EndTime</td>
+                                            <td>@course.Instructor</td>
+                                            <td>@course.Classroom</td>
+                                            <td>
+                                                <form method="post" action="@Url.Action("RemoveCourse", "Admin")" class="d-inline">
+                                                    <input type="hidden" name="department" value="@Model.Department" />
+                                                    <input type="hidden" name="day" value="@day.Day" />
+                                                    <input type="hidden" name="courseIndex" value="@j" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                            onclick="return confirm('Bu dersi silmek istediğinizden emin misiniz?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center">Bu gün için henüz ders eklenmemiş.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Ders Ekleme Modal -->
+<div class="modal fade" id="addCourseModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Ders Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="@Url.Action("AddCourse", "Admin")">
+                <div class="modal-body">
+                    <input type="hidden" name="department" value="@Model.Department" />
+                    <input type="hidden" name="day" id="currentDay" />
+
+                    <div class="mb-3">
+                        <label class="form-label">Ders Adı</label>
+                        <input type="text" name="courseName" class="form-control" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Başlangıç Saati</label>
+                            <input type="time" name="startTime" class="form-control" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Bitiş Saati</label>
+                            <input type="time" name="endTime" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">Öğretmen</label>
+                        <input type="text" name="instructor" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sınıf</label>
+                        <input type="text" name="classroom" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Ders Ekle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function setCurrentDay(day) {
+        document.getElementById('currentDay').value = day;
+    }
+</script>
