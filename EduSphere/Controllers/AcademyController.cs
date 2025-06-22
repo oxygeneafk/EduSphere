@@ -12,6 +12,7 @@ namespace EduSphere.Controllers
         private readonly IMongoCollection<User> _usersCollection;
         private readonly IMongoCollection<Schedule> _schedulesCollection;
         private readonly IMongoCollection<Exam> _examsCollection;
+        private readonly IMongoCollection<ExamResult> _examResultsCollection;
 
         public AcademyController(IConfiguration configuration)
         {
@@ -20,6 +21,7 @@ namespace EduSphere.Controllers
             _usersCollection = database.GetCollection<User>("Users");
             _schedulesCollection = database.GetCollection<Schedule>("Schedules");
             _examsCollection = database.GetCollection<Exam>("Exams");
+            _examResultsCollection = database.GetCollection<ExamResult>("ExamResults");
         }
 
         public IActionResult ExamCalendar()
@@ -106,7 +108,42 @@ namespace EduSphere.Controllers
             return View(lessonScheduleList);
         }
 
-        public IActionResult ExamResults() => View();
+        public IActionResult ExamResults()
+        {
+            var username = GetLoggedUsername();
+            if (string.IsNullOrEmpty(username))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = _usersCollection.Find(u => u.Username == username).FirstOrDefault();
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Kullanıcının sınav sonuçlarını getir
+            var examResults = _examResultsCollection.Find(e => e.StudentUsername == username)
+                                                  .SortByDescending(e => e.ExamDate)
+                                                  .ThenBy(e => e.CourseName)
+                                                  .ToList();
+
+            // ExamResultViewModel'e dönüştür
+            var examResultsList = examResults.Select(e => new ExamResultViewModel
+            {
+                CourseName = e.CourseName,
+                ExamType = e.ExamType,
+                ExamDate = e.ExamDate,
+                Score = e.Score,
+                LetterGrade = e.LetterGrade,
+                IsPassed = e.IsPassed
+            }).ToList();
+
+            ViewBag.UserDepartment = user.Department;
+            ViewBag.UserName = $"{user.Name} {user.Lastname}";
+
+            return View(examResultsList);
+        }
         public IActionResult Teachers() => View();
         public IActionResult Department() => View();
 

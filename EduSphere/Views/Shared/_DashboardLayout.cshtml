@@ -76,6 +76,9 @@
                     <a class="nav-link @(ViewBag.Active == "exams" ? "active" : "")" href="@Url.Action("Exams", "Admin")">
                         <i class="fas fa-clipboard-list"></i> Sınav Takvimi
                     </a>
+                    <a class="nav-link @(ViewBag.Active == "examresults" ? "active" : "")" href="@Url.Action("ExamResults", "Admin")">
+                        <i class="fas fa-calendar-alt"></i> Sınav Sonuçları
+                    </a>
                     <a class="nav-link" href="@Url.Action("Index", "Announcement")">
                         <i class="fas fa-bullhorn"></i> Duyurular
                     </a>

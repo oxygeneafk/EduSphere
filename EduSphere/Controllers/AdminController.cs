@@ -14,6 +14,7 @@ namespace EduSphere.Controllers
         private readonly IMongoCollection<User> _users;
         private readonly IMongoCollection<Schedule> _schedules;
         private readonly IMongoCollection<Exam> _exams;
+        private readonly IMongoCollection<ExamResult> _examResults; // YENİ EKLENEN
         private readonly List<string> _departments = new List<string>
         {
             "Computer Engineering",
@@ -31,6 +32,7 @@ namespace EduSphere.Controllers
             _users = database.GetCollection<User>("Users");
             _schedules = database.GetCollection<Schedule>("Schedules");
             _exams = database.GetCollection<Exam>("Exams");
+            _examResults = database.GetCollection<ExamResult>("ExamResults"); // YENİ EKLENEN
         }
 
         // Admin login screen (GET)
@@ -424,6 +426,192 @@ namespace EduSphere.Controllers
             return RedirectToAction("Exams");
         }
 
+        // === SINAV SONUÇLARI YÖNETİMİ ===
+
+        // List exam results
+        public IActionResult ExamResults()
+        {
+            ViewBag.Active = "examresults";
+            var results = _examResults.Find(r => true)
+                        .SortByDescending(r => r.CreatedAt)
+                        .ToList();
+            return View(results);
+        }
+
+        // Create exam result form
+        public IActionResult CreateExamResult()
+        {
+            ViewBag.Active = "examresults";
+            ViewBag.Departments = _departments;
+
+            // Geçmiş sınavları getir (bugünden önce olan sınavlar)
+            var pastExams = _exams.Find(e => e.ExamDate < DateTime.UtcNow.Date)
+                          .SortByDescending(e => e.ExamDate)
+                          .ToList();
+            ViewBag.PastExams = pastExams;
+
+            return View();
+        }
+
+        // Create exam result POST
+        [HttpPost]
+        public IActionResult CreateExamResult(string examId, string studentUsername, double score)
+        {
+            if (string.IsNullOrEmpty(examId) || string.IsNullOrEmpty(studentUsername))
+            {
+                ViewBag.Error = "Lütfen tüm alanları doldurunuz.";
+                return RedirectToAction("CreateExamResult");
+            }
+
+            // Sınavı getir
+            var exam = _exams.Find(e => e.Id == examId).FirstOrDefault();
+            if (exam == null)
+            {
+                ViewBag.Error = "Sınav bulunamadı.";
+                return RedirectToAction("CreateExamResult");
+            }
+
+            // Öğrenciyi getir
+            var student = _users.Find(u => u.Username == studentUsername).FirstOrDefault();
+            if (student == null)
+            {
+                ViewBag.Error = "Öğrenci bulunamadı.";
+                return RedirectToAction("CreateExamResult");
+            }
+
+            // Bu sınav için bu öğrencinin sonucu var mı kontrol et
+            var existingResult = _examResults.Find(r => r.ExamId == examId && r.StudentUsername == studentUsername).FirstOrDefault();
+            if (existingResult != null)
+            {
+                ViewBag.Error = "Bu öğrenci için bu sınavın sonucu zaten girilmiş.";
+                return RedirectToAction("CreateExamResult");
+            }
+
+            // Harf notunu hesapla
+            string letterGrade = CalculateLetterGrade(score);
+            bool isPassed = score >= 60;
+
+            var examResult = new ExamResult
+            {
+                StudentId = student.Id,
+                StudentUsername = student.Username,
+                StudentName = $"{student.Name} {student.Lastname}",
+                StudentDepartment = student.Department,
+                ExamId = exam.Id,
+                CourseName = exam.CourseName,
+                ExamType = exam.ExamType,
+                ExamDate = exam.ExamDate,
+                Score = score,
+                LetterGrade = letterGrade,
+                IsPassed = isPassed,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                CreatedBy = "Admin"
+            };
+
+            _examResults.InsertOne(examResult);
+            return RedirectToAction("ExamResults");
+        }
+
+        // Edit exam result (GET)
+        public IActionResult EditExamResult(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("ExamResults");
+            }
+
+            ViewBag.Active = "examresults";
+            var result = _examResults.Find(r => r.Id == id).FirstOrDefault();
+            if (result == null)
+            {
+                return RedirectToAction("ExamResults");
+            }
+
+            return View(result);
+        }
+
+        // Edit exam result (POST)
+        [HttpPost]
+        public IActionResult EditExamResult(ExamResult model)
+        {
+            if (string.IsNullOrEmpty(model.Id))
+            {
+                ViewBag.Error = "Geçersiz işlem.";
+                return View(model);
+            }
+
+            // Harf notunu yeniden hesapla
+            model.LetterGrade = CalculateLetterGrade(model.Score);
+            model.IsPassed = model.Score >= 60;
+            model.UpdatedAt = DateTime.UtcNow;
+
+            var filter = Builders<ExamResult>.Filter.Eq(r => r.Id, model.Id);
+            var existing = _examResults.Find(filter).FirstOrDefault();
+
+            if (existing != null)
+            {
+                model.CreatedAt = existing.CreatedAt;
+                model.CreatedBy = existing.CreatedBy;
+                _examResults.ReplaceOne(filter, model);
+            }
+
+            return RedirectToAction("ExamResults");
+        }
+
+        // Delete exam result
+        [HttpPost]
+        public IActionResult DeleteExamResult(string id)
+        {
+            if (!string.IsNullOrEmpty(id))
+            {
+                _examResults.DeleteOne(r => r.Id == id);
+            }
+            return RedirectToAction("ExamResults");
+        }
+
+        // Get students by department (AJAX endpoint)
+        [HttpGet]
+        public IActionResult GetStudentsByDepartment(string department)
+        {
+            if (string.IsNullOrEmpty(department))
+            {
+                return Json(new List<object>());
+            }
+
+            var students = _users.Find(u => u.Department == department && u.Role == "Student")
+                          .ToList()
+                          .Select(s => new {
+                              username = s.Username,
+                              name = $"{s.Name} {s.Lastname}"
+                          })
+                          .OrderBy(s => s.name)
+                          .ToList();
+
+            return Json(students);
+        }
+
+        // Get exams by department (AJAX endpoint)
+        [HttpGet]
+        public IActionResult GetExamsByDepartment(string department)
+        {
+            if (string.IsNullOrEmpty(department))
+            {
+                return Json(new List<object>());
+            }
+
+            var exams = _exams.Find(e => e.Department == department && e.ExamDate < DateTime.UtcNow.Date)
+                      .ToList()
+                      .Select(e => new {
+                          id = e.Id,
+                          display = $"{e.CourseName} - {e.ExamType} ({e.ExamDate:dd.MM.yyyy})"
+                      })
+                      .OrderByDescending(e => e.display)
+                      .ToList();
+
+            return Json(exams);
+        }
+
         // Get courses by department (AJAX endpoint)
         [HttpGet]
         public IActionResult GetCoursesByDepartment(string department)
@@ -449,6 +637,18 @@ namespace EduSphere.Controllers
             return Json(courses);
         }
 
+        // Harf notu hesaplama metodu
+        private string CalculateLetterGrade(double score)
+        {
+            if (score >= 90) return "AA";
+            if (score >= 85) return "BA";
+            if (score >= 80) return "BB";
+            if (score >= 75) return "CB";
+            if (score >= 70) return "CC";
+            if (score >= 65) return "DC";
+            if (score >= 60) return "DD";
+            if (score >= 50) return "FD";
+            return "FF";
+        }
     }
 }
-

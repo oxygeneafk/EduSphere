@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Sınav Sonucu Ekle";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-chart-line"></i> Yeni Sınav Sonucu Ekle
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> @ViewBag.Error
+                    </div>
+                }
+
+                <form method="post" action="@Url.Action("CreateExamResult", "Admin")">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Departman</label>
+                                <select name="department" id="departmentSelect" class="form-select" required>
+                                    <option value="">-- Departman Seçiniz --</option>
+                                    @foreach (var dept in ViewBag.Departments as List<string>)
+                                    {
+                                        <option value="@dept">@dept</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Sınav</label>
+                                <select name="examId" id="examSelect" class="form-select" required disabled>
+                                    <option value="">-- Önce Departman Seçin --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Öğrenci</label>
+                                <select name="studentUsername" id="studentSelect" class="form-select" required disabled>
+                                    <option value="">-- Önce Departman Seçin --</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Puan (0-100)</label>
+                                <input type="number" name="score" class="form-control" required min="0" max="100" step="0.1" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Sonuç Ekle
+                        </button>
+                        <a href="@Url.Action("ExamResults", "Admin")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Geri Dön
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const departmentSelect = document.getElementById('departmentSelect');
+        const examSelect = document.getElementById('examSelect');
+        const studentSelect = document.getElementById('studentSelect');
+
+        departmentSelect.addEventListener('change', function() {
+            const department = this.value;
+
+            if (department) {
+                // Load exams
+                fetch(`/Admin/GetExamsByDepartment?department=${encodeURIComponent(department)}`)
+                    .then(response => response.json())
+                    .then(exams => {
+                        examSelect.innerHTML = '<option value="">-- Sınav Seçiniz --</option>';
+                        exams.forEach(exam => {
+                            examSelect.innerHTML += `<option value="${exam.id}">${exam.displayText}</option>`;
+                        });
+                        examSelect.disabled = false;
+                    });
+
+                // Load students
+                fetch(`/Admin/GetStudentsByDepartment?department=${encodeURIComponent(department)}`)
+                    .then(response => response.json())
+                    .then(students => {
+                        studentSelect.innerHTML = '<option value="">-- Öğrenci Seçiniz --</option>';
+                        students.forEach(student => {
+                            studentSelect.innerHTML += `<option value="${student.username}">${student.name} (${student.studentNumber})</option>`;
+                        });
+                        studentSelect.disabled = false;
+                    });
+            } else {
+                examSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
+                examSelect.disabled = true;
+                studentSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
+                studentSelect.disabled = true;
+            }
+        });
+    });
+</script>

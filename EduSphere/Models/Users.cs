@@ -33,6 +33,13 @@ namespace EduSphere.Models
         [BsonElement("password")]
         public string Password { get; set; }
 
+        // YENİ EKLENEN ALANLAR
+        [BsonElement("role")]
+        public string Role { get; set; } = "Student"; // Default Student
+
+        [BsonElement("studentNumber")]
+        public string StudentNumber { get; set; }
+
         // ----- PROFİL FOTOĞRAFI DESTEĞİ -----
         [BsonElement("profilePhoto")]
         public byte[] ProfilePhoto { get; set; }
