@@ -83,35 +83,67 @@
         departmentSelect.addEventListener('change', function() {
             const department = this.value;
 
+            // Reset selects
+            examSelect.innerHTML = '<option value="">-- Sınavlar Yükleniyor... --</option>';
+            examSelect.disabled = true;
+            studentSelect.innerHTML = '<option value="">-- Öğrenciler Yükleniyor... --</option>';
+            studentSelect.disabled = true;
+
             if (department) {
-                // Load exams - 'display' property'sini kullan, 'displayText' değil
+                // Load exams with better error handling
                 fetch(`/Admin/GetExamsByDepartment?department=${encodeURIComponent(department)}`)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(exams => {
-                        examSelect.innerHTML = '<option value="">-- Sınav Seçiniz --</option>';
+                        // Build options array first
+                        let examOptions = '<option value="">-- Sınav Seçiniz --</option>';
                         exams.forEach(exam => {
-                            examSelect.innerHTML += `<option value="${exam.id}">${exam.display}</option>`;
+                            examOptions += `<option value="${exam.id}">${exam.display}</option>`;
                         });
+                        examSelect.innerHTML = examOptions;
                         examSelect.disabled = false;
+
+                        console.log('Exams loaded:', exams.length);
                     })
                     .catch(error => {
                         console.error('Sınavlar yüklenirken hata:', error);
                         examSelect.innerHTML = '<option value="">Hata: Sınavlar yüklenemedi</option>';
+                        examSelect.disabled = true;
                     });
 
-                // Load students - 'studentNumber' property'sini kaldır
+                // Load students with better error handling
                 fetch(`/Admin/GetStudentsByDepartment?department=${encodeURIComponent(department)}`)
-                    .then(response => response.json())
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
                     .then(students => {
-                        studentSelect.innerHTML = '<option value="">-- Öğrenci Seçiniz --</option>';
+                        // Build options array first
+                        let studentOptions = '<option value="">-- Öğrenci Seçiniz --</option>';
                         students.forEach(student => {
-                            studentSelect.innerHTML += `<option value="${student.username}">${student.name}</option>`;
+                            studentOptions += `<option value="${student.username}">${student.name}</option>`;
                         });
+                        studentSelect.innerHTML = studentOptions;
                         studentSelect.disabled = false;
+
+                        console.log('Students loaded:', students.length);
+
+                        // Debug: Log the students data
+                        if (students.length === 0) {
+                            console.warn('No students found for department:', department);
+                            studentSelect.innerHTML = '<option value="">Bu departmanda öğrenci bulunamadı</option>';
+                        }
                     })
                     .catch(error => {
                         console.error('Öğrenciler yüklenirken hata:', error);
                         studentSelect.innerHTML = '<option value="">Hata: Öğrenciler yüklenemedi</option>';
+                        studentSelect.disabled = true;
                     });
             } else {
                 examSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';

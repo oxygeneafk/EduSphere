@@ -579,7 +579,7 @@ namespace EduSphere.Controllers
                 return Json(new List<object>());
             }
 
-            var students = _users.Find(u => u.Department == department && u.Role == "Student")
+            var students = _users.Find(u => u.Department == department)
                           .ToList()
                           .Select(s => new {
                               username = s.Username,
