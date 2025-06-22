@@ -5,6 +5,17 @@
     var currentUsername = ViewBag.CurrentUsername as string;
 }
 
+<style>
+    .chat-form button img {
+        transition: transform 0.2s ease-in-out;
+        cursor: pointer;
+    }
+
+    .chat-form button:hover img {
+        transform: scale(1.1);
+    }
+</style>
+
 <div class="chat-main-container">
     <div class="chat-header d-flex align-items-center justify-content-between">
         <a asp-action="Index" class="back-btn">&larr;</a>
@@ -18,6 +29,18 @@
             <div class="chat-message-row @(isMe ? "me" : "")">
                 <div class="chat-bubble">
                     @msg.Content
+                    @if (!string.IsNullOrEmpty(msg.MediaUrl))
+                    {
+                        var ext = System.IO.Path.GetExtension(msg.MediaUrl).ToLower();
+                        if (ext == ".mp4" || ext == ".webm")
+                        {
+                            <video src="@msg.MediaUrl" controls style="max-width:220px;max-height:160px;margin-top:8px;border-radius:12px;"></video>
+                        }
+                        else
+                        {
+                            <img src="@msg.MediaUrl" style="max-width:180px;max-height:180px;margin-top:8px;border-radius:12px;" />
+                        }
+                    }
                 </div>
                 <div class="chat-meta">
                     <span>@(isMe ? "Siz" : msg.FromUsername), @msg.SentAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</span>
@@ -25,16 +48,24 @@
             </div>
         }
     </div>
-    <form asp-action="Send" method="post" class="chat-form">
+    <form asp-action="Send" method="post" enctype="multipart/form-data" class="chat-form" id="chatForm">
         <input type="hidden" name="toUsername" value="@toUsername" />
-        <input type="text" name="content" class="form-control" placeholder="Mesaj yaz..." autocomplete="off" required />
-        <button type="submit" class="btn btn-success">Gönder</button>
+        <input type="text" name="content" class="form-control" placeholder="Mesaj yaz..." autocomplete="off" />
+        <input type="file" name="media" accept="image/*,video/*" class="chat-media-input" style="display:none;" id="mediaInput" onchange="document.getElementById('chatForm').submit();" />
+
+        <button type="button" onclick="document.getElementById('mediaInput').click();" class="btn btn-secondary" title="Medya Ekle" style="margin-right:6px; padding: 0; border: none; background: none;">
+            <img src="/images/camera.png" alt="Medya Ekle" width="28" height="28" style="display: block;">
+        </button>
+
+        <button type="submit" class="btn btn-success" style="background: none; border: none; padding: 0;">
+            <img src="~/images/send.png" alt="Gönder" width="28" height="28" />
+        </button>
     </form>
 </div>
 
 @section Scripts {
     <script>
-        // Otomatik olarak chat'i en sona kaydır
+        // Otomatik olarak chati en sona kaydır
         var chatBox = document.getElementById("chatBox");
         if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
     </script>

@@ -19,6 +19,9 @@ namespace EduSphere.Models
         [BsonElement("content")]
         public string Content { get; set; }
 
+        [BsonElement("mediaUrl")]
+        public string MediaUrl { get; set; } // <-- Medya yolu (foto/video için)
+
         [BsonElement("sentAt")]
         public DateTime SentAt { get; set; }
     }

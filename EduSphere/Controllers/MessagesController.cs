@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 [Authorize]
 public class MessagesController : Controller
@@ -70,15 +72,45 @@ public class MessagesController : Controller
         return View(messages);
     }
 
-    // Mesaj gönderme (AJAX ile de kullanılabilir)
+    // Mesaj gönderme (AJAX ile de kullanılabilir) + medya desteği
     [HttpPost]
-    public IActionResult Send(string toUsername, string content)
+    public IActionResult Send(string toUsername, string content, IFormFile media)
     {
         string fromUsername = User.FindFirst("Username")?.Value ?? "";
 
-        if (string.IsNullOrWhiteSpace(toUsername) || string.IsNullOrWhiteSpace(content))
+        // Hem mesaj hem medya boşsa gönderme!
+        if (string.IsNullOrWhiteSpace(toUsername) ||
+            (string.IsNullOrWhiteSpace(content) && (media == null || media.Length == 0)))
         {
             return BadRequest();
+        }
+
+        string mediaUrl = null;
+        if (media != null && media.Length > 0)
+        {
+            var ext = Path.GetExtension(media.FileName).ToLower();
+            var allowed = new[] { ".jpg", ".jpeg", ".png", ".gif", ".mp4", ".webm" };
+
+            if (allowed.Contains(ext))
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "chat");
+                Directory.CreateDirectory(uploadsFolder);
+
+                var fileName = Guid.NewGuid().ToString() + ext;
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    media.CopyTo(stream);
+                }
+
+                mediaUrl = "/uploads/chat/" + fileName;
+            }
+            else
+            {
+                // Geçersiz dosya tipi
+                return BadRequest("Sadece resim veya video dosyası yükleyebilirsiniz.");
+            }
         }
 
         var message = new Message
@@ -86,6 +118,7 @@ public class MessagesController : Controller
             FromUsername = fromUsername,
             ToUsername = toUsername,
             Content = content,
+            MediaUrl = mediaUrl,
             SentAt = DateTime.UtcNow
         };
 

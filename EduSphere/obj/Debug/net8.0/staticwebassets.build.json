@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gf56ByC+wILelXxkv0ZR7afSpIDF7i/LljN8dGP1Z8w=",
+  "Hash": "Z/MSKJyUIlCM4jMijbXMRYRpXy6EWK+uv60QU/A0Efo=",
   "Source": "EduSphere",
   "BasePath": "_content/EduSphere",
   "Mode": "Default",
@@ -131,6 +131,25 @@
       "OriginalItemSpec": "wwwroot\\images\\admin.png"
     },
     {
+      "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\camera.png",
+      "SourceId": "EduSphere",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\",
+      "BasePath": "_content/EduSphere",
+      "RelativePath": "images/camera.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\camera.png"
+    },
+    {
       "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\chat.png",
       "SourceId": "EduSphere",
       "SourceType": "Discovered",
@@ -148,6 +167,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\chat.png"
+    },
+    {
+      "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\send.png",
+      "SourceId": "EduSphere",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\",
+      "BasePath": "_content/EduSphere",
+      "RelativePath": "images/send.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\send.png"
     },
     {
       "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\images\\user-icon.png",
@@ -1326,6 +1364,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\uploads\\chat\\7d575d77-1a5c-4923-aed1-4be7eb309c58.jpg",
+      "SourceId": "EduSphere",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\aydin\\Source\\Repos\\EduSphere\\EduSphere\\wwwroot\\",
+      "BasePath": "_content/EduSphere",
+      "RelativePath": "uploads/chat/7d575d77-1a5c-4923-aed1-4be7eb309c58.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\chat\\7d575d77-1a5c-4923-aed1-4be7eb309c58.jpg"
     }
   ]
 }
