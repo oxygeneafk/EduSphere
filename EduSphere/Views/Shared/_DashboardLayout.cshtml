@@ -112,10 +112,10 @@
         }
 
         .content-wrapper {
-            padding: 2rem;
-            max-width: 100%;
-            overflow-x: auto; /* İçerik taşarsa yatay scroll */
+            flex: 1 0 auto;
+            padding-bottom: 700px; /* Footer yüksekliğine göre ayarlayın */
         }
+
 
         .footer {
             background-color: #fff;
@@ -123,7 +123,10 @@
             text-align: center;
             padding: 1rem;
             border-top: 1px solid #e9ecef;
-            margin-top: auto;
+            margin-top: auto; /* Bu zaten var, bırakın */
+            width: 100%;
+            position: sticky;
+            bottom: 0;
         }
 
         /* Table responsive styles */

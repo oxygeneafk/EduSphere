@@ -9,7 +9,9 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-warning text-dark">
-                    <h4 class="mb-0">Sınav Düzenle</h4>
+                    <h4 class="mb-0">
+                        Organize Exam
+                    </h4>
                 </div>
                 <div class="card-body">
                     @if (ViewBag.Error != null)
@@ -29,7 +31,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">Departman</label>
                                     <select asp-for="Department" id="departmentSelect" class="form-select" required>
-                                        <option value="">-- Departman Seçiniz --</option>
+                                        <option value="">-- Select Department --</option>
                                         @foreach (var dept in ViewBag.Departments as List<string>)
                                         {
                                             if (dept == Model.Department)

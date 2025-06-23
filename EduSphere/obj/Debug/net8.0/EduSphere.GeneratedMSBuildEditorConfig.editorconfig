@@ -48,10 +48,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxTY2hlZHVsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Academy/Teachers.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxUZWFjaGVycy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -166,10 +162,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Home/Academy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBY2FkZW15LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Home/Events.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFdmVudHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Home/OnlineLibrary.cshtml]

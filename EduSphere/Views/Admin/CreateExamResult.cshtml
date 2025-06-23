@@ -37,7 +37,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Sınav</label>
                                 <select name="examId" id="examSelect" class="form-select" required disabled>
-                                    <option value="">-- Önce Departman Seçin --</option>
+                                    <option value="">-- Select Department First --</option>
                                 </select>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Öğrenci</label>
                                 <select name="studentUsername" id="studentSelect" class="form-select" required disabled>
-                                    <option value="">-- Önce Departman Seçin --</option>
+                                    <option value="">-- Select Department First --</option>
                                 </select>
                             </div>
                         </div>
@@ -62,10 +62,10 @@
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Sonuç Ekle
+                            <i class="fas fa-plus"></i>Add Result
                         </button>
                         <a href="@Url.Action("ExamResults", "Admin")" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Geri Dön
+                            <i class="fas fa-arrow-left"></i> Come Back
                         </a>
                     </div>
                 </form>
@@ -84,9 +84,9 @@
             const department = this.value;
 
             // Reset selects
-            examSelect.innerHTML = '<option value="">-- Sınavlar Yükleniyor... --</option>';
+            examSelect.innerHTML = '<option value="">-- Exam are Loading... --</option>';
             examSelect.disabled = true;
-            studentSelect.innerHTML = '<option value="">-- Öğrenciler Yükleniyor... --</option>';
+            studentSelect.innerHTML = '<option value="">-- Student are Loading... --</option>';
             studentSelect.disabled = true;
 
             if (department) {
@@ -100,7 +100,7 @@
                     })
                     .then(exams => {
                         // Build options array first
-                        let examOptions = '<option value="">-- Sınav Seçiniz --</option>';
+                        let examOptions = '<option value="">-- Choose Exam  --</option>';
                         exams.forEach(exam => {
                             examOptions += `<option value="${exam.id}">${exam.display}</option>`;
                         });
@@ -110,8 +110,8 @@
                         console.log('Exams loaded:', exams.length);
                     })
                     .catch(error => {
-                        console.error('Sınavlar yüklenirken hata:', error);
-                        examSelect.innerHTML = '<option value="">Hata: Sınavlar yüklenemedi</option>';
+                        console.error('An error occurred while loading exams:', error);
+                            examSelect.innerHTML = '<option value="">Error: Exams could not be loaded</option>';
                         examSelect.disabled = true;
                     });
 
@@ -125,7 +125,7 @@
                     })
                     .then(students => {
                         // Build options array first
-                        let studentOptions = '<option value="">-- Öğrenci Seçiniz --</option>';
+                        let studentOptions = '<option value="">-- Choose Student --</option>';
                         students.forEach(student => {
                             studentOptions += `<option value="${student.username}">${student.name}</option>`;
                         });
@@ -137,18 +137,18 @@
                         // Debug: Log the students data
                         if (students.length === 0) {
                             console.warn('No students found for department:', department);
-                            studentSelect.innerHTML = '<option value="">Bu departmanda öğrenci bulunamadı</option>';
+                            studentSelect.innerHTML = '<option value="">No students found in this department</option>';
                         }
                     })
                     .catch(error => {
                         console.error('Öğrenciler yüklenirken hata:', error);
-                        studentSelect.innerHTML = '<option value="">Hata: Öğrenciler yüklenemedi</option>';
+                        studentSelect.innerHTML = '<option value="">Hata: Failed to load students</option>';
                         studentSelect.disabled = true;
                     });
             } else {
-                examSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
+                examSelect.innerHTML = '<option value="">-- Select Department First --</option>';
                 examSelect.disabled = true;
-                studentSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
+                studentSelect.innerHTML = '<option value="">-- Select Department First --</option>';
                 studentSelect.disabled = true;
             }
         });

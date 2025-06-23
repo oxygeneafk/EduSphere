@@ -7,52 +7,52 @@
     <h2>Admin Dashboard</h2>
     <div class="row mt-4">
         <div class="col-md-3">
-            <div class="card text-white bg-primary mb-3">
+            <div class="card text-white bg-primary mb-3 dashboard-card">
                 <div class="card-body">
                     <h5 class="card-title">
                         <i class="fas fa-users"></i> Kullanıcılar
                     </h5>
                     <p class="card-text">Sistemdeki tüm kullanıcıları yönetin.</p>
-                    <a href="@Url.Action("Users", "Admin")" class="btn btn-light">
+                    <a href="@Url.Action("Users", "Admin")" class="btn btn-light dashboard-btn">
                         <i class="fas fa-arrow-right"></i> Git
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-success mb-3">
+            <div class="card text-white bg-success mb-3 dashboard-card">
                 <div class="card-body">
                     <h5 class="card-title">
                         <i class="fas fa-calendar-alt"></i> Ders Programları
                     </h5>
                     <p class="card-text">Departmanların ders programlarını yönetin.</p>
-                    <a href="@Url.Action("Schedules", "Admin")" class="btn btn-light">
+                    <a href="@Url.Action("Schedules", "Admin")" class="btn btn-light dashboard-btn">
                         <i class="fas fa-arrow-right"></i> Git
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-warning mb-3">
+            <div class="card text-white bg-warning mb-3 dashboard-card">
                 <div class="card-body">
                     <h5 class="card-title">
                         <i class="fas fa-clipboard-list"></i> Sınav Takvimi
                     </h5>
                     <p class="card-text">Sınav takvimlerini yönetin.</p>
-                    <a href="@Url.Action("Exams", "Admin")" class="btn btn-light">
+                    <a href="@Url.Action("Exams", "Admin")" class="btn btn-light dashboard-btn">
                         <i class="fas fa-arrow-right"></i> Git
                     </a>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-white bg-info mb-3">
+            <div class="card text-white bg-info mb-3 dashboard-card">
                 <div class="card-body">
                     <h5 class="card-title">
                         <i class="fas fa-bullhorn"></i> Duyurular
                     </h5>
                     <p class="card-text">Sistem duyurularını yönetin.</p>
-                    <a href="@Url.Action("Index", "Announcement")" class="btn btn-light">
+                    <a href="@Url.Action("Index", "Announcement")" class="btn btn-light dashboard-btn">
                         <i class="fas fa-arrow-right"></i> Git
                     </a>
                 </div>
@@ -60,3 +60,33 @@
         </div>
     </div>
 </div>
+
+<style>
+    .dashboard-card {
+        height: 100%; /* Sabit yükseklikte kartlar */
+        display: flex;
+        flex-direction: column;
+        min-height: 190px; /* Minimum yükseklik */
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 14px;
+    }
+
+    .card-text {
+        flex-grow: 1; /* İçerik kısmının uzayabilmesi için */
+        margin-bottom: 15px;
+    }
+
+    .dashboard-btn {
+        margin-top: auto; /* Butonları altta sabitlemek için */
+        align-self: flex-start; /* Butonları sola hizala */
+    }
+</style>

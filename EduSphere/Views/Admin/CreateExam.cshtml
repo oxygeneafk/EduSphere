@@ -45,13 +45,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Sınav Tarihi</label>
+                                    <label class="form-label">Exam Date</label>
                                     <input type="date" name="examDate" class="form-control" required />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Sınav Saati</label>
+                                    <label class="form-label">Exam Time</label>
                                     <input type="time" name="examTime" class="form-control" required />
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Sınav Türü</label>
+                                    <label class="form-label">Exam Type</label>
                                     <select name="examType" class="form-select" required>
                                         <option value="">-- Seçiniz --</option>
                                         <option value="Vize">Vize</option>
@@ -71,29 +71,29 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Sınıf</label>
+                                    <label class="form-label">Class</label>
                                     <input type="text" name="classroom" class="form-control" required placeholder="Ör: A101" />
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="mb-3">
-                                    <label class="form-label">Süre (Dakika)</label>
+                                    <label class="form-label">Time (Minute)</label>
                                     <input type="number" name="duration" class="form-control" required min="30" max="240" value="90" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Öğretmen</label>
-                            <input type="text" name="instructor" class="form-control" required placeholder="Öğretmen Adı" />
+                            <label class="form-label">Teacher</label>
+                            <input type="text" name="instructor" class="form-control" required placeholder="Teacher Name" />
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Sınav Ekle
+                                <i class="fas fa-plus"></i> Add Exam
                             </button>
                             <a href="@Url.Action("Exams", "Admin")" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Geri Dön
+                                <i class="fas fa-arrow-left"></i> Come Back
                             </a>
                         </div>
                     </form>
@@ -112,7 +112,7 @@
             fetch('/Admin/GetCoursesByDepartment?department=' + encodeURIComponent(department))
                 .then(response => response.json())
                 .then(courses => {
-                    courseSelect.innerHTML = '<option value="">-- Ders Seçiniz --</option>';
+                    courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
                     courses.forEach(course => {
                         courseSelect.innerHTML += '<option value="' + course + '">' + course + '</option>';
                     });
@@ -120,11 +120,11 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    courseSelect.innerHTML = '<option value="">-- Hata oluştu --</option>';
+                    courseSelect.innerHTML = '<option value="">-- Error occurred --</option>';
                     courseSelect.disabled = true;
                 });
         } else {
-            courseSelect.innerHTML = '<option value="">-- Önce Departman Seçin --</option>';
+            courseSelect.innerHTML = '<option value="">-- Select Department First --</option>';
             courseSelect.disabled = true;
         }
     });

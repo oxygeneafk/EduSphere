@@ -4,18 +4,18 @@
 }
 
 <div class="announcement-modal">
-    <div class="announcement-title">Ders Programım</div>
+    <div class="announcement-title">Lesson Schedule</div>
 
     @if (ViewBag.UserDepartment != null)
     {
         <div class="schedule-info">
             <p class="department-info">
-                <strong>Departman:</strong> @ViewBag.UserDepartment
+                <strong>Department:</strong> @ViewBag.UserDepartment
             </p>
             @if (ViewBag.UserName != null)
             {
                 <p class="student-info">
-                    <strong>Öğrenci:</strong> @ViewBag.UserName
+                    <strong>Student:</strong> @ViewBag.UserName
                 </p>
             }
         </div>
@@ -25,7 +25,7 @@
     {
         <div class="announcement-list">
             @{
-                var daysOrder = new List<string> { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
+                var daysOrder = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
                 var groupedLessons = Model.GroupBy(l => l.Day).ToDictionary(g => g.Key, g => g.ToList());
             }
 
@@ -52,7 +52,7 @@
                     else
                     {
                         <div class="announcement-content no-lesson">
-                            Bugün ders yok
+                            NO CLASSES TODAY
                         </div>
                     }
                 </div>
@@ -66,14 +66,18 @@
                 <div class="announcement-content">
                     @if (ViewBag.UserDepartment != null)
                     {
-                        <text>@ViewBag.UserDepartment departmanı için henüz ders programı oluşturulmamış.</text>
+                        <text>
+                            @ViewBag.UserDepartment
+                            No curriculum has been created for the department yet.
+                        </text>
                     }
                     else
                     {
                         <text>Lütfen önce giriş yapınız.</text>
                     }
                     <br><br>
-                    Detaylar için akademik biriminizle iletişime geçiniz.
+
+                    Please contact your academic unit for details.
                 </div>
             </div>
         </div>

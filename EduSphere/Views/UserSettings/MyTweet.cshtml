@@ -4,7 +4,7 @@
     var editedId = Context.Request.Query["edit"].FirstOrDefault();
 }
 <div class="tweet-timeline">
-    <h2>Tweetlerim</h2>
+    <h2>My Tweet</h2>
     <hr>
     @if (Model.Count == 0)
     {
@@ -20,8 +20,8 @@
                     <form asp-action="UpdateTweet" asp-controller="UserSettings" method="post" class="tweet-edit-form">
                         <input type="hidden" name="id" value="@tweet.Id" />
                         <textarea name="updatedText" maxlength="280" required>@tweet.Text</textarea>
-                        <button type="submit">Kaydet</button>
-                        <a href="@Url.Action("MyTweet")">Vazgeç</a>
+                        <button type="submit">Save</button>
+                        <a href="@Url.Action("MyTweet")">Give Up</a>
                     </form>
                 }
                 else

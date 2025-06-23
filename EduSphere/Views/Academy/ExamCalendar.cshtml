@@ -1,21 +1,21 @@
 ﻿@model List<EduSphere.Models.ExamCalendarViewModel>
 @{
-    ViewData["Title"] = "Sınav Takvimi";
+    ViewData["Title"] = "Exam Calendar";
 }
 
 <div class="announcement-modal">
-    <div class="announcement-title">Sınav Takvimim</div>
+    <div class="announcement-title">Exam Calendar</div>
     
     @if (ViewBag.UserDepartment != null)
     {
         <div class="schedule-info">
             <p class="department-info">
-                <strong>Departman:</strong> @ViewBag.UserDepartment
+                <strong>Department:</strong> @ViewBag.UserDepartment
             </p>
             @if (ViewBag.UserName != null)
             {
                 <p class="student-info">
-                    <strong>Öğrenci:</strong> @ViewBag.UserName
+                    <strong>Student:</strong> @ViewBag.UserName
                 </p>
             }
         </div>
@@ -74,15 +74,15 @@
         <div class="exam-stats">
             <div class="stat-card">
                 <div class="stat-number">@Model.Count</div>
-                <div class="stat-label">Toplam Sınav</div>
+                <div class="stat-label">Total Exam</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">@Model.Where(e => e.ExamType == "Vize").Count()</div>
-                <div class="stat-label">Vize Sınavı</div>
+                <div class="stat-label">Vize Exam</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">@Model.Where(e => e.ExamType == "Final").Count()</div>
-                <div class="stat-label">Final Sınavı</div>
+                <div class="stat-label">Final Exam</div>
             </div>
         </div>
     }
@@ -93,14 +93,14 @@
                 <div class="announcement-content">
                     @if (ViewBag.UserDepartment != null)
                     {
-                        <text>@ViewBag.UserDepartment departmanı için henüz sınav takvimi oluşturulmamış.</text>
+                        <text>@ViewBag.UserDepartment no exam schedule has been created for the department yet.</text>
                     }
                     else
                     {
-                        <text>Lütfen önce giriş yapınız.</text>
+                        <text>Please log in first.</text>
                     }
                     <br><br>
-                    Detaylar için akademik biriminizle iletişime geçiniz.
+                    Please contact your academic unit for details.
                 </div>
             </div>
         </div>

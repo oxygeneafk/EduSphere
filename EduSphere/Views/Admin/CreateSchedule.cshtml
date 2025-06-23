@@ -8,7 +8,9 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Yeni Ders Programı Oluştur</h4>
+                    <h4 class="mb-0">
+                        Create New Curriculum
+                    </h4>
                 </div>
                 <div class="card-body">
                     @if (ViewBag.Error != null)
@@ -21,10 +23,10 @@
                     <form method="post" asp-action="CreateSchedule">
                         <div class="mb-3">
                             <label class="form-label">
-                                <i class="fas fa-graduation-cap"></i> Departman Seçiniz
+                                <i class="fas fa-graduation-cap"></i> Select Department
                             </label>
                             <select name="department" class="form-select" required>
-                                <option value="">-- Departman Seçiniz --</option>
+                                <option value="">-- Select Department --</option>
                                 @foreach (var dept in ViewBag.Departments as List<string>)
                                 {
                                     <option value="@dept">@dept</option>
@@ -34,10 +36,11 @@
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Ders Programı Oluştur
+                                <i class="fas fa-plus"></i>
+                                Create Curriculum
                             </button>
                             <a href="@Url.Action("Schedules", "Admin")" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Geri Dön
+                                <i class="fas fa-arrow-left"></i> Come Back
                             </a>
                         </div>
                     </form>

@@ -1,6 +1,6 @@
 ﻿@model EduSphere.Models.User
 @{
-    ViewBag.Title = "Profilim";
+    ViewBag.Title = "My Profile";
     string defaultPp = Url.Content("~/images/walpaper.png");
     string ppSrc = (Model?.ProfilePhoto != null && Model?.ProfilePhotoType != null)
         ? $"data:{Model.ProfilePhotoType};base64,{Convert.ToBase64String(Model.ProfilePhoto)}"
@@ -8,40 +8,32 @@
 }
 <div class="profile-modal">
     <div class="profile-avatar-container">
-        <img src="@ppSrc" alt="Profil Fotoğrafı" class="profile-avatar-img">
+        <img src="@ppSrc" alt="Profile Photo" class="profile-avatar-img">
         <h2>@Model.Name @Model.Lastname</h2>
-        <div class="profile-username">@@@Model.Username</div>
-
-        <!-- Tweet ve Çıkış butonları -->
-        <div class="profile-actions">
-            <a href="@Url.Action("Index", "Timeline")" class="profile-action-btn">tweetlerim</a>
-            <a href="@Url.Action("Logout", "Account")" class="profile-action-btn profile-logout-btn">çıkış yap</a>
-        </div>
+        <div class="profile-username">@Model.Username</div>
     </div>
-
     <form asp-action="UpdateProfilePhoto" asp-controller="UserSettings" method="post" enctype="multipart/form-data" class="profile-photo-form">
         <input type="file" name="profilePhoto" accept="image/*">
-        <button type="submit" class="profile-btn">Fotoğrafı Değiştir</button>
+        <button type="submit" class="profile-btn">Change Photo</button>
     </form>
-
     @if (Model?.ProfilePhoto != null)
     {
         <form asp-action="RemoveProfilePhoto" asp-controller="UserSettings" method="post" class="profile-remove-form">
-            <button type="submit" class="profile-btn profile-btn-yellow">Fotoğrafı Kaldır</button>
+            <button type="submit" class="profile-btn profile-btn-yellow">Remove Photo</button>
         </form>
     }
 
     <form asp-action="UpdateProfile" asp-controller="UserSettings" method="post" class="profile-info-form">
         <div class="profile-info-group">
-            <label>Ad</label>
+            <label>First Name</label>
             <input type="text" name="name" value="@Model.Name" required maxlength="50">
         </div>
         <div class="profile-info-group">
-            <label>Soyad</label>
+            <label>Last Name</label>
             <input type="text" name="lastname" value="@Model.Lastname" required maxlength="50">
         </div>
         <div class="profile-info-group">
-            <label>Kullanıcı Adı</label>
+            <label>Username</label>
             <input type="text" value="@Model.Username" disabled>
         </div>
         <div class="profile-info-group">
@@ -49,21 +41,20 @@
             <input type="email" name="email" value="@Model.Email" required maxlength="60">
         </div>
         <div class="profile-info-group">
-            <label>Telefon Numarası</label>
+            <label>Phone Number</label>
             <input type="text" name="phonenumber" value="@Model.PhoneNumber" maxlength="20">
         </div>
         <div class="profile-info-group">
-            <label>Bölüm</label>
+            <label>Department</label>
             <input type="text" value="@Model.Department" disabled>
         </div>
         <div class="profile-info-group">
-            <label>Adres</label>
+            <label>Address</label>
             <input type="text" name="adress" value="@Model.Adress" maxlength="150">
         </div>
-        <button type="submit" class="profile-btn-save">Kaydet</button>
+        <button type="submit" class="profile-btn-save">Save</button>
     </form>
-
-    <form asp-action="DeleteAccount" asp-controller="UserSettings" method="post" onsubmit="return confirm('Hesabını silmek istediğine emin misin? Bu işlem geri alınamaz!');">
-        <button type="submit" class="profile-btn-danger">Hesabımı Sil</button>
+    <form asp-action="DeleteAccount" asp-controller="UserSettings" method="post" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone!');">
+        <button type="submit" class="profile-btn-danger">Delete My Account</button>
     </form>
 </div>
