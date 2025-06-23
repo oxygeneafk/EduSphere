@@ -60,7 +60,13 @@ body {
     height: 28px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: border-color 0.2s ease;
 }
+
+    .profile-avatar:hover {
+        border-color: #ff69b4;
+    }
 
 .cloud-link {
     position: relative;
@@ -111,7 +117,7 @@ body {
             display: block;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g1" cx="50%" cy="50%" r="80%" fx="60%" fy="65%"><stop offset="0%" stop-color="%23ff7edb"/><stop offset="75%" stop-color="%239a7fff"/><stop offset="100%" stop-color="%238b5cf6"/></radialGradient></defs><ellipse cx="60" cy="36" rx="54" ry="18" fill="url(%23g1)" fill-opacity="0.96"/><ellipse cx="36" cy="22" rx="24" ry="14" fill="url(%23g1)" fill-opacity="0.87"/><ellipse cx="84" cy="22" rx="22" ry="13" fill="url(%23g1)" fill-opacity="0.92"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 120 56" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="g1" cx="50%" cy="50%" r="80%" fx="60%" fy="65%"><stop offset="0%" style="stop-color:%23ff69b4;stop-opacity:0.8" /><stop offset="100%" style="stop-color:%23b68af5;stop-opacity:0.2" /></radialGradient></defs><path d="M18 28c0-15.464 12.536-28 28-28h48c15.464 0 28 12.536 28 28s-12.536 28-28 28H46C30.536 56 18 43.464 18 28z" fill="url(%23g1)" /></svg>');
             background-size: 100% 100%;
             background-repeat: no-repeat;
             filter: blur(1px) drop-shadow(0 4px 18px #b68af5a0);
@@ -408,6 +414,7 @@ body {
     }
 }
 
+/* Dropdown menü düzeltmeleri */
 .dropdown {
     position: relative;
 }
@@ -416,13 +423,30 @@ body {
     display: none;
     position: absolute;
     top: 100%;
-    left: 0;
-    background: rgba(40,30,80,0.98);
-    min-width: 200px;
-    box-shadow: 0 8px 32px rgba(50,0,80,0.17);
-    border-radius: 0 0 16px 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 25, 40, 0.98);
+    min-width: 180px;
+    max-width: 220px;
+    box-shadow: 0 8px 32px rgba(80, 0, 120, 0.3);
+    border-radius: 12px;
     z-index: 30;
     padding: 8px 0;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 105, 180, 0.2);
+    animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 .dropdown:hover .dropdown-menu,
@@ -432,24 +456,84 @@ body {
 
 .dropdown-menu li {
     width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .dropdown-menu a {
-    display: block;
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 10px 28px;
+    padding: 12px 20px;
     color: #fff;
-    font-size: 1.02rem;
+    font-size: 0.95rem;
+    font-weight: 500;
     text-decoration: none;
-    border-radius: 0;
-    transition: background 0.12s, color 0.12s;
+    border-radius: 8px;
+    margin: 2px 8px;
+    transition: all 0.15s ease;
     background: none;
+    position: relative;
+    overflow: hidden;
 }
 
-    .dropdown-menu a:hover {
-        background: #ff69b4;
-        color: #fff;
+    .dropdown-menu a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #ff69b4, #b87efb);
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        border-radius: 8px;
     }
+
+    .dropdown-menu a:hover::before {
+        opacity: 1;
+    }
+
+    .dropdown-menu a:hover {
+        color: #fff;
+        transform: translateX(5px);
+    }
+
+    .dropdown-menu a span {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Profil dropdown için özel stiller */
+    .dropdown-menu a[href*="profilim"]::before {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+
+    .dropdown-menu a[href*="tweetlerim"]::before {
+        background: linear-gradient(135deg, #56ab2f, #a8e6cf);
+    }
+
+    .dropdown-menu a[href*="çıkış"]::before,
+    .dropdown-menu a[href*="Logout"]::before {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    }
+
+/* Navbar profil kısmı için ek düzeltmeler */
+.navbar-cloud-list .dropdown {
+    position: relative;
+}
+
+    .navbar-cloud-list .dropdown .cloud-link {
+        position: relative;
+        z-index: 1;
+    }
+
+/* Dropdown açıkken profil linkinin stilini düzelt */
+.dropdown:hover .cloud-link,
+.dropdown:focus-within .cloud-link {
+    color: #ffe4fe;
+}
 
 .academy-card {
     background: rgba(255,255,255,0.93);
@@ -504,6 +588,7 @@ body {
         font-size: 1.09rem;
         margin: 16px 0 0 0;
     }
+
 /* --- About Page (Hakkımızda ekranı) --- */
 .about-modal {
     background: rgba(30, 25, 40, 0.95);
@@ -563,15 +648,18 @@ body {
 .feature-icon {
     width: 48px;
     height: 48px;
+    min-width: 48px;
+    min-height: 48px;
     background: linear-gradient(135deg,#ff69b4 60%,#b87efb 100%);
     border-radius: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 1.3rem;
     color: #fff;
     box-shadow: 0 2px 9px #ff69b449;
     margin-top: 5px;
+    flex-shrink: 0;
 }
 
 .feature-title {
@@ -601,13 +689,42 @@ body {
     .feature-icon {
         width: 36px;
         height: 36px;
-        font-size: 1.2rem;
+        min-width: 36px;
+        min-height: 36px;
+        font-size: 1rem;
     }
 
     .feature-title {
         font-size: 1rem;
     }
+
+    .dropdown-menu {
+        left: auto;
+        right: 0;
+        transform: none;
+        min-width: 160px;
+        max-width: 180px;
+    }
+
+    @keyframes dropdownFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-menu a {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        margin: 1px 6px;
+    }
 }
+
 /* --- Animasyon ve Modern Duyuru Kartları --- */
 @keyframes showAnnouncementModal {
     from {
@@ -776,6 +893,47 @@ body {
         margin-top: -2px;
     }
 
+    /* Profil action butonları için yeni stil */
+    .profile-modal .profile-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+        justify-content: center;
+    }
+
+    .profile-modal .profile-action-btn {
+        background: rgba(184, 126, 251, 0.8);
+        color: #fff;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        min-width: 90px;
+        text-align: center;
+    }
+
+        .profile-modal .profile-action-btn:hover {
+            background: rgba(184, 126, 251, 1);
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(184, 126, 251, 0.4);
+        }
+
+    .profile-modal .profile-logout-btn {
+        background: rgba(231, 76, 60, 0.8);
+        border-color: rgba(231, 76, 60, 0.3);
+    }
+
+        .profile-modal .profile-logout-btn:hover {
+            background: rgba(231, 76, 60, 1);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        }
+
     .profile-modal form {
         margin-bottom: 0;
     }
@@ -915,6 +1073,15 @@ body {
         .profile-modal h2 {
             font-size: 1.1rem;
         }
+
+        .profile-modal .profile-actions {
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .profile-modal .profile-action-btn {
+            width: 100%;
+        }
 }
 
 @keyframes showTweetCard {
@@ -998,151 +1165,111 @@ body {
     }
 
 .tweet-card {
-    background: #212c3a;
+    background: rgba(50, 40, 70, 0.93);
     border-radius: 14px;
-    box-shadow: 0 1px 10px 0 #0001, 0 1px 1px #69b4ff35;
-    margin-bottom: 22px;
-    padding: 18px 18px 10px 18px;
-    position: relative;
-    border-left: 6px solid #69b4ff;
-    transition: 0.15s;
+    box-shadow: 0 2px 14px #0001, 0 1px 1px #69b4ff35;
+    padding: 22px 28px 15px 28px;
+    margin-bottom: 18px;
+    border: 1.5px solid #69b4ff33;
     animation: showTweetCard 0.7s cubic-bezier(.66,0,.34,1) both;
 }
 
-    .tweet-card:hover {
-        border-left: 6px solid #ff69b4;
-        box-shadow: 0 3px 18px 0 #ff69b430;
-    }
+.tweet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
 
-.tweet-text {
+.tweet-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tweet-author {
     font-size: 1.1rem;
-    white-space: pre-line;
-    margin-bottom: 9px;
-    line-height: 1.6;
-    color: #f7f7ff;
+    font-weight: 700;
+    color: #ffe1f6;
+    text-shadow: 0 2px 7px #69b4ff86;
 }
 
-.tweet-meta {
-    font-size: 0.97rem;
-    color: #99c;
-    margin-bottom: 7px;
-    margin-top: -4px;
-    font-family: 'Segoe UI', Arial, sans-serif;
+.tweet-username {
+    font-size: 0.9rem;
+    color: #69b4ff;
+    opacity: 0.8;
 }
 
-.tweet-actions {
-    text-align: right;
+.tweet-date {
+    color: #b87efb;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.tweet-content {
+    color: #e0d0ed;
+    font-size: 1.07rem;
+    line-height: 1.66;
+    word-break: break-word;
     margin-top: 2px;
+    margin-bottom: 0;
+    padding-bottom: 2px;
 }
 
-    .tweet-actions form,
-    .tweet-actions a {
-        display: inline-block;
-        margin-left: 7px;
-        vertical-align: middle;
-    }
-
-    .tweet-actions a {
-        color: #69b4ff;
-        font-weight: 600;
-        font-size: 1rem;
-        text-decoration: underline;
-        transition: color 0.13s;
-    }
-
-        .tweet-actions a:hover {
-            color: #ff69b4;
-        }
-
-.tweet-edit-form {
-    margin-bottom: 10px;
+.tweet-media {
+    margin-top: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 100%;
 }
 
-    .tweet-edit-form textarea {
+    .tweet-media img {
         width: 100%;
-        border-radius: 7px;
-        border: 1.5px solid #69b4ff;
-        background: #232f3a;
-        color: #fff;
-        padding: 7px;
-        min-height: 48px;
-        font-size: 1.06rem;
-        margin-bottom: 5px;
-        transition: border 0.14s;
-        resize: vertical;
+        height: auto;
+        display: block;
     }
 
-        .tweet-edit-form textarea:focus {
-            border: 1.5px solid #ff69b4;
-            background: #282039;
-            outline: none;
-        }
-
-    .tweet-edit-form button[type="submit"] {
-        margin-top: 3px;
-        background: #69b4ff;
-        color: #fff;
-        border: none;
-        border-radius: 7px;
-        padding: 5px 17px;
-        font-weight: 600;
-        font-size: 1rem;
-        box-shadow: 0 1px 4px #69b4ff33;
-        transition: background 0.13s;
-        cursor: pointer;
-    }
-
-        .tweet-edit-form button[type="submit"]:hover {
-            background: #ff69b4;
-        }
-
-    .tweet-edit-form a {
-        margin-left: 10px;
-        color: #69b4ff;
-        text-decoration: underline;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: color 0.13s;
-    }
-
-        .tweet-edit-form a:hover {
-            color: #ff69b4;
-        }
-
-button.tweet-delete-btn {
-    background: #e74c3c;
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    padding: 5px 17px;
-    font-size: 1rem;
-    font-weight: 600;
-    margin-left: 4px;
-    box-shadow: 0 1px 4px #e74c3c33;
-    transition: background 0.13s;
-    cursor: pointer;
-}
-
-    button.tweet-delete-btn:hover {
-        background: #b71c1c;
+    .tweet-media video {
+        width: 100%;
+        height: auto;
+        display: block;
     }
 
 @media (max-width: 700px) {
     .tweet-timeline {
-        max-width: 99vw;
-        padding: 14px 2vw 4vw 2vw;
+        max-width: 98vw;
+        padding: 8vw 2vw 4vw 2vw;
     }
+
+        .tweet-timeline h2 {
+            font-size: 1.4rem;
+        }
 
     .tweet-card {
-        padding: 10px 8px 8px 8px;
+        padding: 12px 8px 10px 11px;
     }
 
-    .tweet-timeline h2 {
-        font-size: 1.1rem;
+    .tweet-timeline button[type="submit"] {
+        width: 100%;
+        float: none;
+        margin-top: 10px;
     }
 }
 
-/* --- Event Panel (Modern, Announcement ile aynı stil) --- */
+/* --- Event Cards (Etkinlik Kartları) --- */
+@keyframes showEventModal {
+    from {
+        opacity: 0;
+        transform: scale(.98) translateY(32px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 .event-modal {
     background: rgba(30, 25, 40, 0.97);
     border-radius: 30px;
@@ -1154,17 +1281,17 @@ button.tweet-delete-btn {
     position: relative;
     backdrop-filter: blur(3px);
     border: 2px solid #b87efb38;
-    animation: showAnnouncementModal 0.72s cubic-bezier(.66,0,.34,1) both;
+    animation: showEventModal 0.72s cubic-bezier(.66,0,.34,1) both;
 }
 
 .event-title {
-    color: #69b4ff;
+    color: #ff69b4;
     font-weight: 800;
     font-size: 2.3rem;
     margin-bottom: 34px;
     letter-spacing: 1px;
     text-align: center;
-    text-shadow: 0 2px 12px #69b4ff90;
+    text-shadow: 0 2px 12px #c945a0a5;
 }
 
 .event-list {
@@ -1176,69 +1303,55 @@ button.tweet-delete-btn {
 .event-card {
     background: rgba(50, 40, 70, 0.93);
     border-radius: 14px;
-    box-shadow: 0 2px 14px #0001, 0 1px 1px #69b4ff35;
+    box-shadow: 0 2px 14px #0001, 0 1px 1px #ff69b435;
     padding: 22px 28px 15px 28px;
-    border: 1.5px solid #69b4ff33;
-    animation: showAnnouncementModal 0.7s cubic-bezier(.66,0,.34,1) both;
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
+    border: 1.5px solid #b87efb33;
+    animation: showEventModal 0.7s cubic-bezier(.66,0,.34,1) both;
 }
 
-    .event-card .event-icon {
-        margin-right: 16px;
-        margin-top: 2px;
-        flex-shrink: 0;
-        width: 26px;
-        height: 26px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-    }
+.event-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
 
-    .event-card .event-content {
-        flex: 1;
-        min-width: 0;
-    }
+.event-title-inner {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffe1f6;
+    text-shadow: 0 2px 7px #ff69b486;
+}
 
-    .event-card .event-title-row {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 4px;
-    }
+.event-date {
+    color: #b87efb;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-left: 18px;
+    letter-spacing: 0.5px;
+}
 
-    .event-card .event-title-inner {
-        font-size: 1.18rem;
-        font-weight: 700;
-        background: linear-gradient(90deg,#fff 70%,#69b4ff 100%);
-        color: #231c2f;
-        border-radius: 7px;
-        padding: 2px 14px 2px 10px;
-        margin-right: 10px;
-        letter-spacing: 0.5px;
-        min-width: 40px;
-        text-align: center;
-        display: inline-block;
-    }
+.event-content {
+    color: #e0d0ed;
+    font-size: 1.07rem;
+    line-height: 1.66;
+    word-break: break-word;
+    margin-top: 2px;
+    margin-bottom: 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #5b397a33;
+}
 
-    .event-card .event-date-location {
-        color: #b8b7e6;
-        font-size: 1.06rem;
-        font-weight: 400;
-        margin-bottom: 0;
-        margin-top: 2px;
-    }
+.event-card:last-child .event-content {
+    border-bottom: none;
+}
 
-    .event-card .event-description {
-        color: #fff;
-        font-size: 1.08rem;
-        margin-top: 6px;
-        margin-bottom: 0;
-        margin-left: 2px;
-        line-height: 1.45;
-        word-break: break-word;
-    }
+.event-location {
+    color: #69b4ff;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    font-style: italic;
+}
 
 @media (max-width: 900px) {
     .event-modal {
@@ -1252,215 +1365,5 @@ button.tweet-delete-btn {
 
     .event-card {
         padding: 12px 8px 10px 11px;
-    }
-
-        .event-card .event-icon {
-            margin-right: 8px;
-            width: 22px;
-            height: 22px;
-        }
-}
-.chat-main-container,
-.chat-container {
-    width: 400px;
-    max-width: 98vw;
-    margin: 48px auto;
-    background: #222026ee;
-    border-radius: 28px;
-    box-shadow: 0 6px 32px #a259c655;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.chat-header {
-    background: #222026;
-    padding: 18px 22px;
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-    color: #fff;
-    font-size: 1.16rem;
-    font-weight: bold;
-    letter-spacing: 0.01em;
-    min-height: 56px;
-    border-bottom: 1px solid #2d273c;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.back-btn {
-    color: #ff90c2;
-    font-size: 26px;
-    text-decoration: none;
-    margin-right: 12px;
-    transition: color .15s;
-}
-
-    .back-btn:hover {
-        color: #fff;
-    }
-
-.chat-messages,
-.chat-body {
-    background: transparent;
-    flex: 1 1 auto;
-    min-height: 280px;
-    max-height: 420px;
-    padding: 24px 18px 12px 18px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    scrollbar-width: thin;
-    scrollbar-color: #e75480 #2d273c;
-}
-
-    .chat-messages::-webkit-scrollbar,
-    .chat-body::-webkit-scrollbar {
-        width: 7px;
-        background: #2d273c;
-    }
-
-    .chat-messages::-webkit-scrollbar-thumb,
-    .chat-body::-webkit-scrollbar-thumb {
-        background: #e75480;
-        border-radius: 7px;
-    }
-
-.chat-message-row,
-.msg-row {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 4px;
-}
-
-    .chat-message-row.me,
-    .msg-row.sent {
-        align-items: flex-end;
-        justify-content: flex-end;
-    }
-
-    .msg-row.received {
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-
-.chat-bubble,
-.msg-bubble {
-    background: linear-gradient(90deg, #633da9 60%, #a259c6 100%);
-    color: #fff;
-    padding: 11px 20px 10px 20px;
-    border-radius: 22px 18px 22px 5px;
-    font-size: 15.3px;
-    max-width: 68vw;
-    min-width: 40px;
-    word-break: break-word;
-    box-shadow: 0 2px 12px #ea5bba1c;
-    position: relative;
-    margin-bottom: 2px;
-    transition: background .2s;
-    text-align: left;
-}
-
-.chat-message-row.me .chat-bubble,
-.msg-row.sent .msg-bubble {
-    background: linear-gradient(90deg, #e75480 60%, #ff90c2 100%);
-    border-radius: 18px 22px 5px 22px;
-    text-align: right;
-}
-
-.chat-meta,
-.msg-time {
-    font-size: 10.5px;
-    color: #ffe3f4;
-    opacity: .7;
-    margin: 0 6px 0 6px;
-    margin-top: 1px;
-    text-align: right;
-}
-
-.chat-message-row .chat-meta,
-.msg-row .msg-time {
-    text-align: left;
-}
-
-.chat-message-row.me .chat-meta,
-.msg-row.sent .msg-time {
-    text-align: right;
-}
-
-.chat-form,
-.chat-input {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 18px 14px 18px;
-    background: #222026;
-    border-bottom-left-radius: 28px;
-    border-bottom-right-radius: 28px;
-    border-top: 1px solid #2d273c;
-}
-
-    .chat-form .form-control,
-    .chat-input textarea {
-        flex: 1 1 auto;
-        border: none;
-        border-radius: 12px;
-        padding: 10px 15px;
-        font-size: 15.5px;
-        background: #2d273c;
-        color: #fff;
-        min-height: 32px;
-        max-height: 80px;
-        outline: none;
-        box-shadow: none;
-        transition: background .1s;
-    }
-
-        .chat-form .form-control:focus,
-        .chat-input textarea:focus {
-            background: #312743;
-        }
-
-    .chat-form .btn-success,
-    .send-btn {
-        background: linear-gradient(90deg, #e75480, #ff90c2);
-        border: none;
-        color: #fff;
-        border-radius: 12px;
-        width: 48px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16.5px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background .13s, transform .08s;
-        box-shadow: 0 2px 10px #e7548040;
-    }
-
-        .chat-form .btn-success:hover,
-        .send-btn:hover {
-            background: linear-gradient(90deg, #ff90c2, #e75480);
-            transform: scale(1.08);
-        }
-
-@media (max-width: 600px) {
-    .chat-main-container,
-    .chat-container {
-        width: 100vw;
-        border-radius: 0;
-    }
-
-    .chat-header, .chat-form, .chat-input {
-        border-radius: 0;
-    }
-
-    .chat-messages, .chat-body {
-        min-height: 160px;
-        padding: 14px 6px 8px 6px;
     }
 }

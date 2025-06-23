@@ -1,0 +1,259 @@
+﻿@model EduSphere.Models.Announcement
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Duyuru Detayları";
+    ViewBag.Active = "announcements";
+}
+
+<div class="content-card">
+    <div class="p-3 border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="page-title mb-0">
+                <i class="fas fa-bullhorn me-2"></i>Duyuru Detayları
+            </h2>
+            <div class="btn-group">
+                <a href="@Url.Action("Edit", "Announcement", new { id = Model.Id })" class="btn btn-warning">
+                    <i class="fas fa-edit me-2"></i>Düzenle
+                </a>
+                <a href="@Url.Action("Delete", "Announcement", new { id = Model.Id })" class="btn btn-danger">
+                    <i class="fas fa-trash me-2"></i>Sil
+                </a>
+                <a href="@Url.Action("Index", "Announcement")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="announcement-content">
+                    <div class="announcement-header">
+                        <h1 class="announcement-title">@Model.Title</h1>
+                        <div class="announcement-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-user me-2"></i>
+                                <span>Yazar: <strong>@Model.Author</strong></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-calendar me-2"></i>
+                                <span>Tarih: <strong>@Model.CreatedAt.ToString("dd MMMM yyyy, dddd")</strong></span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock me-2"></i>
+                                <span>Saat: <strong>@Model.CreatedAt.ToString("HH:mm")</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="announcement-body">
+                        <div class="content-text">
+                            @Html.Raw(Model.Content.Replace("\n", "<br>"))
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-sidebar">
+                    <div class="status-card">
+                        <h5><i class="fas fa-info-circle me-2"></i>Duyuru Bilgileri</h5>
+                        <div class="status-item">
+                            <label>Durum:</label>
+                            <span class="badge bg-success">Yayında</span>
+                        </div>
+                        <div class="status-item">
+                            <label>Kategori:</label>
+                            <span class="badge bg-primary">Genel</span>
+                        </div>
+                        <div class="status-item">
+                            <label>Öncelik:</label>
+                            <span class="badge bg-warning">Normal</span>
+                        </div>
+                        <div class="status-item">
+                            <label>Görüntülenme:</label>
+                            <span class="text-muted">Herkese Açık</span>
+                        </div>
+                    </div>
+
+                    <div class="actions-card">
+                        <h6><i class="fas fa-cogs me-2"></i>Hızlı İşlemler</h6>
+                        <div class="d-grid gap-2">
+                            <a href="@Url.Action("Edit", "Announcement", new { id = Model.Id })" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit me-2"></i>Düzenle
+                            </a>
+                            <button type="button" class="btn btn-outline-success btn-sm" onclick="copyToClipboard()">
+                                <i class="fas fa-copy me-2"></i>Bağlantıyı Kopyala
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm" onclick="printAnnouncement()">
+                                <i class="fas fa-print me-2"></i>Yazdır
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="stats-card">
+                        <h6><i class="fas fa-chart-bar me-2"></i>İstatistikler</h6>
+                        <div class="stat-row">
+                            <span>Oluşturulma:</span>
+                            <span>@((DateTime.UtcNow - Model.CreatedAt).Days) gün önce</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Karakter sayısı:</span>
+                            <span>@Model.Content.Length</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Kelime sayısı:</span>
+                            <span>@Model.Content.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .announcement-content {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .announcement-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        margin: -1rem -1rem 2rem -1rem;
+    }
+
+    .announcement-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+    }
+
+    .announcement-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .meta-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    .announcement-body {
+        padding: 0 1rem;
+    }
+
+    .content-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #495057;
+    }
+
+    .info-sidebar .status-card,
+    .info-sidebar .actions-card,
+    .info-sidebar .stats-card {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .status-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+        .status-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .status-item label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0;
+        }
+
+    .stat-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+
+    .actions-card h6,
+    .stats-card h6,
+    .status-card h5 {
+        color: #495057;
+        margin-bottom: 1rem;
+    }
+
+    media (max-width: 768px) {
+        .announcement-title
+
+    {
+        font-size: 1.5rem;
+    }
+
+    .announcement-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .meta-item {
+        text-align: center;
+    }
+
+    }
+</style>
+
+<script>
+    function copyToClipboard() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(function() {
+            alert('Bağlantı panoya kopyalandı!');
+        }, function(err) {
+            console.error('Kopyalama hatası: ', err);
+        });
+    }
+
+    function printAnnouncement() {
+        window.print();
+    }
+</script>
+
+<style media="print">
+    .btn-group,
+    .info-sidebar,
+    .navbar,
+    .sidebar,
+    .footer {
+        display: none !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .content-card {
+        box-shadow: none !important;
+        border: none !important;
+    }
+</style>

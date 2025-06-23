@@ -2,116 +2,394 @@
 <html lang="tr">
 <head>
     <meta charset="utf-8" />
-    <title>@ViewBag.Title - EduSphere Admin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EduSphere Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            overflow-x: hidden; /* Yatay scroll'u engelle */
         }
 
         .sidebar {
-            background: linear-gradient(180deg, #1867c0 0%, #317deb 100%);
-            color: #fff;
-            min-height: 100vh;
-            width: 250px;
             position: fixed;
             top: 0;
             left: 0;
-            padding-top: 1rem;
+            height: 100vh;
+            width: 70px; /* Collapsed width */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
-            .sidebar .nav-link {
-                color: rgba(255, 255, 255, 0.8);
-                padding: 0.75rem 1rem;
-                border-radius: 0;
-                transition: all 0.3s;
+            .sidebar:hover {
+                width: 250px; /* Expanded width */
             }
 
-                .sidebar .nav-link:hover,
-                .sidebar .nav-link.active {
-                    color: #fff;
-                    background-color: rgba(255, 255, 255, 0.1);
+            .sidebar .logo {
+                padding: 15px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                white-space: nowrap;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                font-size: 18px;
+            }
+
+            .sidebar:hover .logo {
+                opacity: 1;
+            }
+
+            .sidebar .nav {
+                padding-top: 10px;
+            }
+
+            .sidebar .nav-link {
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                border-radius: 0;
+                white-space: nowrap;
+                font-size: 14px;
+            }
+
+                .sidebar .nav-link i {
+                    font-size: 16px;
+                    width: 30px;
+                    text-align: center;
+                    margin-right: 12px;
+                    transition: all 0.3s ease;
                 }
 
+                .sidebar .nav-link span {
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+
+            .sidebar:hover .nav-link span {
+                opacity: 1;
+            }
+
+            .sidebar .nav-link:hover,
+            .sidebar .nav-link.active {
+                color: #fff;
+                background-color: rgba(255, 255, 255, 0.1);
+                transform: translateX(5px);
+            }
+
+            .sidebar .nav-divider {
+                height: 1px;
+                background-color: rgba(255, 255, 255, 0.2);
+                margin: 8px 0;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .sidebar:hover .nav-divider {
+                opacity: 1;
+            }
+
         .main-content {
-            margin-left: 250px;
-            padding: 0;
+            margin-left: 70px; /* Collapsed sidebar width */
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
         }
 
         .navbar {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
+            background-color: #fff;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .content-wrapper {
+            padding: 2rem;
+            max-width: 100%;
+            overflow-x: auto; /* İçerik taşarsa yatay scroll */
         }
 
         .footer {
-            background-color: #f8f9fa;
+            background-color: #fff;
             color: #6c757d;
             text-align: center;
             padding: 1rem;
-            border-top: 1px solid #dee2e6;
+            border-top: 1px solid #e9ecef;
+            margin-top: auto;
+        }
+
+        /* Table responsive styles */
+        .table-responsive {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table {
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+            .table th {
+                background-color: #495057;
+                color: white;
+                font-weight: 600;
+                padding: 12px 8px;
+                white-space: nowrap;
+                border: none;
+            }
+
+            .table td {
+                padding: 10px 8px;
+                vertical-align: middle;
+                border-color: #e9ecef;
+            }
+
+            .table tbody tr:hover {
+                background-color: #f8f9fa;
+            }
+
+        /* Button styles */
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+            margin: 2px;
+        }
+
+        /* Mobile responsive */
+        media (max-width: 768px) {
+            .sidebar
+
+        {
+            width: 0;
+            overflow: hidden;
+        }
+
+        .sidebar:hover {
+            width: 250px;
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        .content-wrapper {
+            padding: 1rem;
+        }
+
+        .mobile-menu-btn {
+            display: block;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .table th,
+        .table td {
+            padding: 8px 4px;
+            font-size: 12px;
+        }
+
+        }
+
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* Tooltip for collapsed state */
+        .sidebar .nav-link {
+            position: relative;
+        }
+
+            .sidebar .nav-link::after {
+                content: attr(data-tooltip);
+                position: absolute;
+                left: 70px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-size: 12px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+                z-index: 1000;
+            }
+
+        .sidebar:not(:hover) .nav-link:hover::after {
+            opacity: 1;
+        }
+
+        .sidebar:hover .nav-link::after {
+            opacity: 0;
+        }
+
+        /* Page title */
+        .page-title {
+            color: #495057;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        /* Card wrapper for content */
+        .content-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="text-center mb-4">
-                    <h4>EduSphere Admin</h4>
-                </div>
-                <nav class="nav flex-column">
-                    <a class="nav-link @(ViewBag.Active == "dashboard" ? "active" : "")" href="@Url.Action("Index", "Admin")">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
-                    </a>
-                    <a class="nav-link @(ViewBag.Active == "users" ? "active" : "")" href="@Url.Action("Users", "Admin")">
-                        <i class="fas fa-users"></i> Kullanıcılar
-                    </a>
-                    <a class="nav-link @(ViewBag.Active == "schedules" ? "active" : "")" href="@Url.Action("Schedules", "Admin")">
-                        <i class="fas fa-calendar-alt"></i> Ders Programları
-                    </a>
-                    <a class="nav-link @(ViewBag.Active == "exams" ? "active" : "")" href="@Url.Action("Exams", "Admin")">
-                        <i class="fas fa-clipboard-list"></i> Sınav Takvimi
-                    </a>
-                    <a class="nav-link @(ViewBag.Active == "examresults" ? "active" : "")" href="@Url.Action("ExamResults", "Admin")">
-                        <i class="fas fa-calendar-alt"></i> Sınav Sonuçları
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Index", "Announcement")">
-                        <i class="fas fa-bullhorn"></i> Duyurular
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Manage", "Event")">
-                        <i class="fas fa-calendar-check"></i> Etkinlikler
-                    </a>
-                    <hr style="border-color: rgba(255,255,255,0.2);">
-                    <a class="nav-link" href="@Url.Action("Index", "Home")">
-                        <i class="fas fa-home"></i> Ana Sayfa
-                    </a>
-                    <a class="nav-link" href="@Url.Action("Login", "Account")">
-                        <i class="fas fa-sign-out-alt"></i> Çıkış
-                    </a>
-                </nav>
-            </aside>
+    <!-- Mobile menu button -->
+    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
 
-            <!-- Main Content -->
-            <main class="main-content">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <div class="container-fluid">
-                        <span class="navbar-brand">Admin Paneli</span>
-                        <span class="navbar-text ms-auto text-secondary">Hoş geldin, admin!</span>
-                    </div>
-                </nav>
-                <div class="container-fluid p-4">
-                    @RenderBody()
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <h4>EduSphere Admin</h4>
+            </div>
+            <nav class="nav flex-column">
+                <a class="nav-link @(ViewBag.Active == "dashboard" ? "active" : "")"
+                   href="@Url.Action("Index", "Admin")"
+                   data-tooltip="Dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-link @(ViewBag.Active == "users" ? "active" : "")"
+                   href="@Url.Action("Users", "Admin")"
+                   data-tooltip="Kullanıcılar">
+                    <i class="fas fa-users"></i>
+                    <span>Kullanıcılar</span>
+                </a>
+                <a class="nav-link @(ViewBag.Active == "schedules" ? "active" : "")"
+                   href="@Url.Action("Schedules", "Admin")"
+                   data-tooltip="Ders Programları">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Ders Programları</span>
+                </a>
+                <a class="nav-link @(ViewBag.Active == "exams" ? "active" : "")"
+                   href="@Url.Action("Exams", "Admin")"
+                   data-tooltip="Sınav Takvimi">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Sınav Takvimi</span>
+                </a>
+                <a class="nav-link @(ViewBag.Active == "examresults" ? "active" : "")"
+                   href="@Url.Action("ExamResults", "Admin")"
+                   data-tooltip="Sınav Sonuçları">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Sınav Sonuçları</span>
+                </a>
+                <a class="nav-link"
+                   href="@Url.Action("Index", "Announcement")"
+                   data-tooltip="Duyurular">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Duyurular</span>
+                </a>
+                <a class="nav-link"
+                   href="@Url.Action("Manage", "Event")"
+                   data-tooltip="Etkinlikler">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Etkinlikler</span>
+                </a>
+
+                <div class="nav-divider"></div>
+
+                <a class="nav-link"
+                   href="@Url.Action("Index", "Home")"
+                   data-tooltip="Ana Sayfa">
+                    <i class="fas fa-home"></i>
+                    <span>Ana Sayfa</span>
+                </a>
+                <a class="nav-link"
+                   href="@Url.Action("Login", "Account")"
+                   data-tooltip="Çıkış">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Çıkış</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content flex-fill">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container-fluid">
+                    <span class="navbar-brand fw-bold">Admin Paneli</span>
+                    <span class="navbar-text ms-auto text-secondary">Hoş geldin, admin!</span>
                 </div>
-            </main>
-        </div>
+            </nav>
+
+            <!-- Page Content -->
+            <div class="content-wrapper">
+                @RenderBody()
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; 2024 EduSphere. Tüm hakları saklıdır.</p>
+            </footer>
+        </main>
     </div>
-    <footer class="footer mt-auto">
-        EduSphere Admin Panel &copy; @DateTime.Now.Year
-    </footer>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile sidebar toggle function
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+
+            if (window.innerWidth <= 768) {
+                if (sidebar.style.width === '250px') {
+                    sidebar.style.width = '0';
+                } else {
+                    sidebar.style.width = '250px';
+                }
+            }
+        }
+
+        // Auto-hide sidebar on mobile when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const menuBtn = document.querySelector('.mobile-menu-btn');
+
+            if (window.innerWidth <= 768 &&
+                !sidebar.contains(event.target) &&
+                !menuBtn.contains(event.target)) {
+                sidebar.style.width = '0';
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            if (window.innerWidth > 768) {
+                sidebar.style.width = '';
+            }
+        });
+    </script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

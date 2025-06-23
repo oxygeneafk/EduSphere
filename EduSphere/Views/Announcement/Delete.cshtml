@@ -1,0 +1,163 @@
+﻿@model EduSphere.Models.Announcement
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Duyuru Sil";
+    ViewBag.Active = "announcements";
+}
+
+<div class="content-card">
+    <div class="p-3 border-bottom bg-danger text-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="page-title mb-0">
+                <i class="fas fa-exclamation-triangle me-2"></i>Duyuru Silme Onayı
+            </h2>
+            <a href="@Url.Action("Index", "Announcement")" class="btn btn-light">
+                <i class="fas fa-arrow-left me-2"></i>Geri Dön
+            </a>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Dikkat!</strong> Bu işlem geri alınamaz. Duyuru kalıcı olarak silinecektir.
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="announcement-preview">
+                    <h3>Silinecek Duyuru:</h3>
+
+                    <div class="preview-card">
+                        <div class="card-header">
+                            <h4 class="card-title">@Model.Title</h4>
+                            <div class="card-meta">
+                                <small class="text-muted">
+                                    <i class="fas fa-user me-1"></i>@Model.Author •
+                                    <i class="fas fa-calendar me-1"></i>@Model.CreatedAt.ToString("dd MMMM yyyy, HH:mm")
+                                </small>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>@Model.Content</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="warning-info">
+                    <h5><i class="fas fa-info-circle me-2"></i>Silme İşlemi Hakkında</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            Duyuru kalıcı olarak silinecek
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            Bu işlem geri alınamaz
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-times text-danger me-2"></i>
+                            İlgili veriler kaybedilecek
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Sistem performansı artabilir
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="alternative-actions">
+                    <h6><i class="fas fa-lightbulb me-2"></i>Alternatif Seçenekler</h6>
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("Edit", "Announcement", new { id = Model.Id })" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-edit me-2"></i>Düzenle
+                        </a>
+                        <a href="@Url.Action("Details", "Announcement", new { id = Model.Id })" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-eye me-2"></i>Görüntüle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 border-top pt-3">
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="@Url.Action("Index", "Announcement")" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>İptal Et
+                    </a>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bu duyuruyu silmek istediğinizden emin misiniz?')">
+                        <i class="fas fa-trash me-2"></i>Evet, Duyuruyu Sil
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .preview-card {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        overflow: hidden;
+        background: white;
+    }
+
+    .card-header {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+
+    .card-meta {
+        margin: 0;
+    }
+
+    .card-body {
+        padding: 1rem;
+        background: white;
+    }
+
+    .warning-info {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+        .warning-info h5 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+
+    .alternative-actions {
+        background: #d1ecf1;
+        border: 1px solid #bee5eb;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+        .alternative-actions h6 {
+            color: #0c5460;
+            margin-bottom: 1rem;
+        }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        border: none;
+    }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+            transform: translateY(-1px);
+        }
+</style>
