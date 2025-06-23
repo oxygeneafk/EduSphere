@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduSphere.Models
 {
@@ -8,18 +8,21 @@ namespace EduSphere.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [BsonElement("title")]
-        public string Title { get; set; }
+        [Required(ErrorMessage = "Başlık gereklidir.")]
+        [StringLength(200, ErrorMessage = "Başlık en fazla 200 karakter olabilir.")]
+        public string Title { get; set; } = string.Empty;
 
         [BsonElement("content")]
-        public string Content { get; set; }
+        [Required(ErrorMessage = "İçerik gereklidir.")]
+        public string Content { get; set; } = string.Empty;
 
         [BsonElement("createdAt")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         [BsonElement("author")]
-        public string Author { get; set; }
+        public string Author { get; set; } = string.Empty;
     }
 }

@@ -25,7 +25,7 @@
     {
         <div class="announcement-list">
             @{
-                var daysOrder = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+                var daysOrder = new List<string> { "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma" };
                 var groupedLessons = Model.GroupBy(l => l.Day).ToDictionary(g => g.Key, g => g.ToList());
             }
 
