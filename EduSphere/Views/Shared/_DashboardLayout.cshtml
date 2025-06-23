@@ -286,52 +286,45 @@
                    href="@Url.Action("Users", "Admin")"
                    data-tooltip="Kullanıcılar">
                     <i class="fas fa-users"></i>
-                    <span>Kullanıcılar</span>
+                    <span>Users</span>
                 </a>
                 <a class="nav-link @(ViewBag.Active == "schedules" ? "active" : "")"
                    href="@Url.Action("Schedules", "Admin")"
                    data-tooltip="Ders Programları">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>Ders Programları</span>
+                    <span>Lesson Schedules</span>
                 </a>
                 <a class="nav-link @(ViewBag.Active == "exams" ? "active" : "")"
                    href="@Url.Action("Exams", "Admin")"
                    data-tooltip="Sınav Takvimi">
                     <i class="fas fa-clipboard-list"></i>
-                    <span>Sınav Takvimi</span>
+                    <span>Exam Calender</span>
                 </a>
                 <a class="nav-link @(ViewBag.Active == "examresults" ? "active" : "")"
                    href="@Url.Action("ExamResults", "Admin")"
                    data-tooltip="Sınav Sonuçları">
                     <i class="fas fa-calendar-check"></i>
-                    <span>Sınav Sonuçları</span>
+                    <span>Exam Results</span>
                 </a>
                 <a class="nav-link"
                    href="@Url.Action("Index", "Announcement")"
                    data-tooltip="Duyurular">
                     <i class="fas fa-bullhorn"></i>
-                    <span>Duyurular</span>
+                    <span>Announcements</span>
                 </a>
                 <a class="nav-link"
                    href="@Url.Action("Manage", "Event")"
                    data-tooltip="Etkinlikler">
                     <i class="fas fa-calendar-check"></i>
-                    <span>Etkinlikler</span>
+                    <span>Events</span>
                 </a>
 
                 <div class="nav-divider"></div>
-
-                <a class="nav-link"
-                   href="@Url.Action("Index", "Home")"
-                   data-tooltip="Ana Sayfa">
-                    <i class="fas fa-home"></i>
-                    <span>Ana Sayfa</span>
-                </a>
                 <a class="nav-link"
                    href="@Url.Action("Login", "Account")"
                    data-tooltip="Çıkış">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Çıkış</span>
+                    <span>Logout</span>
                 </a>
             </nav>
         </aside>

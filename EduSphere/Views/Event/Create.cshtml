@@ -6,11 +6,11 @@
 <h2>Yeni Etkinlik Ekle</h2>
 <form asp-action="Create" method="post">
     <div class="form-group mb-3">
-        <label>Başlık</label>
+        <label>Title</label>
         <input name="title" class="form-control" required />
     </div>
     <div class="form-group mb-3">
-        <label>Açıklama</label>
+        <label>Explanation</label>
         <textarea name="description" class="form-control" required></textarea>
     </div>
     <div class="form-group mb-3">
@@ -18,19 +18,19 @@
         <input name="date" type="date" class="form-control" required />
     </div>
     <div class="form-group mb-3">
-        <label>Adres (Açık Adres)</label>
+        <label> Address (Full Address)</label>
         <input name="location" id="location" class="form-control" required autocomplete="off" />
-        <button type="button" class="btn btn-primary btn-sm mt-2" id="find-address">Haritada Göster</button>
-        <small class="form-text text-muted">Adres yazıp "Haritada Göster"e basınca marker o konuma gider.</small>
+        <button type="button" class="btn btn-primary btn-sm mt-2" id="find-address">Show on Map</button>
+        <small class="form-text text-muted">When you type the address and click "Show on Map" the marker goes to that location.</small>
     </div>
     <div class="form-group mb-3">
-        <label>Haritadan Konum Seç</label>
+        <label>Select Location from Map</label>
         <div id="map" style="height:350px; width:100%;"></div>
         <input type="hidden" id="latitude" name="latitude" />
         <input type="hidden" id="longitude" name="longitude" />
-        <div class="form-text">Seçilen Konum: <span id="latlong-text"></span></div>
+        <div class="form-text">Selected Location: <span id="latlong-text"></span></div>
     </div>
-    <button type="submit" class="btn btn-success">Kaydet</button>
+    <button type="submit" class="btn btn-success">Save</button>
     <a href="@Url.Action("Manage", "Event")" class="btn btn-secondary">İptal</a>
 </form>
 
@@ -71,7 +71,7 @@
     // Adres ile konum bulma (Nominatim)
     document.getElementById("find-address").addEventListener("click", function () {
         let address = document.getElementById("location").value;
-        if (!address) return alert("Lütfen bir adres gir.");
+        if (!address) return alert("Please enter an address.");
         fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`)
             .then(response => response.json())
             .then(data => {
@@ -82,9 +82,9 @@
                     marker.setLatLng([lat, lon]);
                     updateLatLng(lat, lon);
                 } else {
-                    alert("Adres bulunamadı.");
+                    alert("Address not found.");
                 }
             })
-            .catch(() => alert("Adres aranırken hata oluştu."));
+            .catch(() => alert("An error occurred while searching for the address."));
     });
 </script>

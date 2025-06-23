@@ -34,14 +34,14 @@
                 <div class="col-md-8">
                     <div class="mb-3">
                         <label for="Title" class="form-label">
-                            <i class="fas fa-heading me-1"></i>Duyuru Başlığı <span class="text-danger">*</span>
+                            <i class="fas fa-heading me-1"></i>Announcement Title <span class="text-danger">*</span>
                         </label>
                         <input type="text"
                                class="form-control @(ViewData.ModelState["Title"]?.Errors.Count > 0 ? "is-invalid" : "")"
                                id="Title"
                                name="Title"
                                value="@Model?.Title"
-                               placeholder="Duyuru başlığını girin..."
+                               placeholder="Enter Announcement Title..."
                                maxlength="200"
                                required>
                         @if (ViewData.ModelState["Title"]?.Errors.Count > 0)
@@ -55,13 +55,13 @@
 
                     <div class="mb-3">
                         <label for="Content" class="form-label">
-                            <i class="fas fa-file-alt me-1"></i>Duyuru İçeriği <span class="text-danger">*</span>
+                            <i class="fas fa-file-alt me-1"></i>Announcement Content <span class="text-danger">*</span>
                         </label>
                         <textarea class="form-control @(ViewData.ModelState["Content"]?.Errors.Count > 0 ? "is-invalid" : "")"
                                   id="Content"
                                   name="Content"
                                   rows="8"
-                                  placeholder="Duyuru içeriğini girin..."
+                                  placeholder="Enter Announcement Title..."
                                   required>@Model?.Content</textarea>
                         @if (ViewData.ModelState["Content"]?.Errors.Count > 0)
                         {
@@ -69,18 +69,18 @@
                                 @ViewData.ModelState["Content"].Errors[0].ErrorMessage
                             </div>
                         }
-                        <div class="form-text">Duyuru detaylarını açık ve anlaşılır şekilde yazın</div>
+                        <div class="form-text">Write the announcement details clearly and understandably.</div>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="preview-card">
                         <h5 class="card-title">
-                            <i class="fas fa-eye me-2"></i>Önizleme
+                            <i class="fas fa-eye me-2"></i>Preview
                         </h5>
                         <div class="preview-content">
                             <div class="preview-title">
-                                <strong id="previewTitle">Duyuru Başlığı</strong>
+                                <strong id="previewTitle">Announcement Title</strong>
                             </div>
                             <div class="preview-meta">
                                 <small class="text-muted">
@@ -89,7 +89,7 @@
                                 </small>
                             </div>
                             <div class="preview-text" id="previewContent">
-                                Duyuru içeriği burada görünecek...
+                                Announcement content will appear here...
                             </div>
                         </div>
                     </div>
@@ -97,10 +97,10 @@
                     <div class="tips-card mt-3">
                         <h6><i class="fas fa-lightbulb me-2"></i>İpuçları</h6>
                         <ul class="list-unstyled">
-                            <li><i class="fas fa-check text-success me-2"></i>Başlığı kısa ve açık tutun</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Önemli bilgileri vurgulayın</li>
-                            <li><i class="fas fa-check text-success me-2"></i>Tarih ve saat belirtin</li>
-                            <li><i class="fas fa-check text-success me-2"></i>İletişim bilgisi ekleyin</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Keep the title short and clear</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Highlight important information</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Specify date and time</li>
+                            <li><i class="fas fa-check text-success me-2"></i>Add contact information</li>
                         </ul>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                         <i class="fas fa-times me-2"></i>İptal
                     </a>
                     <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save me-2"></i>Duyuru Oluştur
+                        <i class="fas fa-save me-2"></i>Create Announcement
                     </button>
                 </div>
             </div>
