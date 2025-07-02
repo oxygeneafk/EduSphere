@@ -1,39 +1,195 @@
-﻿@model IEnumerable<EduSphere.Models.User>
+﻿@model List<EduSphere.Models.User>
 @{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
     ViewBag.Title = "Kullanıcılar";
 }
 
-<h2>Kullanıcılar</h2>
-<table class="table table-hover table-bordered align-middle">
-    <thead class="table-dark">
-        <tr>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>Kullanıcı Adı</th>
-            <th>Email</th>
-            <th>Bölüm</th>
-            <th>Telefon</th>
-            <th>Adres</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Name</td>
-                <td>@user.Lastname</td>
-                <td>@user.Username</td>
-                <td>@user.Email</td>
-                <td>@user.Department</td>
-                <td>@user.PhoneNumber</td>
-                <td>@user.Adress</td>
-                <td>
-                    <a class="btn btn-sm btn-primary" href="@Url.Action("EditUser", "Admin", new { id = user.Id })">Düzenle</a>
-                    <a class="btn btn-sm btn-danger" href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })">Sil</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-users me-2"></i>Kullanıcı Yönetimi
+                    </h4>
+                    <span class="badge bg-light text-dark">
+                        <i class="fas fa-user me-1"></i>@Model.Count Kullanıcı
+                    </span>
+                </div>
+                <div class="card-body">
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>@TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["Warning"] != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>@TempData["Warning"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>@ViewBag.Error
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover" id="usersTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th><i class="fas fa-user me-2"></i>Ad</th>
+                                        <th><i class="fas fa-user me-2"></i>Soyad</th>
+                                        <th><i class="fas fa-at me-2"></i>Kullanıcı Adı</th>
+                                        <th><i class="fas fa-envelope me-2"></i>Email</th>
+                                        <th><i class="fas fa-graduation-cap me-2"></i>Bölüm</th>
+                                        <th><i class="fas fa-phone me-2"></i>Telefon</th>
+                                        <th><i class="fas fa-map-marker-alt me-2"></i>Adres</th>
+                                        <th><i class="fas fa-cogs me-2"></i>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="fw-bold">@user.Name</span>
+                                            </td>
+                                            <td>
+                                                <span class="fw-bold">@user.Lastname</span>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-info">@user.Username</span>
+                                            </td>
+                                            <td>
+                                                <a href="mailto:@user.Email" class="text-decoration-none">
+                                                    @user.Email
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-secondary">@user.Department</span>
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(user.PhoneNumber))
+                                                {
+                                                    <a href="tel:@user.PhoneNumber" class="text-decoration-none">
+                                                        @user.PhoneNumber
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(user.Adress))
+                                                {
+                                                    <span title="@user.Adress" class="text-truncate" style="max-width: 100px; display: inline-block;">
+                                                        @user.Adress
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-muted">-</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a class="btn btn-sm btn-outline-primary"
+                                                       href="@Url.Action("EditUser", "Admin", new { id = user.Id })"
+                                                       title="Kullanıcıyı Düzenle">
+                                                        <i class="fas fa-edit"></i>
+                                                        <span class="d-none d-md-inline ms-1">Düzenle</span>
+                                                    </a>
+                                                    <a class="btn btn-sm btn-outline-danger"
+                                                       href="@Url.Action("DeleteUser", "Admin", new { id = user.Id })"
+                                                       title="Kullanıcıyı Sil">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span class="d-none d-md-inline ms-1">Sil</span>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                            <h5 class="text-muted">Henüz kullanıcı bulunmuyor</h5>
+                            <p class="text-muted">Sistem henüz hiç kullanıcı içermiyor.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DataTables için CSS ve JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // DataTables ile tabloyu geliştirelim
+        $('#usersTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/tr.json"
+            },
+            "pageLength": 25,
+            "order": [[0, "asc"]],
+            "columnDefs": [
+                { "orderable": false, "targets": -1 } // İşlemler sütunu sıralanamaz
+            ],
+            "responsive": true
+        });
+
+        // Alert'leri otomatik kapatalım
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    });
+</script>
+
+<style>
+    .text-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .table th {
+        border-top: none;
+        font-weight: 600;
+    }
+
+    .badge {
+        font-size: 0.8em;
+    }
+</style>

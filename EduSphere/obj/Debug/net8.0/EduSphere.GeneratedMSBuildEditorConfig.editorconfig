@@ -17,195 +17,199 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = EduSphere
 build_property.RootNamespace = EduSphere
-build_property.ProjectDir = C:\Users\aydin\Source\Repos\EduSphere\EduSphere\
+build_property.ProjectDir = C:\Users\aydin\source\repos\EduSphere\EduSphere\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\aydin\Source\Repos\EduSphere\EduSphere
+build_property.MSBuildProjectDirectory = C:\Users\aydin\source\repos\EduSphere\EduSphere
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Academy/Department.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Academy/Department.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxEZXBhcnRtZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Academy/ExamCalendar.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Academy/ExamCalendar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxFeGFtQ2FsZW5kYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Academy/ExamResults.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Academy/ExamResults.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxFeGFtUmVzdWx0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Academy/LessonSchedule.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Academy/LessonSchedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxMZXNzb25TY2hlZHVsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Academy/Schedule.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Academy/Schedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNhZGVteVxTY2hlZHVsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Account/Login.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Account/Register.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/CreateExam.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/CreateExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlRXhhbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/CreateExamResult.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/CreateExamResult.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlRXhhbVJlc3VsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/CreateSchedule.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/CreateSchedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlU2NoZWR1bGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/DeleteUser.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/DeleteUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/EditExam.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/EditExam.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEV4YW0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/EditExamResult.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/EditExamResult.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdEV4YW1SZXN1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/EditSchedule.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/EditSchedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFNjaGVkdWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/EditUser.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/EditUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFVzZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/ExamResults.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/ExamResults.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRXhhbVJlc3VsdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/Exams.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/Exams.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRXhhbXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/Index.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/Login.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/Schedules.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/Schedules.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2NoZWR1bGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Admin/Users.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Admin/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Announcement/Create.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Announcement/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Announcement/Delete.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Announcement/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Announcement/Details.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Announcement/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Announcement/Edit.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Announcement/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Announcement/Index.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Announcement/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Announcement/Public.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Announcement/Public.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5ub3VuY2VtZW50XFB1YmxpYy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Event/Create.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Event/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Event/Details.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Event/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Event/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Event/Edit.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Event/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Event/Index.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Event/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Event/Manage.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Event/Manage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXZlbnRcTWFuYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Home/About.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Home/Academy.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Home/Academy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBY2FkZW15LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Home/OnlineLibrary.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Home/OnlineLibrary.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxPbmxpbmVMaWJyYXJ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Messages/Chat.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Messages/Chat.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZXNcQ2hhdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Messages/Index.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Messages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVzc2FnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Shared/Error.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Shared/_DashboardLayout.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Shared/_DashboardLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9EYXNoYm9hcmRMYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Timeline/Index.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Timeline/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGltZWxpbmVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/UserSettings/MyProfile.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/UserSettings/MyProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclNldHRpbmdzXE15UHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/UserSettings/MyTweet.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/UserSettings/MyTweet.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclNldHRpbmdzXE15VHdlZXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/_ViewImports.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/_ViewStart.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/aydin/Source/Repos/EduSphere/EduSphere/Views/Shared/_Layout.cshtml]
+[C:/Users/aydin/source/repos/EduSphere/EduSphere/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-xk4jmoogjd

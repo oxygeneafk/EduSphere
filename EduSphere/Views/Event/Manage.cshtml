@@ -2,32 +2,213 @@
 @{
     ViewBag.Title = "Etkinlik Yönetimi";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Active = "events";
 }
-<h2>Etkinlik Yönetimi</h2>
-<a href="@Url.Action("Create", "Event")" class="btn btn-success mb-2">Yeni Etkinlik Ekle</a>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Başlık</th>
-            <th>Tarih</th>
-            <th>Konum</th>
-            <th>Ekleyen</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var evt in Model)
+
+<div class="content-card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Etkinlik Yönetimi</h2>
+        <a href="@Url.Action("Create", "Event")" class="btn btn-success">
+            <i class="fas fa-plus"></i> Yeni Etkinlik Ekle
+        </a>
+    </div>
+    <div class="card-body">
+        @if (TempData["Success"] != null)
         {
-            <tr>
-                <td>@evt.Title</td>
-                <td>@evt.Date.ToString("yyyy-MM-dd")</td>
-                <td>@evt.Location</td>
-                <td>@evt.Author</td>
-                <td>
-                    <!-- Düzenleme ve silme butonları eklenebilir -->
-                    <a href="@Url.Action("Details", "Event", new { id = evt.Id })" class="btn btn-info btn-sm">Detay</a>
-                </td>
-            </tr>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         }
-    </tbody>
-</table>
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Başlık</th>
+                            <th>Tarih</th>
+                            <th>Konum</th>
+                            <th>Ekleyen</th>
+                            <th>Oluşturma Tarihi</th>
+                            <th width="200">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var evt in Model)
+                        {
+                            <tr id="event-row-@evt.Id">
+                                <td>
+                                    <strong>@evt.Title</strong>
+                                    <br><small class="text-muted">@evt.Description?.Substring(0, Math.Min(50, evt.Description.Length))...</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-primary">@evt.Date.ToString("dd/MM/yyyy")</span>
+                                    <br><small>@evt.Date.ToString("HH:mm")</small>
+                                </td>
+                                <td>
+                                    <i class="fas fa-map-marker-alt text-danger"></i> @evt.Location
+                                </td>
+                                <td>@evt.Author</td>
+                                <td>@evt.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="@Url.Action("Details", "Event", new { id = evt.Id })"
+                                           class="btn btn-info btn-sm" title="Detayları Görüntüle">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="@Url.Action("Edit", "Event", new { id = evt.Id })"
+                                           class="btn btn-warning btn-sm" title="Düzenle">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                                onclick="confirmDelete('@evt.Id', '@evt.Title')" title="Sil">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-calendar-times fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">Henüz etkinlik bulunmuyor</h4>
+                <p class="text-muted">İlk etkinliğinizi eklemek için yukarıdaki butona tıklayın.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Etkinlik Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong id="deleteEventTitle"></strong> etkinliğini silmek istediğinizden emin misiniz?</p>
+                <p class="text-danger"><small>Bu işlem geri alınamaz!</small></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .content-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-bottom: none;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .btn-group .btn {
+        margin-right: 2px;
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+    }
+</style>
+
+<script>
+    let eventIdToDelete = null;
+
+    function confirmDelete(eventId, eventTitle) {
+        eventIdToDelete = eventId;
+        document.getElementById('deleteEventTitle').textContent = eventTitle;
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        deleteModal.show();
+    }
+
+    document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+        if (eventIdToDelete) {
+            // AJAX ile silme işlemi
+            fetch('@Url.Action("QuickDelete", "Event")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                },
+                body: JSON.stringify({ id: eventIdToDelete })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Başarılı silme - satırı DOM'dan kaldır
+                    document.getElementById('event-row-' + eventIdToDelete).remove();
+
+                    // Success mesajı göster
+                    showAlert('success', data.message);
+
+                    // Modal'ı kapat
+                    bootstrap.Modal.getInstance(document.getElementById('deleteModal')).hide();
+                } else {
+                    showAlert('danger', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showAlert('danger', 'Bir hata oluştu!');
+            });
+        }
+    });
+
+    function showAlert(type, message) {
+        const alertHtml = `
+            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        `;
+        document.querySelector('.card-body').insertAdjacentHTML('afterbegin', alertHtml);
+    }
+
+    // Auto-hide alerts after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            document.querySelectorAll('.alert').forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    });
+</script>

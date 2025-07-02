@@ -3,48 +3,45 @@
     ViewBag.Title = "Yeni Ders Programı";
 }
 
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">
-                        Create New Curriculum
-                    </h4>
-                </div>
-                <div class="card-body">
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">
-                            <i class="fas fa-exclamation-triangle"></i> @ViewBag.Error
-                        </div>
-                    }
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Yeni Ders Programı Oluştur</h2>
+    <a href="@Url.Action("Schedules", "Admin")" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Geri Dön
+    </a>
+</div>
 
-                    <form method="post" asp-action="CreateSchedule">
-                        <div class="mb-3">
-                            <label class="form-label">
-                                <i class="fas fa-graduation-cap"></i> Select Department
-                            </label>
-                            <select name="department" class="form-select" required>
-                                <option value="">-- Select Department --</option>
-                                @foreach (var dept in ViewBag.Departments as List<string>)
-                                {
-                                    <option value="@dept">@dept</option>
-                                }
-                            </select>
-                        </div>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        <i class="fas fa-exclamation-triangle"></i> @ViewBag.Error
+    </div>
+}
 
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-plus"></i>
-                                Create Curriculum
-                            </button>
-                            <a href="@Url.Action("Schedules", "Admin")" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Come Back
-                            </a>
-                        </div>
-                    </form>
-                </div>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Departman Seçimi</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label for="department" class="form-label">Departman</label>
+                        <select name="department" id="department" class="form-select" required>
+                            <option value="">Departman Seçiniz</option>
+                            @foreach (var dept in ViewBag.Departments)
+                            {
+                                <option value="@dept">@dept</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Ders Programı Oluştur
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

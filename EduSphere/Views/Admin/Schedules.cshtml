@@ -4,58 +4,232 @@
     ViewBag.Title = "Ders Programları";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Ders Programları</h2>
-    <a href="@Url.Action("CreateSchedule", "Admin")" class="btn btn-primary">
-        <i class="fas fa-plus"></i> Yeni Ders Programı
-    </a>
-</div>
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fas fa-calendar-alt me-2"></i>Ders Programları
+        </h2>
+        <a href="@Url.Action("CreateSchedule", "Admin")" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Yeni Ders Programı
+        </a>
+    </div>
 
-@if (Model != null && Model.Count > 0)
-{
-    <div class="row">
-        @foreach (var schedule in Model)
-        {
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="card-title mb-0">@schedule.Department</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <small class="text-muted">
-                                Oluşturulma: @schedule.CreatedAt.ToString("dd.MM.yyyy")<br>
-                                Son Güncelleme: @schedule.UpdatedAt.ToString("dd.MM.yyyy HH:mm")
-                            </small>
-                        </p>
-                        <div class="mb-2">
-                            <strong>Toplam Ders Sayısı:</strong>
-                            @schedule.Days.Sum(d => d.Courses.Count)
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="row">
+            @foreach (var schedule in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-graduation-cap me-2"></i>@schedule.Department
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="schedule-info mb-3">
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar-plus me-1"></i>
+                                        <strong>Oluşturulma:</strong> @schedule.CreatedAt.ToString("dd.MM.yyyy")<br>
+                                        <i class="fas fa-sync-alt me-1"></i>
+                                        <strong>Son Güncelleme:</strong> @schedule.UpdatedAt.ToString("dd.MM.yyyy HH:mm")
+                                    </small>
+                                </p>
+                                <div class="stats-badge">
+                                    <span class="badge bg-info fs-6">
+                                        <i class="fas fa-book me-1"></i>
+                                        <strong>Toplam Ders:</strong> @schedule.Days.Sum(d => d.Courses.Count)
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Course breakdown by day -->
+                            <div class="course-breakdown">
+                                <h6 class="text-muted mb-2">
+                                    <i class="fas fa-list me-1"></i>Günlük Dağılım:
+                                </h6>
+                                @foreach (var day in schedule.Days.Where(d => d.Courses.Count > 0))
+                                {
+                                    <small class="d-block text-muted">
+                                        <span class="fw-bold">@day.Day:</span> 
+                                        <span class="badge bg-light text-dark">@day.Courses.Count ders</span>
+                                    </small>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer bg-light d-flex justify-content-end gap-2">
+                            <a href="@Url.Action("EditSchedule", "Admin", new { department = schedule.Department })"
+                               class="btn btn-sm btn-outline-primary"
+                               title="Ders programını düzenle">
+                                <i class="fas fa-edit me-1"></i>Düzenle
+                            </a>
+                            <form method="post" action="@Url.Action("DeleteSchedule", "Admin")" class="d-inline"
+                                  onsubmit="return confirmDelete('@schedule.Department')">
+                                <input type="hidden" name="department" value="@schedule.Department" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                        title="Ders programını sil">
+                                    <i class="fas fa-trash me-1"></i>Sil
+                                </button>
+                            </form>
                         </div>
                     </div>
-                    <div class="card-footer">
-                        <a href="@Url.Action("EditSchedule", "Admin", new { department = schedule.Department })"
-                           class="btn btn-sm btn-outline-primary">
-                            <i class="fas fa-edit"></i> Düzenle
-                        </a>
-                        <form method="post" action="@Url.Action("DeleteSchedule", "Admin")" class="d-inline"
-                              onsubmit="return confirm('Bu ders programını silmek istediğinizden emin misiniz?')">
-                            <input type="hidden" name="department" value="@schedule.Department" />
-                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                <i class="fas fa-trash"></i> Sil
-                            </button>
-                        </form>
+                </div>
+            }
+        </div>
+
+        <!-- Summary Statistics -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>Genel İstatistikler
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <h3 class="text-primary">@Model.Count</h3>
+                                    <p class="text-muted mb-0">Toplam Departman</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <h3 class="text-success">@Model.Sum(s => s.Days.Sum(d => d.Courses.Count))</h3>
+                                    <p class="text-muted mb-0">Toplam Ders</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <h3 class="text-info">@Model.Average(s => s.Days.Sum(d => d.Courses.Count)).ToString("F1")</h3>
+                                    <p class="text-muted mb-0">Ortalama Ders/Departman</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-item">
+                                    <h3 class="text-warning">@Model.Where(s => s.UpdatedAt >= DateTime.UtcNow.AddDays(-7)).Count()</h3>
+                                    <p class="text-muted mb-0">Son 7 Günde Güncellenen</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card border-info">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-calendar-times fa-4x text-info mb-4"></i>
+                        <h4 class="text-info mb-3">Henüz Ders Programı Yok</h4>
+                        <p class="text-muted mb-4">
+                            Sistemde henüz hiç ders programı oluşturulmamış. 
+                            Departmanlar için ders programları oluşturarak başlayabilirsiniz.
+                        </p>
+                        <a href="@Url.Action("CreateSchedule", "Admin")" class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus me-2"></i>İlk Ders Programını Oluştur
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function confirmDelete(department) {
+        return confirm(`"${department}" departmanının ders programını silmek istediğinizden emin misiniz?\n\nBu işlem geri alınamaz!`);
+    }
+
+    // Auto-hide alerts after 5 seconds
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+    });
+</script>
+
+<style>
+    .schedule-info {
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 15px;
+    }
+
+    .stats-badge {
+        margin-top: 10px;
+    }
+
+    .course-breakdown {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #f8f9fa;
+    }
+
+    .card {
+        transition: transform 0.2s ease-in-out;
+        border: 1px solid #e9ecef;
+    }
+
+    .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.12) !important;
+    }
+
+    .card-footer {
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn-group .btn {
+        margin: 0 2px;
+    }
+
+    .stat-item {
+        padding: 20px;
+        border-radius: 8px;
+        background: #f8f9fa;
+        margin: 5px;
+    }
+
+    .stat-item h3 {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    /* Responsive adjustments */
+    media (max-width: 768px) {
+        .card-footer {
+            flex-direction: column;
+            gap: 10px !important;
         }
-    </div>
-}
-else
-{
-    <div class="alert alert-info text-center">
-        <i class="fas fa-info-circle"></i>
-        Henüz hiç ders programı oluşturulmamış.
-        <a href="@Url.Action("CreateSchedule", "Admin")" class="alert-link">İlk ders programını oluşturun</a>
-    </div>
-}
+        
+        .card-footer .btn {
+            width: 100%;
+        }
+        
+        .stat-item {
+            margin-bottom: 15px;
+        }
+    }
+
+    /* Button improvements */
+    .btn-outline-primary:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-outline-danger:hover {
+        transform: scale(1.05);
+    }
+
+    .course-breakdown small {
+        line-height: 1.6;
+    }
+
+    .badge {
+        font-size: 0.75em;
+    }
+</style>

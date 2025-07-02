@@ -18,6 +18,22 @@
     </div>
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="fas fa-exclamation-triangle"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
 <div class="row">
     @for (int i = 0; i < Model.Days.Count; i++)
     {
@@ -56,7 +72,7 @@
                                             <td>@course.Classroom</td>
                                             <td>
                                                 <form method="post" action="@Url.Action("RemoveCourse", "Admin")" class="d-inline">
-                                                    <input type="hidden" name="department" value="@Model.Department" />
+                                                    <input type="hidden" name="scheduleId" value="@Model.Id" />
                                                     <input type="hidden" name="day" value="@day.Day" />
                                                     <input type="hidden" name="courseIndex" value="@j" />
                                                     <button type="submit" class="btn btn-sm btn-outline-danger"
@@ -91,7 +107,7 @@
             </div>
             <form method="post" action="@Url.Action("AddCourse", "Admin")">
                 <div class="modal-body">
-                    <input type="hidden" name="department" value="@Model.Department" />
+                    <input type="hidden" name="scheduleId" value="@Model.Id" />
                     <input type="hidden" name="day" id="currentDay" />
 
                     <div class="mb-3">

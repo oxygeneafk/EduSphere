@@ -41,6 +41,13 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Admin için özel route ekliyoruz
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "Admin/{action=Login}/{id?}",
+    defaults: new { controller = "Admin" }
+);
+
 // Account giriş ekranı ana route
 app.MapControllerRoute(
     name: "login",

@@ -4,13 +4,98 @@
     ViewBag.Title = "Kullanıcı Sil";
 }
 
-<h2>Kullanıcıyı Sil</h2>
-<div class="alert alert-danger">
-    <strong>@Model.Name @Model.Lastname</strong> adlı kullanıcıyı silmek istediğine emin misin?
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Kullanıcı Silme Onayı
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Dikkat!</strong> Bu işlem geri alınamaz. Kullanıcı kalıcı olarak silinecektir.
+                    </div>
+
+                    <div class="user-details bg-light p-4 rounded mb-4">
+                        <h5 class="mb-3">
+                            <i class="fas fa-user me-2"></i>Silinecek Kullanıcı Bilgileri
+                        </h5>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Ad Soyad:</strong> @Model.Name @Model.Lastname</p>
+                                <p><strong>Kullanıcı Adı:</strong> @Model.Username</p>
+                                <p><strong>E-posta:</strong> @Model.Email</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Departman:</strong> @Model.Department</p>
+                                <p><strong>Telefon:</strong> @(string.IsNullOrEmpty(Model.PhoneNumber) ? "Belirtilmemiş" : Model.PhoneNumber)</p>
+                                <p><strong>Adres:</strong> @(string.IsNullOrEmpty(Model.Adress) ? "Belirtilmemiş" : Model.Adress)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="warning-info mb-4">
+                        <h6 class="text-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i>Bu işlemin sonuçları:
+                        </h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="fas fa-times text-danger me-2"></i>
+                                Kullanıcı veritabanından kalıcı olarak silinecek
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-times text-danger me-2"></i>
+                                Bu işlem geri alınamaz
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-times text-danger me-2"></i>
+                                Kullanıcının tüm verileri kaybolacak
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-exclamation text-warning me-2"></i>
+                                İlgili sınav sonuçları ve diğer veriler etkilenebilir
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="alternative-actions mb-4">
+                        <h6><i class="fas fa-lightbulb me-2"></i>Alternatif Seçenekler</h6>
+                        <div class="d-grid gap-2">
+                            <a href="@Url.Action("EditUser", "Admin", new { id = Model.Id })"
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-edit me-2"></i>Kullanıcıyı Düzenle
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons d-flex justify-content-between align-items-center">
+                        <a href="@Url.Action("Users", "Admin")" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>İptal Et
+                        </a>
+
+                        <form asp-action="DeleteUserConfirmed" method="post" class="d-inline"
+                              onsubmit="return confirmDelete()">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-2"></i>Evet, Sil
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<form asp-action="DeleteUser" method="post">
-    @Html.HiddenFor(m => m.Id)
-    <button type="submit" class="btn btn-danger">Sil</button>
-    <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">Vazgeç</a>
-</form>
+<script>
+    function confirmDelete() {
+        return confirm('Bu kullanıcıyı silmek istediğinize gerçekten emin misiniz?\n\n' +
+                      'Kullanıcı: @Model.Name @Model.Lastname\n' +
+                      'Bu işlem geri alınamaz!');
+    }
+</script>

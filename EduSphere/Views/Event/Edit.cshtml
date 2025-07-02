@@ -2,27 +2,197 @@
 @{
     ViewBag.Title = "Etkinlik Düzenle";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Active = "events";
 }
-<h2>Etkinlik Düzenle</h2>
-<form asp-action="Edit" method="post">
-    <input type="hidden" name="id" value="@Model.Id" />
-    <div class="form-group">
-        <label>Başlık</label>
-        <input name="title" class="form-control" value="@Model.Title" required />
+
+<div class="content-card">
+    <div class="card-header">
+        <h2 class="mb-0">Etkinlik Düzenle</h2>
     </div>
-    <div class="form-group">
-        <label>Açıklama</label>
-        <textarea name="description" class="form-control" required>@Model.Description</textarea>
+    <div class="card-body">
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["Error"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        <form asp-action="Edit" method="post" id="editEventForm">
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label class="form-label"><i class="fas fa-heading"></i> Başlık</label>
+                        <input name="title" class="form-control" value="@Model.Title" required maxlength="100" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group mb-3">
+                        <label class="form-label"><i class="fas fa-calendar"></i> Tarih</label>
+                        <input name="date" type="datetime-local" class="form-control"
+                               value="@Model.Date.ToString("yyyy-MM-ddTHH:mm")" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label"><i class="fas fa-align-left"></i> Açıklama</label>
+                <textarea name="description" class="form-control" rows="4" required maxlength="500">@Model.Description</textarea>
+                <div class="form-text">Maksimum 500 karakter</div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label"><i class="fas fa-map-marker-alt"></i> Konum (Tam Adres)</label>
+                <input name="location" id="location" class="form-control" value="@Model.Location" required autocomplete="off" />
+                <button type="button" class="btn btn-primary btn-sm mt-2" id="find-address">
+                    <i class="fas fa-search"></i> Haritada Göster
+                </button>
+                <small class="form-text text-muted">Adresi yazıp "Haritada Göster" butonuna tıklayınca marker o konuma gider.</small>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label"><i class="fas fa-map"></i> Haritadan Konum Seçin</label>
+                <div id="map" style="height:400px; width:100%; border-radius: 8px; border: 1px solid #dee2e6;"></div>
+                <input type="hidden" id="latitude" name="latitude" value="@Model.Latitude" />
+                <input type="hidden" id="longitude" name="longitude" value="@Model.Longitude" />
+                <div class="form-text mt-2">
+                    <i class="fas fa-crosshairs"></i> Seçili Konum: <span id="latlong-text">@Model.Latitude, @Model.Longitude</span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="@Url.Action("Manage", "Event")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Geri Dön
+                </a>
+                <div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Güncelle
+                    </button>
+                    <a href="@Url.Action("Delete", "Event", new { id = Model.Id })" class="btn btn-danger ms-2">
+                        <i class="fas fa-trash"></i> Sil
+                    </a>
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label>Tarih</label>
-        <input name="date" type="date" class="form-control"
-               value="@Model.Date.ToString("yyyy-MM-dd")" required />
-    </div>
-    <div class="form-group">
-        <label>Konum</label>
-        <input name="location" class="form-control" value="@Model.Location" required />
-    </div>
-    <button type="submit" class="btn btn-primary">Güncelle</button>
-    <a href="@Url.Action("Manage", "Event")" class="btn btn-secondary">İptal</a>
-</form>
+</div>
+
+<!-- Leaflet CSS/JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+    .content-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-bottom: none;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+    }
+
+    .form-label i {
+        margin-right: 8px;
+        color: #6c757d;
+    }
+
+    .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+
+    .btn {
+        border-radius: 6px;
+        font-weight: 500;
+    }
+</style>
+
+<script>
+    // Mevcut koordinatları kullan ya da varsayılan Ankara
+    let initialLat = @Model.Latitude != 0 ? @Model.Latitude : 39.925533;
+    let initialLng = @Model.Longitude != 0 ? @Model.Longitude : 32.866287;
+
+    let map = L.map('map').setView([initialLat, initialLng], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    let marker = L.marker([initialLat, initialLng], { draggable: true }).addTo(map);
+
+    function updateLatLng(lat, lng) {
+        document.getElementById("latitude").value = lat;
+        document.getElementById("longitude").value = lng;
+        document.getElementById("latlong-text").textContent = lat.toFixed(6) + ", " + lng.toFixed(6);
+    }
+
+    // Haritada tıklayınca marker oraya gider
+    map.on('click', function (e) {
+        marker.setLatLng(e.latlng);
+        updateLatLng(e.latlng.lat, e.latlng.lng);
+    });
+
+    // Marker'ı sürükleyince konum güncellenir
+    marker.on('dragend', function (e) {
+        let pos = e.target.getLatLng();
+        updateLatLng(pos.lat, pos.lng);
+    });
+
+    // Adres arama fonksiyonu
+    document.getElementById("find-address").addEventListener("click", function() {
+        let address = document.getElementById("location").value;
+        if (address.trim() === "") {
+            alert("Lütfen bir adres girin.");
+            return;
+        }
+
+        // Nominatim API ile adres arama
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    let lat = parseFloat(data[0].lat);
+                    let lng = parseFloat(data[0].lon);
+
+                    map.setView([lat, lng], 15);
+                    marker.setLatLng([lat, lng]);
+                    updateLatLng(lat, lng);
+                } else {
+                    alert("Adres bulunamadı. Lütfen daha detaylı bir adres girin.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Adres arama sırasında bir hata oluştu.");
+            });
+    });
+
+    // Form validation
+    document.getElementById('editEventForm').addEventListener('submit', function(e) {
+        let title = document.querySelector('input[name="title"]').value.trim();
+        let description = document.querySelector('textarea[name="description"]').value.trim();
+        let location = document.querySelector('input[name="location"]').value.trim();
+
+        if (title === '' || description === '' || location === '') {
+            e.preventDefault();
+            alert('Lütfen tüm zorunlu alanları doldurun.');
+            return false;
+        }
+    });
+</script>

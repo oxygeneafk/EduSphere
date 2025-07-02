@@ -1,0 +1,111 @@
+﻿@model EduSphere.Models.Event
+@{
+    ViewBag.Title = "Etkinlik Sil";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Active = "events";
+}
+
+<div class="content-card">
+    <div class="card-header bg-danger">
+        <h2 class="mb-0"><i class="fas fa-trash"></i> Etkinlik Sil</h2>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Dikkat!</strong> Bu işlem geri alınamaz. Etkinliği silmek istediğinizden emin misiniz?
+        </div>
+
+        <div class="event-details">
+            <h4>@Model.Title</h4>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <p><strong><i class="fas fa-calendar"></i> Tarih:</strong> @Model.Date.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p><strong><i class="fas fa-map-marker-alt"></i> Konum:</strong> @Model.Location</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong><i class="fas fa-user"></i> Ekleyen:</strong> @Model.Author</p>
+                    <p><strong><i class="fas fa-clock"></i> Oluşturma:</strong> @Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</p>
+                </div>
+            </div>
+            <div class="mt-3">
+                <p><strong><i class="fas fa-align-left"></i> Açıklama:</strong></p>
+                <p class="text-muted">@Model.Description</p>
+            </div>
+        </div>
+
+        @if (Model.Latitude != 0 && Model.Longitude != 0)
+        {
+            <div class="mt-4">
+                <p><strong><i class="fas fa-map"></i> Konum Haritası:</strong></p>
+                <div id="map" style="height:300px; width:100%; border-radius: 8px; border: 1px solid #dee2e6;"></div>
+            </div>
+        }
+
+        <form asp-action="Delete" method="post" class="mt-4">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <div class="d-flex justify-content-between">
+                <a href="@Url.Action("Manage", "Event")" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> İptal
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Evet, Sil
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (Model.Latitude != 0 && Model.Longitude != 0)
+{
+    <!-- Leaflet CSS/JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        let map = L.map('map').setView([@Model.Latitude, @Model.Longitude], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // Marker ekle
+        L.marker([@Model.Latitude, @Model.Longitude]).addTo(map)
+            .bindPopup('@Model.Title<br>@Model.Location')
+            .openPopup();
+    </script>
+}
+
+<style>
+    .content-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .event-details {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 4px solid #dc3545;
+    }
+
+    .event-details h4 {
+        color: #dc3545;
+        margin-bottom: 1rem;
+    }
+
+    .event-details p {
+        margin-bottom: 0.5rem;
+    }
+
+    .event-details i {
+        color: #6c757d;
+        margin-right: 8px;
+        width: 16px;
+    }
+</style>

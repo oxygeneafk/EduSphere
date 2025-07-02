@@ -4,41 +4,202 @@
     ViewBag.Title = "Kullanıcıyı Düzenle";
 }
 
-<h2>Kullanıcıyı Düzenle</h2>
-<form asp-action="EditUser" method="post">
-    @Html.HiddenFor(m => m.Id)
-    <div class="mb-3">
-        <label class="form-label">Ad</label>
-        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>Kullanıcıyı Düzenle
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>@ViewBag.Error
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="EditUser" method="post" novalidate>
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Name" class="form-label">
+                                        <i class="fas fa-user me-2"></i>Ad <span class="text-danger">*</span>
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Name, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "Adınızı girin",
+                                            required = "required",
+                                            maxlength = "50"
+                                        })
+                                    <div class="invalid-feedback">
+                                        Lütfen geçerli bir ad girin.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Lastname" class="form-label">
+                                        <i class="fas fa-user me-2"></i>Soyad <span class="text-danger">*</span>
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Lastname, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "Soyadınızı girin",
+                                            required = "required",
+                                            maxlength = "50"
+                                        })
+                                    <div class="invalid-feedback">
+                                        Lütfen geçerli bir soyad girin.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Username" class="form-label">
+                                        <i class="fas fa-at me-2"></i>Kullanıcı Adı <span class="text-danger">*</span>
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Username, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "Kullanıcı adını girin",
+                                            required = "required",
+                                            pattern = "[a-zA-Z0-9_]{3,20}",
+                                            title = "Kullanıcı adı 3-20 karakter arası olmalı ve sadece harf, rakam ve alt çizgi içermeli",
+                                            maxlength = "20"
+                                        })
+                                    <div class="invalid-feedback">
+                                        Kullanıcı adı 3-20 karakter arası olmalı.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Email" class="form-label">
+                                        <i class="fas fa-envelope me-2"></i>E-posta <span class="text-danger">*</span>
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Email, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "E-posta adresinizi girin",
+                                            type = "email",
+                                            required = "required",
+                                            maxlength = "100"
+                                        })
+                                    <div class="invalid-feedback">
+                                        Lütfen geçerli bir e-posta adresi girin.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="PhoneNumber" class="form-label">
+                                        <i class="fas fa-phone me-2"></i>Telefon Numarası
+                                    </label>
+                                    @Html.TextBoxFor(m => m.PhoneNumber, new
+                                        {
+                                            @class = "form-control",
+                                            placeholder = "Telefon numaranızı girin",
+                                            type = "tel",
+                                            maxlength = "20"
+                                        })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="Department" class="form-label">
+                                        <i class="fas fa-graduation-cap me-2"></i>Departman <span class="text-danger">*</span>
+                                    </label>
+                                    @Html.DropDownListFor(m => m.Department,
+                                             new SelectList(ViewBag.Departments),
+                                             "Departman seçin",
+                                             new { @class = "form-select", required = "required" })
+                                    <div class="invalid-feedback">
+                                        Lütfen bir departman seçin.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Adress" class="form-label">
+                                <i class="fas fa-map-marker-alt me-2"></i>Adres
+                            </label>
+                            @Html.TextAreaFor(m => m.Adress, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Adresinizi girin",
+                                    rows = "3",
+                                    maxlength = "200"
+                                })
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Şifre
+                            </label>
+                            @Html.PasswordFor(m => m.Password, new
+                                {
+                                    @class = "form-control",
+                                    placeholder = "Şifreyi değiştirmek için yeni şifre girin (boş bırakılırsa değiştirilmez)",
+                                    minlength = "6"
+                                })
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Şifreyi değiştirmek istemiyorsanız bu alanı boş bırakın.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("Users", "Admin")" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Geri Dön
+                            </a>
+                            <div>
+                                <button type="submit" class="btn btn-success me-2">
+                                    <i class="fas fa-save me-2"></i>Kaydet
+                                </button>
+                                <a href="@Url.Action("DeleteUser", "Admin", new { id = Model.Id })"
+                                   class="btn btn-outline-danger"
+                                   onclick="return confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')">
+                                    <i class="fas fa-trash me-2"></i>Sil
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label class="form-label">Soyad</label>
-        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control" })
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Kullanıcı Adı</label>
-        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Email</label>
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Telefon</label>
-        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Adres</label>
-        @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Bölüm</label>
-        @Html.TextBoxFor(m => m.Department, new { @class = "form-control" })
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Şifre</label>
-        @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
-    </div>
-    <button type="submit" class="btn btn-success">Kaydet</button>
-    <a href="@Url.Action("Users", "Admin")" class="btn btn-secondary">İptal</a>
-</form>
+</div>
+
+<script>
+    // Form validation
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>

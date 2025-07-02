@@ -14,7 +14,7 @@ namespace EduSphere.Controllers
         private readonly IMongoCollection<User> _users;
         private readonly IMongoCollection<Schedule> _schedules;
         private readonly IMongoCollection<Exam> _exams;
-        private readonly IMongoCollection<ExamResult> _examResults; // YENİ EKLENEN
+        private readonly IMongoCollection<ExamResult> _examResults;
         private readonly List<string> _departments = new List<string>
         {
             "Computer Engineering",
@@ -32,7 +32,7 @@ namespace EduSphere.Controllers
             _users = database.GetCollection<User>("Users");
             _schedules = database.GetCollection<Schedule>("Schedules");
             _exams = database.GetCollection<Exam>("Exams");
-            _examResults = database.GetCollection<ExamResult>("ExamResults"); // YENİ EKLENEN
+            _examResults = database.GetCollection<ExamResult>("ExamResults");
         }
 
         // Admin login screen (GET)
@@ -61,49 +61,187 @@ namespace EduSphere.Controllers
         public IActionResult Users()
         {
             ViewBag.Active = "users";
-            var users = _users.Find(u => true).ToList();
-            return View(users);
+            try
+            {
+                var users = _users.Find(u => true).ToList();
+                return View(users);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Kullanıcılar yüklenirken hata oluştu: " + ex.Message;
+                return View(new List<User>());
+            }
         }
 
         // Edit user (GET)
         public IActionResult EditUser(string id)
         {
-            var user = _users.Find(u => u.Id == id).FirstOrDefault();
-            if (user == null) return NotFound();
-            return View(user);
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["Error"] = "Geçersiz kullanıcı ID'si.";
+                return RedirectToAction("Users");
+            }
+
+            try
+            {
+                var user = _users.Find(u => u.Id == id).FirstOrDefault();
+                if (user == null)
+                {
+                    TempData["Error"] = "Kullanıcı bulunamadı.";
+                    return RedirectToAction("Users");
+                }
+
+                ViewBag.Departments = _departments;
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Kullanıcı bilgileri yüklenirken hata oluştu: " + ex.Message;
+                return RedirectToAction("Users");
+            }
         }
 
         // Edit user (POST)
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult EditUser(User user)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(user.Id))
             {
-                _users.ReplaceOne(u => u.Id == user.Id, user);
+                TempData["Error"] = "Geçersiz kullanıcı ID'si.";
                 return RedirectToAction("Users");
             }
-            return View(user);
+
+            try
+            {
+                // Model validation kontrolü
+                if (string.IsNullOrWhiteSpace(user.Name) ||
+                    string.IsNullOrWhiteSpace(user.Lastname) ||
+                    string.IsNullOrWhiteSpace(user.Username) ||
+                    string.IsNullOrWhiteSpace(user.Email))
+                {
+                    ViewBag.Error = "Lütfen tüm zorunlu alanları doldurun.";
+                    ViewBag.Departments = _departments;
+                    return View(user);
+                }
+
+                // Aynı username'e sahip başka kullanıcı var mı kontrol et
+                var existingUser = _users.Find(u => u.Username == user.Username && u.Id != user.Id).FirstOrDefault();
+                if (existingUser != null)
+                {
+                    ViewBag.Error = "Bu kullanıcı adı zaten kullanılıyor.";
+                    ViewBag.Departments = _departments;
+                    return View(user);
+                }
+
+                // Aynı email'e sahip başka kullanıcı var mı kontrol et
+                var existingEmail = _users.Find(u => u.Email == user.Email && u.Id != user.Id).FirstOrDefault();
+                if (existingEmail != null)
+                {
+                    ViewBag.Error = "Bu e-posta adresi zaten kullanılıyor.";
+                    ViewBag.Departments = _departments;
+                    return View(user);
+                }
+
+                // MongoDB Update işlemi - ReplaceOne yerine UpdateOne kullan
+                var filter = Builders<User>.Filter.Eq(u => u.Id, user.Id);
+                var update = Builders<User>.Update
+                    .Set(u => u.Name, user.Name)
+                    .Set(u => u.Lastname, user.Lastname)
+                    .Set(u => u.Username, user.Username)
+                    .Set(u => u.Email, user.Email)
+                    .Set(u => u.PhoneNumber, user.PhoneNumber ?? "")
+                    .Set(u => u.Adress, user.Adress ?? "")
+                    .Set(u => u.Department, user.Department);
+
+                // Şifre boş değilse güncelle
+                if (!string.IsNullOrWhiteSpace(user.Password))
+                {
+                    update = update.Set(u => u.Password, user.Password);
+                }
+
+                var result = _users.UpdateOne(filter, update);
+
+                if (result.ModifiedCount > 0)
+                {
+                    TempData["Success"] = "Kullanıcı başarıyla güncellendi.";
+                }
+                else
+                {
+                    TempData["Warning"] = "Kullanıcı bulundu ancak herhangi bir değişiklik yapılmadı.";
+                }
+
+                return RedirectToAction("Users");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Kullanıcı güncellenirken hata oluştu: " + ex.Message;
+                ViewBag.Departments = _departments;
+                return View(user);
+            }
         }
 
         // Delete user confirmation (GET)
         public IActionResult DeleteUser(string id)
         {
-            var user = _users.Find(u => u.Id == id).FirstOrDefault();
-            if (user == null) return NotFound();
-            return View(user);
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["Error"] = "Geçersiz kullanıcı ID'si.";
+                return RedirectToAction("Users");
+            }
+
+            try
+            {
+                var user = _users.Find(u => u.Id == id).FirstOrDefault();
+                if (user == null)
+                {
+                    TempData["Error"] = "Kullanıcı bulunamadı.";
+                    return RedirectToAction("Users");
+                }
+                return View(user);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Kullanıcı bilgileri yüklenirken hata oluştu: " + ex.Message;
+                return RedirectToAction("Users");
+            }
         }
 
         // Delete user (POST)
-        [HttpPost, ActionName("DeleteUser")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteUserConfirmed(string id)
         {
-            _users.DeleteOne(u => u.Id == id);
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["Error"] = "Geçersiz kullanıcı ID'si.";
+                return RedirectToAction("Users");
+            }
+
+            try
+            {
+                var result = _users.DeleteOne(u => u.Id == id);
+
+                if (result.DeletedCount > 0)
+                {
+                    TempData["Success"] = "Kullanıcı başarıyla silindi.";
+                }
+                else
+                {
+                    TempData["Error"] = "Kullanıcı bulunamadı veya silinemedi.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Kullanıcı silinirken hata oluştu: " + ex.Message;
+            }
+
             return RedirectToAction("Users");
         }
 
         // === DERS PROGRAMI YÖNETİMİ ===
 
-        // List schedules - Announcement Index mantığı gibi
+        // List schedules
         public IActionResult Schedules()
         {
             ViewBag.Active = "schedules";
@@ -113,7 +251,7 @@ namespace EduSphere.Controllers
             return View(schedules);
         }
 
-        // Create schedule form - Register screen departman seçimi mantığı
+        // Create schedule form
         public IActionResult CreateSchedule()
         {
             ViewBag.Departments = _departments;
@@ -121,7 +259,7 @@ namespace EduSphere.Controllers
             return View();
         }
 
-        // Create schedule POST - Announcement Create mantığı
+        // Create schedule POST
         [HttpPost]
         public IActionResult CreateSchedule(string department)
         {
@@ -285,7 +423,8 @@ namespace EduSphere.Controllers
             }
             return RedirectToAction("EditSchedule", new { department = department });
         }
-        // List exams - Announcement Index mantığı gibi
+
+        // List exams
         public IActionResult Exams()
         {
             ViewBag.Active = "exams";
@@ -296,7 +435,7 @@ namespace EduSphere.Controllers
             return View(exams);
         }
 
-        // Create exam form - Register screen departman seçimi mantığı
+        // Create exam form
         public IActionResult CreateExam()
         {
             ViewBag.Departments = _departments;
@@ -323,7 +462,7 @@ namespace EduSphere.Controllers
             return View();
         }
 
-        // Create exam POST - Announcement Create mantığı
+        // Create exam POST
         [HttpPost]
         public IActionResult CreateExam(string department, string courseName, DateTime examDate,
             TimeSpan examTime, string examType, string classroom, string instructor, int duration)

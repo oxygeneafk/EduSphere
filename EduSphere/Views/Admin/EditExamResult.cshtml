@@ -1,6 +1,276 @@
-﻿namespace EduSphere.Views.Admin
-{
-    public class EditExamResult
-    {
-    }
+﻿@model EduSphere.Models.ExamResult
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Sınav Sonucu Düzenle";
+    ViewBag.Active = "examresults";
 }
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-white">
+                <h4 class="card-title mb-0">
+                    <i class="fas fa-edit"></i> Sınav Sonucu Düzenle
+                </h4>
+            </div>
+            <div class="card-body">
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle"></i> @ViewBag.Error
+                    </div>
+                }
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @if (Model != null)
+                {
+                    <form method="post" action="@Url.Action("EditExamResult", "Admin")">
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="StudentId" value="@Model.StudentId" />
+                        <input type="hidden" name="StudentUsername" value="@Model.StudentUsername" />
+                        <input type="hidden" name="ExamId" value="@Model.ExamId" />
+                        <input type="hidden" name="CreatedAt" value="@Model.CreatedAt" />
+                        <input type="hidden" name="CreatedBy" value="@Model.CreatedBy" />
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Öğrenci Adı</label>
+                                    <input type="text" class="form-control" value="@Model.StudentName" readonly />
+                                    <input type="hidden" name="StudentName" value="@Model.StudentName" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Öğrenci No</label>
+                                    <input type="text" class="form-control" value="@Model.StudentUsername" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Departman</label>
+                                    <input type="text" class="form-control" value="@Model.StudentDepartment" readonly />
+                                    <input type="hidden" name="StudentDepartment" value="@Model.StudentDepartment" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Ders Adı</label>
+                                    <input type="text" class="form-control" value="@Model.CourseName" readonly />
+                                    <input type="hidden" name="CourseName" value="@Model.CourseName" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Sınav Türü</label>
+                                    <input type="text" class="form-control" value="@Model.ExamType" readonly />
+                                    <input type="hidden" name="ExamType" value="@Model.ExamType" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Sınav Tarihi</label>
+                                    <input type="text" class="form-control" value="@Model.ExamDate.ToString("dd.MM.yyyy")" readonly />
+                                    <input type="hidden" name="ExamDate" value="@Model.ExamDate" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Puan (0-100) <span class="text-danger">*</span></label>
+                                    <input type="number" name="Score" class="form-control" value="@Model.Score"
+                                           required min="0" max="100" step="0.1"
+                                           onchange="updateGrade(this.value)" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Harf Notu</label>
+                                    <input type="text" id="letterGradeDisplay" class="form-control" value="@Model.LetterGrade" readonly />
+                                    <input type="hidden" name="LetterGrade" id="letterGradeHidden" value="@Model.LetterGrade" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Durum</label>
+                                    <div class="form-control" id="passStatus">
+                                        <span class="badge @(Model.IsPassed ? "bg-success" : "bg-danger")">
+                                            @(Model.IsPassed ? "Geçti" : "Kaldı")
+                                        </span>
+                                    </div>
+                                    <input type="hidden" name="IsPassed" id="isPassedHidden" value="@Model.IsPassed" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Son Güncelleme</label>
+                                    <input type="text" class="form-control" value="@Model.UpdatedAt.ToString("dd.MM.yyyy HH:mm")" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-save"></i> Sonucu Güncelle
+                            </button>
+                            <a href="@Url.Action("ExamResults", "Admin")" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Geri Dön
+                            </a>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-danger text-center">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Sınav sonucu bulunamadı.
+                    </div>
+                    <div class="text-center">
+                        <a href="@Url.Action("ExamResults", "Admin")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Geri Dön
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border: none;
+        border-radius: 15px;
+    }
+
+    .card-header {
+        border-radius: 15px 15px 0 0 !important;
+        background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%) !important;
+    }
+
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 30px;
+        font-weight: 600;
+    }
+
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #e0a800 0%, #f57c00 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+    }
+
+    .btn-secondary {
+        border-radius: 8px;
+        padding: 12px 30px;
+        font-weight: 600;
+    }
+
+    .alert {
+        border-radius: 10px;
+        border: none;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    #passStatus {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        height: calc(2.25rem + 2px);
+    }
+</style>
+
+<script>
+    function updateGrade(score) {
+        const scoreValue = parseFloat(score);
+        let letterGrade = '';
+        let isPassed = false;
+
+        if (scoreValue >= 90) {
+            letterGrade = 'AA';
+            isPassed = true;
+        } else if (scoreValue >= 85) {
+            letterGrade = 'BA';
+            isPassed = true;
+        } else if (scoreValue >= 80) {
+            letterGrade = 'BB';
+            isPassed = true;
+        } else if (scoreValue >= 75) {
+            letterGrade = 'CB';
+            isPassed = true;
+        } else if (scoreValue >= 70) {
+            letterGrade = 'CC';
+            isPassed = true;
+        } else if (scoreValue >= 65) {
+            letterGrade = 'DC';
+            isPassed = true;
+        } else if (scoreValue >= 60) {
+            letterGrade = 'DD';
+            isPassed = true;
+        } else if (scoreValue >= 50) {
+            letterGrade = 'FD';
+            isPassed = false;
+        } else {
+            letterGrade = 'FF';
+            isPassed = false;
+        }
+
+        // Update display elements
+        document.getElementById('letterGradeDisplay').value = letterGrade;
+        document.getElementById('letterGradeHidden').value = letterGrade;
+        document.getElementById('isPassedHidden').value = isPassed;
+
+        // Update pass status badge
+        const passStatusDiv = document.getElementById('passStatus');
+        const statusText = isPassed ? 'Geçti' : 'Kaldı';
+        const badgeClass = isPassed ? 'bg-success' : 'bg-danger';
+
+        passStatusDiv.innerHTML = `<span class="badge ${badgeClass}">${statusText}</span>`;
+    }
+
+    // Form validation
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const scoreInput = document.querySelector('input[name="Score"]');
+                const scoreValue = parseFloat(scoreInput.value);
+
+                if (isNaN(scoreValue) || scoreValue < 0 || scoreValue > 100) {
+                    e.preventDefault();
+                    alert('Lütfen 0-100 arasında geçerli bir puan girin.');
+                    scoreInput.focus();
+                    return false;
+                }
+            });
+        }
+    });
+</script>
