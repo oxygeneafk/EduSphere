@@ -207,7 +207,7 @@ Bu proje aktif olarak geliştirilmektedir. Katkıda bulunmak için:
 
 ## 📞 İletişim
 
-**Geliştirici**: [@oxygeneafk](https://github.com/oxygeneafk)
+**Geliştirici**: [@oxygeneafk](https://github.com/oxygeneafk),[@aNightmare7](https://github.com/aNightmare7)
 
 **Proje Linki**: [https://github.com/oxygeneafk/EduSphere](https://github.com/oxygeneafk/EduSphere)
 
